@@ -6,7 +6,9 @@ import java.util.HashMap;
 import Methods.*;
 
 public class Epic extends Task {
+
     protected ArrayList<Integer> subTaskIDList;
+
 
     public Epic() {
     }
@@ -16,22 +18,36 @@ public class Epic extends Task {
         this.subTaskIDList = new ArrayList<>();
     }
 
+
+    // a. Получение списка всех подзадач определённого эпика.
     public ArrayList<Integer> getSubTaskListID() {
-        return subTaskIDList;
+        return this.subTaskIDList;
     }
 
     public void addSubTaskID(int subTaskID) {
-        subTaskIDList.add(subTaskID);
+        this.subTaskIDList.add(subTaskID);
     }
 
-    public void deleteSubTaskID(int subTaskID) {
-        subTaskIDList.remove(subTaskID);
+    public void deleteSubTaskID(int subTaskID) { // FIX
+        for (int i = 0; i < subTaskIDList.size(); i++) {
+            if (subTaskIDList.get(i) == subTaskID) {
+                this.subTaskIDList.remove(i);
+            }
+        }
     }
 
     public void clearSubTaskList() {
-        subTaskIDList.clear();
+        this.subTaskIDList.clear();
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Epic{" +
+                "  ID=" + ID +
+                ", taskName='" + taskName + '\'' +
+                ", taskDescription='" + taskDescription + '\'' +
+                ", status=" + status +
+                ", subTaskIDList=" + subTaskIDList +
+                '}' + '\n';
+    }
 }

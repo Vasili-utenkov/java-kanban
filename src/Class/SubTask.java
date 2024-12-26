@@ -5,19 +5,15 @@ import java.util.HashMap;
 import Methods.*;
 
 
-public class SubTask extends Task{
-    protected static int counter = 0;
-    protected int subTaskID;
+public class SubTask extends Task {
     protected int epicID;
 
     public SubTask() {
     }
 
-    public SubTask(int epicID, String taskName, String taskDescription) {
+    public SubTask(String taskName, String taskDescription) {
         super(taskName, taskDescription);
-        counter ++;
-        this.subTaskID = counter;
-        this.epicID = epicID;
+        this.epicID = 0;
     }
 
     public int getEpicID() {
@@ -27,4 +23,24 @@ public class SubTask extends Task{
     public void setEpicID(int epicID) {
         this.epicID = epicID;
     }
+
+
+    public Status getSubTaskStatus() {
+        return this.status;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "SubTask{" +
+                "  ID=" + ID +
+                ", taskName='" + taskName + '\'' +
+                ", taskDescription='" + taskDescription + '\'' +
+                ", status=" + status +
+                ", epicID=" + epicID +
+                '}' + '\n';
+    }
+
+
 }
