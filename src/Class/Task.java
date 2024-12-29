@@ -1,33 +1,56 @@
 package Class;
 
 public class Task {
-    static int counter = 0;
-    protected int taskID;
+    protected int ID;
     protected String taskName;
     protected String taskDescription;
     protected Status status;
 
-    public Task() {
-    }
-
-
-    public Task(String taskName, String taskDescription) {
-        counter++;
-        this.taskID = counter;
+    public Task(String taskName, String taskDescription, Status status) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
-        this.status = Status.NEW;
+        this.status = status;
     }
 
+    public String getTaskName() {
+        return taskName;
+    }
 
+    public String getTaskDescription() {
+        return taskDescription;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public int getID() {
+        return this.ID;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {
         return "Task{" +
-                "taskID=" + taskID +
+                "  ID=" + ID +
                 ", taskName='" + taskName + '\'' +
                 ", taskDescription='" + taskDescription + '\'' +
                 ", status=" + status +
-                '}';
+                '}' + '\n';
     }
 }
