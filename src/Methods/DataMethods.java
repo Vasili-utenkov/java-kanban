@@ -38,10 +38,8 @@ public class DataMethods {
     }
 
     public void deleteAllEpics() { // FIX
-        List<Integer> keys = new ArrayList<>(epics.keySet());
-        for (Integer key : keys) {
-            deleteEpic(key);
-        }
+        epics.clear();
+        subTasks.clear();
     }
 
     // c. ѕолучение по идентификатору.
@@ -65,14 +63,15 @@ public class DataMethods {
     }
 
     public void addNewSubTask(SubTask subTask) {
-        final int taskID = ++counter;
-        subTask.setID(taskID);
         int epicID = subTask.getEpicID();
-        Epic epic = getEpicByID(epicID);
+        Epic epic = epics.get(epicID);
         if (epic == null) {
             System.out.println("Ёпика с кодом " + epicID + " не существует.");
             return;
         }
+
+        final int taskID = ++counter;
+        subTask.setID(taskID);
         epic.addSubTaskID(taskID);
 
         subTasks.put(taskID, subTask);
@@ -93,25 +92,41 @@ public class DataMethods {
 
     public void updateSubTask(SubTask subTask) {
         int subTaskID = subTask.getID();
-        SubTask subTaskForUpdate = getSubTaskByID(subTaskID);
-        if (subTaskForUpdate == null) {
+        SubTask subTaskSaved = subTasks.get(subTaskID);
+        if (subTaskSaved == null) {
             System.out.println("ѕодзадачи с кодом " + subTaskID + " не существует.");
             return;
         }
+        int epicIDSaved = subTaskSaved.getEpicID();
         int epicIDForUpdate = subTask.getEpicID();
-        Epic epicForUpdate = getEpicByID(epicIDForUpdate);
+        Epic epicForUpdate = epics.get(epicIDForUpdate);
         if (epicForUpdate == null) {
             System.out.println("Ёпика с кодом " + epicIDForUpdate + " не существует.");
             return;
         }
 
-        subTasks.replace(subTaskID, subTask);
-        setEpicStatus(subTask.getEpicID());
+        if ( epicIDSaved != epicIDForUpdate) {
+            // удалить из старого эпика, записать в новый
+            Epic epicSaved = epics.get(epicIDSaved);
+            epicSaved.deleteSubTaskID(subTaskID);
+            epicForUpdate.addSubTaskID(subTaskID);
+
+            subTasks.replace(subTaskID, subTask);
+            setEpicStatus(epicIDSaved);
+            setEpicStatus(epicIDForUpdate);
+
+        } else {
+            // обновить
+            subTasks.replace(subTaskID, subTask);
+            setEpicStatus(subTask.getEpicID());
+        }
+
+
     }
 
     public void updateEpic(Epic epic) {
         int epicID = epic.getID();
-        Epic epicForUpdate = getEpicByID(epicID);
+        Epic epicForUpdate = epics.get(epicID);
         if (epicForUpdate == null) {
             System.out.println("Ёпика с кодом " + epicID + " не существует.");
             return;
@@ -123,7 +138,7 @@ public class DataMethods {
 
     // f. ”даление по идентификатору.
     public void deleteTask(int taskID) {
-        Task task = getTaskByID(taskID);
+        Task task = tasks.get(taskID);
         if (task == null) {
             System.out.println("«адачи с кодом " + taskID + " не существует.");
             return;
@@ -133,14 +148,14 @@ public class DataMethods {
     }
 
     public void deleteSubTask(int subTaskID) { // FIX
-        SubTask subTask = getSubTaskByID(subTaskID);
+        SubTask subTask = subTasks.get(subTaskID);
         if (subTask == null) {
             System.out.println("ѕодзадачи с кодом " + subTaskID + " не существует.");
             return;
         }
 
         int epicID = subTask.getEpicID();
-        Epic epic = getEpicByID(epicID);
+        Epic epic = epics.get(epicID);
         if (epic == null) {
             System.out.println("Ёпика с кодом " + epicID + " не существует.");
             return;
@@ -152,7 +167,7 @@ public class DataMethods {
     }
 
     public void deleteEpic(int epicID) { // FIX
-        Epic epic = getEpicByID(epicID);
+        Epic epic = epics.get(epicID);
         if (epic == null) {
             System.out.println("Ёпика с кодом " + epicID + " не существует.");
             return;
@@ -168,7 +183,7 @@ public class DataMethods {
 
     // a. ѕолучение списка всех подзадач определЄнного эпика.
     public ArrayList<SubTask> getSubTaskList(int epicID) { // FIX
-        Epic epic = getEpicByID(epicID);
+        Epic epic = epics.get(epicID);
         if (epic == null) {
             System.out.println("Ёпика с кодом " + epicID + " не существует.");
             return new ArrayList<>();
@@ -177,7 +192,7 @@ public class DataMethods {
         ArrayList<SubTask> subTasksList = new ArrayList<>();
         ArrayList<Integer> subTaskListID = epic.getSubTaskListID();
         for (Integer integer : subTaskListID) {
-            subTasksList.add(getSubTaskByID(integer));
+            subTasksList.add(subTasks.get(integer));
         }
 
         return subTasksList;
@@ -185,17 +200,17 @@ public class DataMethods {
 
     /* »зменени€ статусов */
     private void setTaskStatus(int taskID, Status newStatus) { // FIX
-        getTaskByID(taskID).setStatus(newStatus);
+        tasks.get(taskID).setStatus(newStatus);
     }
 
     private void setSubTaskStatus(int subTaskID, Status newStatus) { // FIX
-        SubTask subTask = getSubTaskByID(subTaskID);
+        SubTask subTask = subTasks.get(subTaskID);
         subTask.setStatus(newStatus);
         setEpicStatus(subTask.getEpicID());
     }
 
     private void setEpicStatus(int epicID) {
-        Epic epic = getEpicByID(epicID);
+        Epic epic = epics.get(epicID);
         if (epic == null) {
             System.out.println("Ёпика с кодом " + epicID + " не существует.");
             return;
@@ -205,7 +220,7 @@ public class DataMethods {
 
     private Status calcEpicStatus(int epicID) {
         Status status, statusCompare;
-        Epic epic = getEpicByID(epicID);
+        Epic epic = epics.get(epicID);
         if (epic == null) {
             System.out.println("Ёпика с кодом " + epicID + " не существует.");
             return Status.NEW;
@@ -215,12 +230,12 @@ public class DataMethods {
         if (subTaskListID.isEmpty()) {
             return Status.NEW;
         }
-        status = getSubTaskByID(subTaskListID.get(0)).getStatus();
+        status = subTasks.get(subTaskListID.get(0)).getStatus();
         if (status == Status.IN_PROGRESS) {
             return Status.IN_PROGRESS;
         }
         for (int i = 1; i < subTaskListID.size(); i++) {
-            statusCompare = getSubTaskByID(subTaskListID.get(i)).getStatus();
+            statusCompare = subTasks.get(subTaskListID.get(i)).getStatus();
             if (statusCompare == Status.IN_PROGRESS) {
                 return Status.IN_PROGRESS;
             }
