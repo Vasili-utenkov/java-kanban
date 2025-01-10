@@ -1,9 +1,6 @@
 package Class;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import Methods.*;
 
 public class Epic extends Task {
 
@@ -17,7 +14,7 @@ public class Epic extends Task {
 
 
     // a. Получение списка всех подзадач определённого эпика.
-    public ArrayList<Integer> getSubTaskListID() {
+    public ArrayList<Integer> getEpicSubtasks() {
         return new ArrayList<>(this.subTaskIDList);
     }
 

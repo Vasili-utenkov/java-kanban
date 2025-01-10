@@ -1,10 +1,10 @@
-package Methods;
+package Manager;
 
 import Class.*;
 
 import java.util.*;
 
-public class DataMethods {
+public class InMemoryTaskManager implements TaskManager {
 
     int counter = 0;
 
@@ -12,24 +12,34 @@ public class DataMethods {
     private HashMap<Integer, SubTask> subTasks = new HashMap<>();
     private HashMap<Integer, Epic> epics = new HashMap<>();
 
+    private ArrayList<Task> history = new ArrayList<>();
+
+    private HistoryManager historyManager = Managers.getDefaultHistory();
+
     // A. Получение списка всех задач.
+    @Override
     public ArrayList<Task> getTasksList() {
         return new ArrayList<>(tasks.values());
     }
 
+    @Override
     public ArrayList<SubTask> getSubTasksList() {
         return new ArrayList<>(subTasks.values());
     }
 
-    public ArrayList<Epic> getEpicList() {
+    @Override
+    public ArrayList<Epic> getEpicsList() {
         return new ArrayList<>(epics.values());
     }
 
+
     // B. Удаление всех задач.
+    @Override
     public void deleteAllTasks() {
         tasks.clear();
     }
 
+    @Override
     public void deleteAllSubTasks() {
         List<Integer> keys = new ArrayList<>(subTasks.keySet());
         for (Integer key : keys) {
@@ -37,31 +47,51 @@ public class DataMethods {
         }
     }
 
+    @Override
     public void deleteAllEpics() { // FIX
         epics.clear();
         subTasks.clear();
     }
 
+
     // c. Получение по идентификатору.
+    @Override
     public Task getTaskByID(int taskID) {
-        return tasks.get(taskID);
+        Task task = tasks.get(taskID);
+        if (task != null ) {
+            historyManager.addTask(task);
+        }
+        return task;
     }
 
+    @Override
     public SubTask getSubTaskByID(int subTaskID) {
-        return subTasks.get(subTaskID);
+        SubTask subTask = subTasks.get(subTaskID);
+        if (subTask != null ) {
+            historyManager.addTask(subTask);
+        }
+        return subTask;
     }
 
+    @Override
     public Epic getEpicByID(int epicID) {
-        return epics.get(epicID);
+        Epic epic = epics.get(epicID);
+        if (epic != null ) {
+            historyManager.addTask(epic);
+        }
+        return epic;
     }
+
 
     // d. Создание.Сам объект должен передаваться в качестве параметра.
+    @Override
     public void addNewTask(Task task) {
         final int taskID = ++counter;
         task.setID(taskID);
         tasks.put(taskID, task);
     }
 
+    @Override
     public void addNewSubTask(SubTask subTask) {
         int epicID = subTask.getEpicID();
         Epic epic = epics.get(epicID);
@@ -77,6 +107,7 @@ public class DataMethods {
         subTasks.put(taskID, subTask);
     }
 
+    @Override
     public void addNewEpic(Epic epic) {
         final int taskID = ++counter;
         epic.setID(taskID);
@@ -85,11 +116,13 @@ public class DataMethods {
 
 
     // e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
+    @Override
     public void updateTask(Task task) {
         int taskID = task.getID();
         tasks.replace(taskID, task);
     }
 
+    @Override
     public void updateSubTask(SubTask subTask) {
         int subTaskID = subTask.getID();
         SubTask subTaskSaved = subTasks.get(subTaskID);
@@ -105,7 +138,7 @@ public class DataMethods {
             return;
         }
 
-        if ( epicIDSaved != epicIDForUpdate) {
+        if (epicIDSaved != epicIDForUpdate) {
             // удалить из старого эпика, записать в новый
             Epic epicSaved = epics.get(epicIDSaved);
             epicSaved.deleteSubTaskID(subTaskID);
@@ -124,6 +157,7 @@ public class DataMethods {
 
     }
 
+    @Override
     public void updateEpic(Epic epic) {
         int epicID = epic.getID();
         Epic epicForUpdate = epics.get(epicID);
@@ -137,6 +171,7 @@ public class DataMethods {
 
 
     // f. Удаление по идентификатору.
+    @Override
     public void deleteTask(int taskID) {
         Task task = tasks.get(taskID);
         if (task == null) {
@@ -147,6 +182,7 @@ public class DataMethods {
         tasks.remove(taskID);
     }
 
+    @Override
     public void deleteSubTask(int subTaskID) { // FIX
         SubTask subTask = subTasks.get(subTaskID);
         if (subTask == null) {
@@ -166,6 +202,7 @@ public class DataMethods {
         setEpicStatus(epicID);
     }
 
+    @Override
     public void deleteEpic(int epicID) { // FIX
         Epic epic = epics.get(epicID);
         if (epic == null) {
@@ -173,7 +210,7 @@ public class DataMethods {
             return;
         }
 
-        ArrayList<Integer> subTaskListID = epic.getSubTaskListID();
+        ArrayList<Integer> subTaskListID = epic.getEpicSubtasks();
         for (Integer subTaskID : subTaskListID) {
             subTasks.remove(subTaskID);
         }
@@ -181,7 +218,9 @@ public class DataMethods {
         epics.remove(epicID);
     }
 
+
     // a. Получение списка всех подзадач определённого эпика.
+    @Override
     public ArrayList<SubTask> getSubTaskList(int epicID) { // FIX
         Epic epic = epics.get(epicID);
         if (epic == null) {
@@ -190,7 +229,7 @@ public class DataMethods {
         }
 
         ArrayList<SubTask> subTasksList = new ArrayList<>();
-        ArrayList<Integer> subTaskListID = epic.getSubTaskListID();
+        ArrayList<Integer> subTaskListID = epic.getEpicSubtasks();
         for (Integer integer : subTaskListID) {
             subTasksList.add(subTasks.get(integer));
         }
@@ -198,18 +237,22 @@ public class DataMethods {
         return subTasksList;
     }
 
+
     /* Изменения статусов */
-    private void setTaskStatus(int taskID, Status newStatus) { // FIX
+    @Override
+    public void setTaskStatus(int taskID, Status newStatus) { // FIX
         tasks.get(taskID).setStatus(newStatus);
     }
 
-    private void setSubTaskStatus(int subTaskID, Status newStatus) { // FIX
+    @Override
+    public void setSubTaskStatus(int subTaskID, Status newStatus) { // FIX
         SubTask subTask = subTasks.get(subTaskID);
         subTask.setStatus(newStatus);
         setEpicStatus(subTask.getEpicID());
     }
 
-    private void setEpicStatus(int epicID) {
+    @Override
+    public void setEpicStatus(int epicID) {
         Epic epic = epics.get(epicID);
         if (epic == null) {
             System.out.println("Эпика с кодом " + epicID + " не существует.");
@@ -218,14 +261,15 @@ public class DataMethods {
         epic.setStatus(calcEpicStatus(epicID));
     }
 
-    private Status calcEpicStatus(int epicID) {
+    @Override
+    public Status calcEpicStatus(int epicID) {
         Status status, statusCompare;
         Epic epic = epics.get(epicID);
         if (epic == null) {
             System.out.println("Эпика с кодом " + epicID + " не существует.");
             return Status.NEW;
         }
-        ArrayList<Integer> subTaskListID = epic.getSubTaskListID();
+        ArrayList<Integer> subTaskListID = epic.getEpicSubtasks();
 
         if (subTaskListID.isEmpty()) {
             return Status.NEW;
@@ -244,6 +288,37 @@ public class DataMethods {
             }
         }
         return status;
+    }
+
+
+    @Override
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
+    }
+
+
+    private static void printAllTasks(TaskManager manager) {
+        System.out.println("Задачи:");
+        for (Task task : manager.getTasksList()) {
+            System.out.println(task);
+        }
+        System.out.println("Эпики:");
+        for (Epic epic : manager.getEpicsList()) {
+            System.out.println(epic);
+
+            for (SubTask subtask : manager.getSubTaskList(epic.getID())) {
+                System.out.println("--> " + subtask);
+            }
+        }
+        System.out.println("Подзадачи:");
+        for (Task subtask : manager.getSubTasksList()) {
+            System.out.println(subtask);
+        }
+
+        System.out.println("История:");
+        for (Task task : manager.getHistory()) {
+            System.out.println(task);
+        }
     }
 
 
