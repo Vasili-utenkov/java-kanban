@@ -3,19 +3,15 @@ package Test;
 import Manager.HistoryManager;
 import Manager.Managers;
 import Manager.TaskManager;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import Class.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
 
-    private TaskManager taskManager = Managers.getDefault();
-    private HistoryManager historyManager = Managers.getDefaultHistory();
+    private final TaskManager taskManager = Managers.getDefault();
+    private final HistoryManager historyManager = Managers.getDefaultHistory();
 
     //    проверьте, что экземпляры класса Task равны друг другу, если равен их id;
     @Test
@@ -53,17 +49,6 @@ class InMemoryTaskManagerTest {
     //    проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи;
     //  Разъяснения от Alexey Monakhov: невозможно создать, пропускаем
     // Убрать второй конструктор для эпика и второй метод создания эпика
-
-
-    @Test
-    void canAddEpicInEpic() {
-        int epicID = taskManager.addNewEpic(new Epic("Эпик для теста", "Добавили Эпик"));
-        Epic epic = taskManager.getEpicByID(epicID);
-        assertNotNull(epic, "экземпляра класса Epic не существует");
-        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "Добавили подзадачу для теста", epicID, Status.NEW));
-
-    }
-
 
 //    проверьте, что объект Subtask нельзя сделать своим же эпиком;
 //  Разъяснения от Alexey Monakhov: невозможно создать, пропускаем
