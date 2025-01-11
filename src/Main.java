@@ -22,6 +22,7 @@ public class Main {
         taskManager.addNewSubTask(new SubTask("ПодЗадача 2", "Добавили ПодЗадача 2", 4, Status.NEW));
         taskManager.addNewSubTask(new SubTask("ПодЗадача 3", "Добавили ПодЗадача 3", 3, Status.NEW));
 
+
         System.out.println(taskManager.getSubTasksList());
 //        System.out.println(taskManager.getEpicList());
 
@@ -40,7 +41,10 @@ public class Main {
         taskManager.getTaskByID(1);
         taskManager.getTaskByID(2);
         taskManager.getTaskByID(1);
-        taskManager.getTaskByID(2);
+        Task task = taskManager.getTaskByID(2);
+
+        System.out.println(task);
+
         taskManager.getSubTaskByID(5);
         taskManager.getSubTaskByID(6);
         taskManager.getSubTaskByID(7);
@@ -53,8 +57,6 @@ public class Main {
         System.out.println(taskManager.getHistory());
 
         //printAllTasks(taskManager);
-
-
     }
 
 }

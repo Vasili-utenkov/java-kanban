@@ -85,33 +85,37 @@ public class InMemoryTaskManager implements TaskManager {
 
     // d. —оздание.—ам объект должен передаватьс€ в качестве параметра.
     @Override
-    public void addNewTask(Task task) {
+    public int addNewTask(Task task) {
         final int taskID = ++counter;
         task.setID(taskID);
         tasks.put(taskID, task);
+        return taskID;
     }
 
     @Override
-    public void addNewSubTask(SubTask subTask) {
+    public int addNewSubTask(SubTask subTask) {
         int epicID = subTask.getEpicID();
         Epic epic = epics.get(epicID);
         if (epic == null) {
             System.out.println("Ёпика с кодом " + epicID + " не существует.");
-            return;
+            return -1;
         }
 
-        final int taskID = ++counter;
-        subTask.setID(taskID);
-        epic.addSubTaskID(taskID);
+        final int subTaskID = ++counter;
+        subTask.setID(subTaskID);
+        epic.addSubTaskID(subTaskID);
 
-        subTasks.put(taskID, subTask);
+        subTasks.put(subTaskID, subTask);
+        setEpicStatus(epicID);
+        return subTaskID;
     }
 
     @Override
-    public void addNewEpic(Epic epic) {
-        final int taskID = ++counter;
-        epic.setID(taskID);
-        epics.put(taskID, epic);
+    public int addNewEpic(Epic epic) {
+        final int epicID = ++counter;
+        epic.setID(epicID);
+        epics.put(epicID, epic);
+        return epicID;
     }
 
 
@@ -258,6 +262,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Ёпика с кодом " + epicID + " не существует.");
             return;
         }
+
         epic.setStatus(calcEpicStatus(epicID));
     }
 
