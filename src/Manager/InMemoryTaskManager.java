@@ -6,13 +6,11 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    int counter = 0;
+    private int counter = 0;
 
-    private HashMap<Integer, Task> tasks = new HashMap<>();
-    private HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    private HashMap<Integer, Epic> epics = new HashMap<>();
-
-    private ArrayList<Task> history = new ArrayList<>();
+    private Map<Integer, Task> tasks = new HashMap<>();
+    private Map<Integer, SubTask> subTasks = new HashMap<>();
+    private Map<Integer, Epic> epics = new HashMap<>();
 
     private HistoryManager historyManager = Managers.getDefaultHistory();
 
@@ -266,8 +264,7 @@ public class InMemoryTaskManager implements TaskManager {
         epic.setStatus(calcEpicStatus(epicID));
     }
 
-    @Override
-    public Status calcEpicStatus(int epicID) {
+    private Status calcEpicStatus(int epicID) {
         Status status, statusCompare;
         Epic epic = epics.get(epicID);
         if (epic == null) {
@@ -298,7 +295,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Task> getHistory() {
-        return historyManager.getHistory();
+        List<Task> history = historyManager.getHistory();
+        return history;
     }
 
 

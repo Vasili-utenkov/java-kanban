@@ -24,16 +24,13 @@ public class Main {
 
 
         System.out.println(taskManager.getSubTasksList());
-//        System.out.println(taskManager.getEpicList());
-
-//        inMemoryTaskManager.setSubTaskStatus(5, Status.DONE);
-
         System.out.println(taskManager.getEpicsList());
+//        inMemoryTaskManager.setSubTaskStatus(5, Status.DONE);
+//        System.out.println(taskManager.getEpicsList());
 
-//        taskManager.deleteSubTask(5);
-
-//        System.out.println(taskManager.getSubTasksList());
-//        System.out.println(taskManager.getEpicList());
+        taskManager.deleteSubTask(5);
+        System.out.println(taskManager.getSubTasksList());
+        System.out.println(taskManager.getEpicsList());
 
         taskManager.getEpicByID(4);
         taskManager.getTaskByID(1);
@@ -56,7 +53,7 @@ public class Main {
 
         System.out.println(taskManager.getHistory());
 
-        //printAllTasks(taskManager);
+//        printAllTasks(taskManager);
     }
 
 }
