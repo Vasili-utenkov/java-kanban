@@ -1,6 +1,6 @@
-package Manager;
+package manager;
 
-import Class.*;
+import cLass.*;
 import java.util.List;
 
 public interface TaskManager {
