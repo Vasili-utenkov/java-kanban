@@ -1,4 +1,4 @@
-package Class;
+package ñlass;
 
 public class SubTask extends Task {
     private int epicID;

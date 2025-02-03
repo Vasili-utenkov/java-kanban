@@ -1,4 +1,4 @@
-package Class;
+package ñlass;
 
 public enum Status {
     NEW,

@@ -1,6 +1,6 @@
-package Manager;
+package manager;
 
-import Class.*;
+import ñlass.*;
 
 import java.util.ArrayList;
 import java.util.List;

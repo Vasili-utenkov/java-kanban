@@ -1,5 +1,5 @@
-import Class.*;
-import Manager.*;
+import ñlass.*;
+import manager.*;
 
 public class Main {
 
