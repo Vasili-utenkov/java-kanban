@@ -1,4 +1,4 @@
-package cLass;
+package tasks;
 
 public class Task {
     protected int ID;

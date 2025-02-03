@@ -3,8 +3,9 @@ package test;
 import manager.HistoryManager;
 import manager.Managers;
 import manager.TaskManager;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import cLass.*;
+import tasks.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,6 +15,7 @@ class InMemoryTaskManagerTest {
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
     //    проверьте, что экземпляры класса Task равны друг другу, если равен их id;
+    @DisplayName("экземпляры класса Task равны друг другу, если равен их id")
     @Test
     void equalsTaskByID() {
         int taskID = taskManager.addNewTask(new Task("Задача для теста", "Добавили задачу для теста", Status.NEW));
@@ -25,6 +27,7 @@ class InMemoryTaskManagerTest {
     }
 
     //    проверьте, что наследники класса Task равны друг другу, если равен их id;
+    @DisplayName("SubTask равны друг другу, если равен их id")
     @Test
     void equalsSubTaskByID() {
         int epicID = taskManager.addNewEpic(new Epic("Эпик", "Добавили Эпик"));
@@ -35,7 +38,7 @@ class InMemoryTaskManagerTest {
         assertNotNull(taskToCompare2, "2 экземпляр класса SubTask для сравнения равенства не существует");
         assertEquals(taskToCompare1, taskToCompare2, "экземпляры класса SubTask не равны друг другу, если равен их id");
     }
-
+    @DisplayName("Epic равны друг другу, если равен их id")
     @Test
     void equalsEpicByID() {
         int epicID = taskManager.addNewEpic(new Epic("Эпик для теста", "Добавили Эпик"));
@@ -46,15 +49,8 @@ class InMemoryTaskManagerTest {
         assertEquals(taskToCompare1, taskToCompare2, "экземпляры класса Epic не равны друг другу, если равен их id");
     }
 
-    //    проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи;
-    //  Разъяснения от Alexey Monakhov: невозможно создать, пропускаем
-    // Убрать второй конструктор для эпика и второй метод создания эпика
-
-//    проверьте, что объект Subtask нельзя сделать своим же эпиком;
-//  Разъяснения от Alexey Monakhov: невозможно создать, пропускаем
-
-
     //    убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров;
+    @DisplayName("утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров")
     @Test
     void isManagersIsExists() {
         assertNotNull(taskManager, "taskManager не существует");
@@ -62,6 +58,7 @@ class InMemoryTaskManagerTest {
     }
 
     //    проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id;
+    @DisplayName("InMemoryTaskManager добавляет задачи разного типа и может найти их по id")
     @Test
     void isTaskManagerAddAndFindTasks() {
         int taskID = taskManager.addNewTask(new Task("Задача для теста", "Добавили задачу для теста", Status.NEW));
@@ -81,10 +78,8 @@ class InMemoryTaskManagerTest {
     }
 
 
-//    проверьте, что задачи с заданным id и сгенерированным id не конфликтуют внутри менеджера;
-// ?? Методы без параметра кода id для создаваемого класса
-
     //    создайте тест, в котором проверяется неизменность задачи (по всем полям) при добавлении задачи в менеджер
+    @DisplayName("неизменность задачи (по всем полям) при добавлении задачи в менеджер")
     @Test
     void isEqualSavedTasks() {
         String taskName = "Задача";
@@ -115,8 +110,7 @@ class InMemoryTaskManagerTest {
 
 
 //    убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.
-    //  Разъяснения от Alexey Monakhov: В истории просто хранить ссылку на задачу, т.е. history manager не должен ничего проверять
-
+@DisplayName("задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.")
     @Test
     void isEqualSavedInHistoryTasks() {
         int taskID = taskManager.addNewTask(new Task("Задача", "Описание задачи", Status.NEW));
