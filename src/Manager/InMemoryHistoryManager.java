@@ -13,14 +13,21 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void addTask(Task task) {
 
-//        if (historyManager.contains(task)) {
-//            historyManager.remove(historyManager.indexOf(task));
-//        } else
+        if (historyManager.contains(task)) {
+            historyManager.remove(historyManager.indexOf(task));
+        } else
         if (historyManager.size() >= MAX_COUNT_TASKS_IN_HISTORY) {
             historyManager.remove(0);
         }
 
         historyManager.add(task);
+    }
+
+    @Override
+    public void remove(int id) {
+//        if (historyManager.contains(task)) {
+//            historyManager.remove(historyManager.indexOf(task));
+//        }
     }
 
     @Override
