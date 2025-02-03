@@ -13,7 +13,7 @@ public class Epic extends Task {
     }
 
 
-    // a. Получение списка всех подзадач определённого эпика.
+    // a. получение
     public ArrayList<Integer> getEpicSubtasks() {
         return new ArrayList<>(this.subTaskIDList);
     }
