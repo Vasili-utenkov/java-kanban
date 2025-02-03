@@ -1,6 +1,6 @@
 package manager;
 
-import Class.*;
+import cLass.*;
 
 import java.util.*;
 

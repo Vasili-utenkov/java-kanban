@@ -1,4 +1,4 @@
-import Class.*;
+import cLass.*;
 import manager.*;
 
 public class Main {
