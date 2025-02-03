@@ -113,7 +113,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public int addNewSubTask(SubTask subTask) {
-
         int epicID = subTask.getEpicID();
         Epic epic = epics.get(epicID);
         if (epic == null) {
@@ -122,30 +121,26 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         final int subTaskID = ++counter;
-
         subTask.setID(subTaskID);
         epic.addSubTaskID(subTaskID);
-
-        subTasks.put(subTaskID, subTask);
+        subTasks.put(subTaskID,subTask);
         setEpicStatus(epicID);
         return subTaskID;
     }
 
     @Override
     public int addNewEpic(Epic epic) {
-
         final int epicID = ++counter;
         epic.setID(epicID);
-        epics.put(epicID, epic);
+        epics.put(epicID,epic);
         return epicID;
     }
 
     // e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     @Override
     public void updateTask(Task task) {
-
         int taskID = task.getID();
-        tasks.replace(taskID, task);
+        tasks.replace(taskID,task);
     }
 
     @Override
