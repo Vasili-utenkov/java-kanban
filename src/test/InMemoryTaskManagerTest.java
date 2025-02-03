@@ -14,141 +14,141 @@ class InMemoryTaskManagerTest {
     private final TaskManager taskManager = Managers.getDefault();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    //    проверьте, что экземпляры класса Task равны друг другу, если равен их id;
-    @DisplayName("экземпляры класса Task равны друг другу, если равен их id")
+    //    РїСЂРѕРІРµСЂСЊС‚Рµ, С‡С‚Рѕ СЌРєР·РµРјРїР»СЏСЂС‹ РєР»Р°СЃСЃР° Task СЂР°РІРЅС‹ РґСЂСѓРі РґСЂСѓРіСѓ, РµСЃР»Рё СЂР°РІРµРЅ РёС… id;
+    @DisplayName("СЌРєР·РµРјРїР»СЏСЂС‹ РєР»Р°СЃСЃР° Task СЂР°РІРЅС‹ РґСЂСѓРі РґСЂСѓРіСѓ, РµСЃР»Рё СЂР°РІРµРЅ РёС… id")
     @Test
     void equalsTaskByID() {
-        int taskID = taskManager.addNewTask(new Task("Задача для теста", "Добавили задачу для теста", Status.NEW));
+        int taskID = taskManager.addNewTask(new Task("Р—Р°РґР°С‡Р° РґР»СЏ С‚РµСЃС‚Р°", "Р”РѕР±Р°РІРёР»Рё Р·Р°РґР°С‡Сѓ РґР»СЏ С‚РµСЃС‚Р°", Status.NEW));
         Task taskToCompare1 = taskManager.getTaskByID(taskID);
         Task taskToCompare2 = taskManager.getTaskByID(taskID);
-        assertNotNull(taskToCompare1, "1 экземпляр класса Task для сравнения равенства не существует");
-        assertNotNull(taskToCompare2, "2 экземпляр класса Task для сравнения равенства не существует");
-        assertEquals(taskToCompare1, taskToCompare2, "экземпляры класса Task не равны друг другу, если равен их id");
+        assertNotNull(taskToCompare1, "1 СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР° Task РґР»СЏ СЃСЂР°РІРЅРµРЅРёСЏ СЂР°РІРµРЅСЃС‚РІР° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
+        assertNotNull(taskToCompare2, "2 СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР° Task РґР»СЏ СЃСЂР°РІРЅРµРЅРёСЏ СЂР°РІРµРЅСЃС‚РІР° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
+        assertEquals(taskToCompare1, taskToCompare2, "СЌРєР·РµРјРїР»СЏСЂС‹ РєР»Р°СЃСЃР° Task РЅРµ СЂР°РІРЅС‹ РґСЂСѓРі РґСЂСѓРіСѓ, РµСЃР»Рё СЂР°РІРµРЅ РёС… id");
     }
 
-    //    проверьте, что наследники класса Task равны друг другу, если равен их id;
-    @DisplayName("SubTask равны друг другу, если равен их id")
+    //    РїСЂРѕРІРµСЂСЊС‚Рµ, С‡С‚Рѕ РЅР°СЃР»РµРґРЅРёРєРё РєР»Р°СЃСЃР° Task СЂР°РІРЅС‹ РґСЂСѓРі РґСЂСѓРіСѓ, РµСЃР»Рё СЂР°РІРµРЅ РёС… id;
+    @DisplayName("SubTask СЂР°РІРЅС‹ РґСЂСѓРі РґСЂСѓРіСѓ, РµСЃР»Рё СЂР°РІРµРЅ РёС… id")
     @Test
     void equalsSubTaskByID() {
-        int epicID = taskManager.addNewEpic(new Epic("Эпик", "Добавили Эпик"));
-        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "Добавили подзадачу для теста", epicID, Status.NEW));
+        int epicID = taskManager.addNewEpic(new Epic("Р­РїРёРє", "Р”РѕР±Р°РІРёР»Рё Р­РїРёРє"));
+        int subTaskID = taskManager.addNewSubTask(new SubTask("РџРѕРґР·Р°РґР°С‡Р° РґР»СЏ С‚РµСЃС‚Р°", "Р”РѕР±Р°РІРёР»Рё РїРѕРґР·Р°РґР°С‡Сѓ РґР»СЏ С‚РµСЃС‚Р°", epicID, Status.NEW));
         SubTask taskToCompare1 = taskManager.getSubTaskByID(subTaskID);
         SubTask taskToCompare2 = taskManager.getSubTaskByID(subTaskID);
-        assertNotNull(taskToCompare1, "1 экземпляр класса SubTask для сравнения равенства не существует");
-        assertNotNull(taskToCompare2, "2 экземпляр класса SubTask для сравнения равенства не существует");
-        assertEquals(taskToCompare1, taskToCompare2, "экземпляры класса SubTask не равны друг другу, если равен их id");
+        assertNotNull(taskToCompare1, "1 СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР° SubTask РґР»СЏ СЃСЂР°РІРЅРµРЅРёСЏ СЂР°РІРµРЅСЃС‚РІР° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
+        assertNotNull(taskToCompare2, "2 СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР° SubTask РґР»СЏ СЃСЂР°РІРЅРµРЅРёСЏ СЂР°РІРµРЅСЃС‚РІР° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
+        assertEquals(taskToCompare1, taskToCompare2, "СЌРєР·РµРјРїР»СЏСЂС‹ РєР»Р°СЃСЃР° SubTask РЅРµ СЂР°РІРЅС‹ РґСЂСѓРі РґСЂСѓРіСѓ, РµСЃР»Рё СЂР°РІРµРЅ РёС… id");
     }
 
-    @DisplayName("Epic равны друг другу, если равен их id")
+    @DisplayName("Epic СЂР°РІРЅС‹ РґСЂСѓРі РґСЂСѓРіСѓ, РµСЃР»Рё СЂР°РІРµРЅ РёС… id")
     @Test
     void equalsEpicByID() {
-        int epicID = taskManager.addNewEpic(new Epic("Эпик для теста", "Добавили Эпик"));
+        int epicID = taskManager.addNewEpic(new Epic("Р­РїРёРє РґР»СЏ С‚РµСЃС‚Р°", "Р”РѕР±Р°РІРёР»Рё Р­РїРёРє"));
         Epic taskToCompare1 = taskManager.getEpicByID(epicID);
         Epic taskToCompare2 = taskManager.getEpicByID(epicID);
-        assertNotNull(taskToCompare1, "1 экземпляр класса Epic для сравнения равенства не существует");
-        assertNotNull(taskToCompare2, "2 экземпляр класса Epic для сравнения равенства не существует");
-        assertEquals(taskToCompare1, taskToCompare2, "экземпляры класса Epic не равны друг другу, если равен их id");
+        assertNotNull(taskToCompare1, "1 СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР° Epic РґР»СЏ СЃСЂР°РІРЅРµРЅРёСЏ СЂР°РІРµРЅСЃС‚РІР° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
+        assertNotNull(taskToCompare2, "2 СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР° Epic РґР»СЏ СЃСЂР°РІРЅРµРЅРёСЏ СЂР°РІРµРЅСЃС‚РІР° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
+        assertEquals(taskToCompare1, taskToCompare2, "СЌРєР·РµРјРїР»СЏСЂС‹ РєР»Р°СЃСЃР° Epic РЅРµ СЂР°РІРЅС‹ РґСЂСѓРі РґСЂСѓРіСѓ, РµСЃР»Рё СЂР°РІРµРЅ РёС… id");
     }
 
-    //    убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров;
-    @DisplayName("утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров")
+    //    СѓР±РµРґРёС‚РµСЃСЊ, С‡С‚Рѕ СѓС‚РёР»РёС‚Р°СЂРЅС‹Р№ РєР»Р°СЃСЃ РІСЃРµРіРґР° РІРѕР·РІСЂР°С‰Р°РµС‚ РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅС‹Рµ Рё РіРѕС‚РѕРІС‹Рµ Рє СЂР°Р±РѕС‚Рµ СЌРєР·РµРјРїР»СЏСЂС‹ РјРµРЅРµРґР¶РµСЂРѕРІ;
+    @DisplayName("СѓС‚РёР»РёС‚Р°СЂРЅС‹Р№ РєР»Р°СЃСЃ РІСЃРµРіРґР° РІРѕР·РІСЂР°С‰Р°РµС‚ РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅС‹Рµ Рё РіРѕС‚РѕРІС‹Рµ Рє СЂР°Р±РѕС‚Рµ СЌРєР·РµРјРїР»СЏСЂС‹ РјРµРЅРµРґР¶РµСЂРѕРІ")
     @Test
     void isManagersIsExists() {
-        assertNotNull(taskManager, "taskManager не существует");
-        assertNotNull(historyManager, "historyManager не существует");
+        assertNotNull(taskManager, "taskManager РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
+        assertNotNull(historyManager, "historyManager РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
     }
 
-    //    проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id;
-    @DisplayName("InMemoryTaskManager добавляет задачи разного типа и может найти их по id")
+    //    РїСЂРѕРІРµСЂСЊС‚Рµ, С‡С‚Рѕ InMemoryTaskManager РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ РґРѕР±Р°РІР»СЏРµС‚ Р·Р°РґР°С‡Рё СЂР°Р·РЅРѕРіРѕ С‚РёРїР° Рё РјРѕР¶РµС‚ РЅР°Р№С‚Рё РёС… РїРѕ id;
+    @DisplayName("InMemoryTaskManager РґРѕР±Р°РІР»СЏРµС‚ Р·Р°РґР°С‡Рё СЂР°Р·РЅРѕРіРѕ С‚РёРїР° Рё РјРѕР¶РµС‚ РЅР°Р№С‚Рё РёС… РїРѕ id")
     @Test
     void isTaskManagerAddAndFindTasks() {
-        int taskID = taskManager.addNewTask(new Task("Задача для теста", "Добавили задачу для теста", Status.NEW));
-        assertEquals(1, taskManager.getTasksList().size(), "Неверное количество Task.");
+        int taskID = taskManager.addNewTask(new Task("Р—Р°РґР°С‡Р° РґР»СЏ С‚РµСЃС‚Р°", "Р”РѕР±Р°РІРёР»Рё Р·Р°РґР°С‡Сѓ РґР»СЏ С‚РµСЃС‚Р°", Status.NEW));
+        assertEquals(1, taskManager.getTasksList().size(), "РќРµРІРµСЂРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ Task.");
         Task task = taskManager.getTaskByID(taskID);
-        assertNotNull(task, "Task не найден по id");
+        assertNotNull(task, "Task РЅРµ РЅР°Р№РґРµРЅ РїРѕ id");
 
-        int epicID = taskManager.addNewEpic(new Epic("Эпик для теста", "Добавили эпик для теста"));
-        assertEquals(1, taskManager.getEpicsList().size(), "Неверное количество Epic.");
+        int epicID = taskManager.addNewEpic(new Epic("Р­РїРёРє РґР»СЏ С‚РµСЃС‚Р°", "Р”РѕР±Р°РІРёР»Рё СЌРїРёРє РґР»СЏ С‚РµСЃС‚Р°"));
+        assertEquals(1, taskManager.getEpicsList().size(), "РќРµРІРµСЂРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ Epic.");
         Epic epic = taskManager.getEpicByID(epicID);
-        assertNotNull(epic, "Epic не найден по id");
+        assertNotNull(epic, "Epic РЅРµ РЅР°Р№РґРµРЅ РїРѕ id");
 
-        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "Добавили подзадачу для теста", epicID, Status.NEW));
-        assertEquals(1, taskManager.getSubTasksList().size(), "Неверное количество Epic.");
+        int subTaskID = taskManager.addNewSubTask(new SubTask("РџРѕРґР·Р°РґР°С‡Р° РґР»СЏ С‚РµСЃС‚Р°", "Р”РѕР±Р°РІРёР»Рё РїРѕРґР·Р°РґР°С‡Сѓ РґР»СЏ С‚РµСЃС‚Р°", epicID, Status.NEW));
+        assertEquals(1, taskManager.getSubTasksList().size(), "РќРµРІРµСЂРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ Epic.");
         SubTask subTask = taskManager.getSubTaskByID(subTaskID);
-        assertNotNull(subTask, "Epic не найден по id");
+        assertNotNull(subTask, "Epic РЅРµ РЅР°Р№РґРµРЅ РїРѕ id");
     }
 
 
-    //    создайте тест, в котором проверяется неизменность задачи (по всем полям) при добавлении задачи в менеджер
-    @DisplayName("неизменность задачи (по всем полям) при добавлении задачи в менеджер")
+    //    СЃРѕР·РґР°Р№С‚Рµ С‚РµСЃС‚, РІ РєРѕС‚РѕСЂРѕРј РїСЂРѕРІРµСЂСЏРµС‚СЃСЏ РЅРµРёР·РјРµРЅРЅРѕСЃС‚СЊ Р·Р°РґР°С‡Рё (РїРѕ РІСЃРµРј РїРѕР»СЏРј) РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё Р·Р°РґР°С‡Рё РІ РјРµРЅРµРґР¶РµСЂ
+    @DisplayName("РЅРµРёР·РјРµРЅРЅРѕСЃС‚СЊ Р·Р°РґР°С‡Рё (РїРѕ РІСЃРµРј РїРѕР»СЏРј) РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё Р·Р°РґР°С‡Рё РІ РјРµРЅРµРґР¶РµСЂ")
     @Test
     void isEqualSavedTasks() {
-        String taskName = "Задача";
-        String taskDescription = "Описание задачи";
-        String epicName = "Эпик";
-        String epicDescription = "Описание эпика";
-        String subTaskName = "Подзадача";
-        String subTaskDescription = "Описание подзадачи";
+        String taskName = "Р—Р°РґР°С‡Р°";
+        String taskDescription = "РћРїРёСЃР°РЅРёРµ Р·Р°РґР°С‡Рё";
+        String epicName = "Р­РїРёРє";
+        String epicDescription = "РћРїРёСЃР°РЅРёРµ СЌРїРёРєР°";
+        String subTaskName = "РџРѕРґР·Р°РґР°С‡Р°";
+        String subTaskDescription = "РћРїРёСЃР°РЅРёРµ РїРѕРґР·Р°РґР°С‡Рё";
 
         int taskID = taskManager.addNewTask(new Task(taskName, taskDescription, Status.NEW));
         Task task = taskManager.getTaskByID(taskID);
-        assertNotNull(task, "Task не найден по id");
-        assertEquals(taskName, task.getTaskName(), "Названия задач не совпадают.");
-        assertEquals(taskDescription, task.getTaskDescription(), "Описания задач не совпадают.");
+        assertNotNull(task, "Task РЅРµ РЅР°Р№РґРµРЅ РїРѕ id");
+        assertEquals(taskName, task.getTaskName(), "РќР°Р·РІР°РЅРёСЏ Р·Р°РґР°С‡ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
+        assertEquals(taskDescription, task.getTaskDescription(), "РћРїРёСЃР°РЅРёСЏ Р·Р°РґР°С‡ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
 
         int epicID = taskManager.addNewEpic(new Epic(epicName, epicDescription));
         Epic epic = taskManager.getEpicByID(epicID);
-        assertNotNull(epic, "Epic не найден по id");
-        assertEquals(epicName, epic.getTaskName(), "Названия эпиков не совпадают.");
-        assertEquals(epicDescription, epic.getTaskDescription(), "Описания эпиков не совпадают.");
+        assertNotNull(epic, "Epic РЅРµ РЅР°Р№РґРµРЅ РїРѕ id");
+        assertEquals(epicName, epic.getTaskName(), "РќР°Р·РІР°РЅРёСЏ СЌРїРёРєРѕРІ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
+        assertEquals(epicDescription, epic.getTaskDescription(), "РћРїРёСЃР°РЅРёСЏ СЌРїРёРєРѕРІ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
 
         int subTaskID = taskManager.addNewSubTask(new SubTask(subTaskName, subTaskDescription, epicID, Status.NEW));
         SubTask subTask = taskManager.getSubTaskByID(subTaskID);
-        assertNotNull(subTask, "Epic не найден по id");
-        assertEquals(subTaskName, subTask.getTaskName(), "Названия подзадач не совпадают.");
-        assertEquals(subTaskDescription, subTask.getTaskDescription(), "Описания подзадач не совпадают.");
+        assertNotNull(subTask, "Epic РЅРµ РЅР°Р№РґРµРЅ РїРѕ id");
+        assertEquals(subTaskName, subTask.getTaskName(), "РќР°Р·РІР°РЅРёСЏ РїРѕРґР·Р°РґР°С‡ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
+        assertEquals(subTaskDescription, subTask.getTaskDescription(), "РћРїРёСЃР°РЅРёСЏ РїРѕРґР·Р°РґР°С‡ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
     }
 
 
-    //    убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.
-    @DisplayName("задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.")
+    //    СѓР±РµРґРёС‚РµСЃСЊ, С‡С‚Рѕ Р·Р°РґР°С‡Рё, РґРѕР±Р°РІР»СЏРµРјС‹Рµ РІ HistoryManager, СЃРѕС…СЂР°РЅСЏСЋС‚ РїСЂРµРґС‹РґСѓС‰СѓСЋ РІРµСЂСЃРёСЋ Р·Р°РґР°С‡Рё Рё РµС‘ РґР°РЅРЅС‹С….
+    @DisplayName("Р·Р°РґР°С‡Рё, РґРѕР±Р°РІР»СЏРµРјС‹Рµ РІ HistoryManager, СЃРѕС…СЂР°РЅСЏСЋС‚ РїСЂРµРґС‹РґСѓС‰СѓСЋ РІРµСЂСЃРёСЋ Р·Р°РґР°С‡Рё Рё РµС‘ РґР°РЅРЅС‹С….")
     @Test
     void isEqualSavedInHistoryTasks() {
-        int taskID = taskManager.addNewTask(new Task("Задача", "Описание задачи", Status.NEW));
+        int taskID = taskManager.addNewTask(new Task("Р—Р°РґР°С‡Р°", "РћРїРёСЃР°РЅРёРµ Р·Р°РґР°С‡Рё", Status.NEW));
         Task task = taskManager.getTaskByID(taskID);
         int size = taskManager.getHistory().size();
         Task taskInHistory = taskManager.getHistory().get(size - 1);
 
-        assertNotNull(task, "Task не найден по id");
-        assertNotNull(taskInHistory, "Task не найден в истории");
-        assertEquals(task.getTaskName(), taskInHistory.getTaskName(), "Названия задач не совпадают.");
-        assertEquals(task.getTaskDescription(), taskInHistory.getTaskDescription(), "Описания задач не совпадают.");
-        assertEquals(task.getStatus(), taskInHistory.getStatus(), "Статусы задач не совпадают.");
+        assertNotNull(task, "Task РЅРµ РЅР°Р№РґРµРЅ РїРѕ id");
+        assertNotNull(taskInHistory, "Task РЅРµ РЅР°Р№РґРµРЅ РІ РёСЃС‚РѕСЂРёРё");
+        assertEquals(task.getTaskName(), taskInHistory.getTaskName(), "РќР°Р·РІР°РЅРёСЏ Р·Р°РґР°С‡ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
+        assertEquals(task.getTaskDescription(), taskInHistory.getTaskDescription(), "РћРїРёСЃР°РЅРёСЏ Р·Р°РґР°С‡ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
+        assertEquals(task.getStatus(), taskInHistory.getStatus(), "РЎС‚Р°С‚СѓСЃС‹ Р·Р°РґР°С‡ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
 
-        int epicID = taskManager.addNewEpic(new Epic("Эпик", "Описание эпика"));
+        int epicID = taskManager.addNewEpic(new Epic("Р­РїРёРє", "РћРїРёСЃР°РЅРёРµ СЌРїРёРєР°"));
         Epic epic = taskManager.getEpicByID(epicID);
         size = taskManager.getHistory().size();
         Epic epicInHistory = (Epic) taskManager.getHistory().get(size - 1);
 
-        assertNotNull(epic, "Epic не найден по id");
-        assertNotNull(epicInHistory, "Epic не найден в истории");
-        assertEquals(epic.getTaskName(), epicInHistory.getTaskName(), "Названия задач не совпадают.");
-        assertEquals(epic.getTaskDescription(), epicInHistory.getTaskDescription(), "Описания задач не совпадают.");
-        assertEquals(epic.getStatus(), epicInHistory.getStatus(), "Статусы задач не совпадают.");
+        assertNotNull(epic, "Epic РЅРµ РЅР°Р№РґРµРЅ РїРѕ id");
+        assertNotNull(epicInHistory, "Epic РЅРµ РЅР°Р№РґРµРЅ РІ РёСЃС‚РѕСЂРёРё");
+        assertEquals(epic.getTaskName(), epicInHistory.getTaskName(), "РќР°Р·РІР°РЅРёСЏ Р·Р°РґР°С‡ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
+        assertEquals(epic.getTaskDescription(), epicInHistory.getTaskDescription(), "РћРїРёСЃР°РЅРёСЏ Р·Р°РґР°С‡ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
+        assertEquals(epic.getStatus(), epicInHistory.getStatus(), "РЎС‚Р°С‚СѓСЃС‹ Р·Р°РґР°С‡ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
 
 
-        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача", "Описание подзадачи", epicID, Status.NEW));
+        int subTaskID = taskManager.addNewSubTask(new SubTask("РџРѕРґР·Р°РґР°С‡Р°", "РћРїРёСЃР°РЅРёРµ РїРѕРґР·Р°РґР°С‡Рё", epicID, Status.NEW));
         SubTask subTask = taskManager.getSubTaskByID(subTaskID);
         size = taskManager.getHistory().size();
         SubTask subTaskInHistory = (SubTask) taskManager.getHistory().get(size - 1);
 
-        assertNotNull(subTask, "Task не найден по id");
-        assertNotNull(taskInHistory, "Task не найден в истории");
-        assertEquals(subTask.getTaskName(), subTaskInHistory.getTaskName(), "Названия подзадач не совпадают.");
-        assertEquals(subTask.getTaskDescription(), subTaskInHistory.getTaskDescription(), "Описания подзадач не совпадают.");
-        assertEquals(subTask.getStatus(), subTaskInHistory.getStatus(), "Статусы подзадач не совпадают.");
+        assertNotNull(subTask, "Task РЅРµ РЅР°Р№РґРµРЅ РїРѕ id");
+        assertNotNull(taskInHistory, "Task РЅРµ РЅР°Р№РґРµРЅ РІ РёСЃС‚РѕСЂРёРё");
+        assertEquals(subTask.getTaskName(), subTaskInHistory.getTaskName(), "РќР°Р·РІР°РЅРёСЏ РїРѕРґР·Р°РґР°С‡ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
+        assertEquals(subTask.getTaskDescription(), subTaskInHistory.getTaskDescription(), "РћРїРёСЃР°РЅРёСЏ РїРѕРґР·Р°РґР°С‡ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
+        assertEquals(subTask.getStatus(), subTaskInHistory.getStatus(), "РЎС‚Р°С‚СѓСЃС‹ РїРѕРґР·Р°РґР°С‡ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
 
-        assertEquals(epic.getEpicSubtasks(), epicInHistory.getEpicSubtasks(), "Список позадач у эпиков не совпадают.");
+        assertEquals(epic.getEpicSubtasks(), epicInHistory.getEpicSubtasks(), "РЎРїРёСЃРѕРє РїРѕР·Р°РґР°С‡ Сѓ СЌРїРёРєРѕРІ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
     }
 
 }

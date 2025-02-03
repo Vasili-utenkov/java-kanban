@@ -15,11 +15,11 @@ public class InMemoryTaskManager implements TaskManager {
     private HistoryManager historyManager = Managers.getDefaultHistory();
 
     private static void printAllTasks(TaskManager manager) {
-        System.out.println("Задачи:");
+        System.out.println("Р—Р°РґР°С‡Рё:");
         for (Task task : manager.getTasksList()) {
             System.out.println(task);
         }
-        System.out.println("Эпики:");
+        System.out.println("Р­РїРёРєРё:");
         for (Epic epic : manager.getEpicsList()) {
             System.out.println(epic);
 
@@ -27,18 +27,18 @@ public class InMemoryTaskManager implements TaskManager {
                 System.out.println("--> " + subtask);
             }
         }
-        System.out.println("Подзадачи:");
+        System.out.println("РџРѕРґР·Р°РґР°С‡Рё:");
         for (Task subtask : manager.getSubTasksList()) {
             System.out.println(subtask);
         }
 
-        System.out.println("История:");
+        System.out.println("РСЃС‚РѕСЂРёСЏ:");
         for (Task task : manager.getHistory()) {
             System.out.println(task);
         }
     }
 
-    // A. Получение списка всех задач.
+    // A. РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РІСЃРµС… Р·Р°РґР°С‡.
     @Override
     public ArrayList<Task> getTasksList() {
         return new ArrayList<>(tasks.values());
@@ -54,7 +54,7 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(epics.values());
     }
 
-    // B. Удаление всех задач.
+    // B. РЈРґР°Р»РµРЅРёРµ РІСЃРµС… Р·Р°РґР°С‡.
     @Override
     public void deleteAllTasks() {
         tasks.clear();
@@ -74,7 +74,7 @@ public class InMemoryTaskManager implements TaskManager {
         subTasks.clear();
     }
 
-    // c. Получение по идентификатору.
+    // c. РџРѕР»СѓС‡РµРЅРёРµ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ.
     @Override
     public Task getTaskByID(int taskID) {
         Task task = tasks.get(taskID);
@@ -102,7 +102,7 @@ public class InMemoryTaskManager implements TaskManager {
         return epic;
     }
 
-    // d. Создание.Сам объект должен передаваться в качестве параметра.
+    // d. вЂ”РѕР·РґР°РЅРёРµ.вЂ”Р°Рј РѕР±СЉРµРєС‚ РґРѕР»Р¶РµРЅ РїРµСЂРµРґР°РІР°С‚СЊСЃВ¤ РІ РєР°С‡РµСЃС‚РІРµ РїР°СЂР°РјРµС‚СЂР°.
     @Override
     public int addNewTask(Task task) {
         final int taskID = ++counter;
@@ -116,7 +116,7 @@ public class InMemoryTaskManager implements TaskManager {
         int epicID = subTask.getEpicID();
         Epic epic = epics.get(epicID);
         if (epic == null) {
-            System.out.println("Эпика с кодом " + epicID + " не существует.");
+            System.out.println("Р­РїРёРєР° СЃ РєРѕРґРѕРј " + epicID + " РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
             return -1;
         }
 
@@ -136,7 +136,7 @@ public class InMemoryTaskManager implements TaskManager {
         return epicID;
     }
 
-    // e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
+    // e. РћР±РЅРѕРІР»РµРЅРёРµ. РќРѕРІР°СЏ РІРµСЂСЃРёСЏ РѕР±СЉРµРєС‚Р° СЃ РІРµСЂРЅС‹Рј РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРј РїРµСЂРµРґР°Р„С‚СЃВ¤ РІ РІРёРґРµ РїР°СЂР°РјРµС‚СЂР°.
     @Override
     public void updateTask(Task task) {
         int taskID = task.getID();
@@ -149,19 +149,19 @@ public class InMemoryTaskManager implements TaskManager {
         int subTaskID = subTask.getID();
         SubTask subTaskSaved = subTasks.get(subTaskID);
         if (subTaskSaved == null) {
-            System.out.println("Подзадачи с кодом " + subTaskID + " не существует.");
+            System.out.println("РџРѕРґР·Р°РґР°С‡Рё СЃ РєРѕРґРѕРј " + subTaskID + " РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
             return;
         }
         int epicIDSaved = subTaskSaved.getEpicID();
         int epicIDForUpdate = subTask.getEpicID();
         Epic epicForUpdate = epics.get(epicIDForUpdate);
         if (epicForUpdate == null) {
-            System.out.println("Эпика с кодом " + epicIDForUpdate + " не существует.");
+            System.out.println("Р­РїРёРєР° СЃ РєРѕРґРѕРј " + epicIDForUpdate + " РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
             return;
         }
 
         if (epicIDSaved != epicIDForUpdate) {
-            // удалить из старого эпика, записать в новый
+            // СѓРґР°Р»РёС‚СЊ РёР· СЃС‚Р°СЂРѕРіРѕ СЌРїРёРєР°, Р·Р°РїРёСЃР°С‚СЊ РІ РЅРѕРІС‹Р№
             Epic epicSaved = epics.get(epicIDSaved);
             epicSaved.deleteSubTaskID(subTaskID);
             epicForUpdate.addSubTaskID(subTaskID);
@@ -171,7 +171,7 @@ public class InMemoryTaskManager implements TaskManager {
             setEpicStatus(epicIDForUpdate);
 
         } else {
-            // обновить
+            // РѕР±РЅРѕРІРёС‚СЊ
             subTasks.replace(subTaskID, subTask);
             setEpicStatus(subTask.getEpicID());
         }
@@ -184,19 +184,19 @@ public class InMemoryTaskManager implements TaskManager {
         int epicID = epic.getID();
         Epic epicForUpdate = epics.get(epicID);
         if (epicForUpdate == null) {
-            System.out.println("Эпика с кодом " + epicID + " не существует.");
+            System.out.println("Р­РїРёРєР° СЃ РєРѕРґРѕРј " + epicID + " РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
             return;
         }
         epicForUpdate.setTaskName(epic.getTaskName());
         epicForUpdate.setTaskDescription(epic.getTaskDescription());
     }
 
-    // f. Удаление по идентификатору.
+    // f. вЂќРґР°Р»РµРЅРёРµ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ.
     @Override
     public void deleteTask(int taskID) {
         Task task = tasks.get(taskID);
         if (task == null) {
-            System.out.println("Задачи с кодом " + taskID + " не существует.");
+            System.out.println("Р—Р°РґР°С‡Рё СЃ РєРѕРґРѕРј " + taskID + " РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
             return;
         }
 
@@ -207,14 +207,14 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteSubTask(int subTaskID) { // FIX
         SubTask subTask = subTasks.get(subTaskID);
         if (subTask == null) {
-            System.out.println("Подзадачи с кодом " + subTaskID + " не существует.");
+            System.out.println("РџРѕРґР·Р°РґР°С‡Рё СЃ РєРѕРґРѕРј " + subTaskID + " РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
             return;
         }
 
         int epicID = subTask.getEpicID();
         Epic epic = epics.get(epicID);
         if (epic == null) {
-            System.out.println("Эпика с кодом " + epicID + " не существует.");
+            System.out.println("Р­РїРёРєР° СЃ РєРѕРґРѕРј " + epicID + " РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
             return;
         }
 
@@ -227,7 +227,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteEpic(int epicID) { // FIX
         Epic epic = epics.get(epicID);
         if (epic == null) {
-            System.out.println("Эпика с кодом " + epicID + " не существует.");
+            System.out.println("Р­РїРёРєР° СЃ РєРѕРґРѕРј " + epicID + " РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
             return;
         }
 
@@ -239,12 +239,12 @@ public class InMemoryTaskManager implements TaskManager {
         epics.remove(epicID);
     }
 
-    // a. Получение списка всех подзадач определённого эпика.
+    // a. С•РѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РІСЃРµС… РїРѕРґР·Р°РґР°С‡ РѕРїСЂРµРґРµР»Р„РЅРЅРѕРіРѕ СЌРїРёРєР°.
     @Override
     public ArrayList<SubTask> getSubTaskList(int epicID) { // FIX
         Epic epic = epics.get(epicID);
         if (epic == null) {
-            System.out.println("Эпика с кодом " + epicID + " не существует.");
+            System.out.println("Р­РїРёРєР° СЃ РєРѕРґРѕРј " + epicID + " РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
             return new ArrayList<>();
         }
 
@@ -257,7 +257,7 @@ public class InMemoryTaskManager implements TaskManager {
         return subTasksList;
     }
 
-    /* Изменения статусов */
+    /* В»Р·РјРµРЅРµРЅРёВ¤ СЃС‚Р°С‚СѓСЃРѕРІ */
     @Override
     public void setTaskStatus(int taskID, Status newStatus) { // FIX
         tasks.get(taskID).setStatus(newStatus);
@@ -274,7 +274,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void setEpicStatus(int epicID) {
         Epic epic = epics.get(epicID);
         if (epic == null) {
-            System.out.println("Эпика с кодом " + epicID + " не существует.");
+            System.out.println("Р­РїРёРєР° СЃ РєРѕРґРѕРј " + epicID + " РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
             return;
         }
 
@@ -285,7 +285,7 @@ public class InMemoryTaskManager implements TaskManager {
         Status status, statusCompare;
         Epic epic = epics.get(epicID);
         if (epic == null) {
-            System.out.println("Эпика с кодом " + epicID + " не существует.");
+            System.out.println("Р­РїРёРєР° СЃ РєРѕРґРѕРј " + epicID + " РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
             return Status.NEW;
         }
         ArrayList<Integer> subTaskListID = epic.getEpicSubtasks();

@@ -4,23 +4,23 @@ import manager.*;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Поехали!");
+        System.out.println("РџРѕРµС…Р°Р»Рё!");
 
         TaskManager taskManager = Managers.getDefault();
 
-        taskManager.addNewTask(new Task("Задача 1", "Добавили задачу 1", Status.NEW));
-        taskManager.addNewTask(new Task("Задача 2", "Добавили задачу 2", Status.NEW));
+        taskManager.addNewTask(new Task("Р—Р°РґР°С‡Р° 1", "Р”РѕР±Р°РІРёР»Рё Р·Р°РґР°С‡Сѓ 1", Status.NEW));
+        taskManager.addNewTask(new Task("Р—Р°РґР°С‡Р° 2", "Р”РѕР±Р°РІРёР»Рё Р·Р°РґР°С‡Сѓ 2", Status.NEW));
 
         System.out.println(taskManager.getTasksList());
 
-        taskManager.addNewEpic(new Epic("Эпик 1", "Добавили Эпик 1"));
-        taskManager.addNewEpic(new Epic("Эпик 2", "Добавили Эпик 2"));
+        taskManager.addNewEpic(new Epic("Р­РїРёРє 1", "Р”РѕР±Р°РІРёР»Рё Р­РїРёРє 1"));
+        taskManager.addNewEpic(new Epic("Р­РїРёРє 2", "Р”РѕР±Р°РІРёР»Рё Р­РїРёРє 2"));
 
 //        System.out.println(taskManager.getEpicsList());
 
-        taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "Добавили ПодЗадача 1", 4, Status.NEW));
-        taskManager.addNewSubTask(new SubTask("ПодЗадача 2", "Добавили ПодЗадача 2", 4, Status.NEW));
-        taskManager.addNewSubTask(new SubTask("ПодЗадача 3", "Добавили ПодЗадача 3", 3, Status.NEW));
+        taskManager.addNewSubTask(new SubTask("РџРѕРґР—Р°РґР°С‡Р° 1", "Р”РѕР±Р°РІРёР»Рё РџРѕРґР—Р°РґР°С‡Р° 1", 4, Status.NEW));
+        taskManager.addNewSubTask(new SubTask("РџРѕРґР—Р°РґР°С‡Р° 2", "Р”РѕР±Р°РІРёР»Рё РџРѕРґР—Р°РґР°С‡Р° 2", 4, Status.NEW));
+        taskManager.addNewSubTask(new SubTask("РџРѕРґР—Р°РґР°С‡Р° 3", "Р”РѕР±Р°РІРёР»Рё РџРѕРґР—Р°РґР°С‡Р° 3", 3, Status.NEW));
 
 
         System.out.println(taskManager.getSubTasksList());
