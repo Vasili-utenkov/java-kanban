@@ -14,6 +14,30 @@ public class InMemoryTaskManager implements TaskManager {
 
     private HistoryManager historyManager = Managers.getDefaultHistory();
 
+    private static void printAllTasks(TaskManager manager) {
+        System.out.println("Задачи:");
+        for (Task task : manager.getTasksList()) {
+            System.out.println(task);
+        }
+        System.out.println("Эпики:");
+        for (Epic epic : manager.getEpicsList()) {
+            System.out.println(epic);
+
+            for (SubTask subtask : manager.getSubTaskList(epic.getID())) {
+                System.out.println("--> " + subtask);
+            }
+        }
+        System.out.println("Подзадачи:");
+        for (Task subtask : manager.getSubTasksList()) {
+            System.out.println(subtask);
+        }
+
+        System.out.println("История:");
+        for (Task task : manager.getHistory()) {
+            System.out.println(task);
+        }
+    }
+
     // A. Получение списка всех задач.
     @Override
     public ArrayList<Task> getTasksList() {
@@ -29,7 +53,6 @@ public class InMemoryTaskManager implements TaskManager {
     public ArrayList<Epic> getEpicsList() {
         return new ArrayList<>(epics.values());
     }
-
 
     // B. Удаление всех задач.
     @Override
@@ -50,7 +73,6 @@ public class InMemoryTaskManager implements TaskManager {
         epics.clear();
         subTasks.clear();
     }
-
 
     // c. Получение по идентификатору.
     @Override
@@ -80,7 +102,6 @@ public class InMemoryTaskManager implements TaskManager {
         return epic;
     }
 
-
     // d. Создание.Сам объект должен передаваться в качестве параметра.
     @Override
     public int addNewTask(Task task) {
@@ -92,6 +113,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public int addNewSubTask(SubTask subTask) {
+
         int epicID = subTask.getEpicID();
         Epic epic = epics.get(epicID);
         if (epic == null) {
@@ -100,6 +122,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         final int subTaskID = ++counter;
+
         subTask.setID(subTaskID);
         epic.addSubTaskID(subTaskID);
 
@@ -110,22 +133,24 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public int addNewEpic(Epic epic) {
+
         final int epicID = ++counter;
         epic.setID(epicID);
         epics.put(epicID, epic);
         return epicID;
     }
 
-
     // e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     @Override
     public void updateTask(Task task) {
+
         int taskID = task.getID();
         tasks.replace(taskID, task);
     }
 
     @Override
     public void updateSubTask(SubTask subTask) {
+
         int subTaskID = subTask.getID();
         SubTask subTaskSaved = subTasks.get(subTaskID);
         if (subTaskSaved == null) {
@@ -170,7 +195,6 @@ public class InMemoryTaskManager implements TaskManager {
         epicForUpdate.setTaskName(epic.getTaskName());
         epicForUpdate.setTaskDescription(epic.getTaskDescription());
     }
-
 
     // f. Удаление по идентификатору.
     @Override
@@ -220,7 +244,6 @@ public class InMemoryTaskManager implements TaskManager {
         epics.remove(epicID);
     }
 
-
     // a. Получение списка всех подзадач определённого эпика.
     @Override
     public ArrayList<SubTask> getSubTaskList(int epicID) { // FIX
@@ -238,7 +261,6 @@ public class InMemoryTaskManager implements TaskManager {
 
         return subTasksList;
     }
-
 
     /* Изменения статусов */
     @Override
@@ -292,36 +314,10 @@ public class InMemoryTaskManager implements TaskManager {
         return status;
     }
 
-
     @Override
     public List<Task> getHistory() {
         List<Task> history = historyManager.getHistory();
         return history;
-    }
-
-
-    private static void printAllTasks(TaskManager manager) {
-        System.out.println("Задачи:");
-        for (Task task : manager.getTasksList()) {
-            System.out.println(task);
-        }
-        System.out.println("Эпики:");
-        for (Epic epic : manager.getEpicsList()) {
-            System.out.println(epic);
-
-            for (SubTask subtask : manager.getSubTaskList(epic.getID())) {
-                System.out.println("--> " + subtask);
-            }
-        }
-        System.out.println("Подзадачи:");
-        for (Task subtask : manager.getSubTasksList()) {
-            System.out.println(subtask);
-        }
-
-        System.out.println("История:");
-        for (Task task : manager.getHistory()) {
-            System.out.println(task);
-        }
     }
 
 
