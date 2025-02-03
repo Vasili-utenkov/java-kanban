@@ -4,7 +4,7 @@ import manager.HistoryManager;
 import manager.Managers;
 import manager.TaskManager;
 import org.junit.jupiter.api.Test;
-import ñlass.*;
+import Class.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 

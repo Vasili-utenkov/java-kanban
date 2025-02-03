@@ -1,4 +1,4 @@
-import ñlass.*;
+import Class.*;
 import manager.*;
 
 public class Main {

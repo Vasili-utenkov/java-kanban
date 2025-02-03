@@ -1,4 +1,4 @@
-package ñlass;
+package Class;
 
 import java.util.ArrayList;
 
