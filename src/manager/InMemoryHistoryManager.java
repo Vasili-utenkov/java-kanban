@@ -7,7 +7,6 @@ import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final int MAX_COUNT_TASKS_IN_HISTORY = 10;
     private List<Task> historyManager = new ArrayList<>();
 
     @Override
@@ -15,9 +14,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         if (historyManager.contains(task)) {
             historyManager.remove(historyManager.indexOf(task));
-        } else
-        if (historyManager.size() >= MAX_COUNT_TASKS_IN_HISTORY) {
-            historyManager.remove(0);
         }
 
         historyManager.add(task);
