@@ -1,4 +1,4 @@
-package cLass;
+package tasks;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ public class Epic extends Task {
     }
 
 
-    // a. Получение списка всех подзадач определённого эпика.
+    // a. РїРѕР»СѓС‡РµРЅРёРµ
     public ArrayList<Integer> getEpicSubtasks() {
         return new ArrayList<>(this.subTaskIDList);
     }
@@ -33,7 +33,7 @@ public class Epic extends Task {
     @Override
     public String toString() {
         return "Epic{" +
-                "  ID=" + ID +
+                "  ID=" + taskID +
                 ", taskName='" + taskName + '\'' +
                 ", taskDescription='" + taskDescription + '\'' +
                 ", status=" + status +

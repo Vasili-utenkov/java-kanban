@@ -1,6 +1,6 @@
 package manager;
 
-import cLass.*;
+import tasks.*;
 
 import java.util.List;
 

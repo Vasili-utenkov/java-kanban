@@ -1,7 +1,7 @@
-package cLass;
+package tasks;
 
 public class Task {
-    protected int ID;
+    protected int taskID;
     protected String taskName;
     protected String taskDescription;
     protected Status status;
@@ -24,12 +24,12 @@ public class Task {
         return status;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setID(int taskID) {
+        this.taskID = taskID;
     }
 
     public int getID() {
-        return this.ID;
+        return this.taskID;
     }
 
     public void setTaskName(String taskName) {
@@ -47,7 +47,7 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-                "  ID=" + ID +
+                "  ID=" + taskID +
                 ", taskName='" + taskName + '\'' +
                 ", taskDescription='" + taskDescription + '\'' +
                 ", status=" + status +

@@ -1,62 +1,62 @@
 package manager;
 
-import cLass.*;
+import tasks.*;
 import java.util.List;
 
 public interface TaskManager {
-    // A. Получение списка всех задач.
+    // A. РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РІСЃРµС… Р·Р°РґР°С‡.
     List<Task> getTasksList();
 
     List<SubTask> getSubTasksList();
 
     List<Epic> getEpicsList();
 
-    // B. Удаление всех задач.
+    // B. РЈРґР°Р»РµРЅРёРµ РІСЃРµС… Р·Р°РґР°С‡.
     void deleteAllTasks();
 
     void deleteAllSubTasks();
 
     void deleteAllEpics();
 
-    // c. Получение по идентификатору.
+    // c. РџРѕР»СѓС‡РµРЅРёРµ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ.
     Task getTaskByID(int taskID);
 
     SubTask getSubTaskByID(int subTaskID);
 
     Epic getEpicByID(int epicID);
 
-    // d. Создание.Сам объект должен передаваться в качестве параметра.
+    // d. РЎРѕР·РґР°РЅРёРµ.РЎР°Рј РѕР±СЉРµРєС‚ РґРѕР»Р¶РµРЅ РїРµСЂРµРґР°РІР°С‚СЊСЃСЏ РІ РєР°С‡РµСЃС‚РІРµ РїР°СЂР°РјРµС‚СЂР°.
     int addNewTask(Task task);
 
     int addNewSubTask(SubTask subTask);
 
     int addNewEpic(Epic epic);
 
-    // e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
+    // e. РћР±РЅРѕРІР»РµРЅРёРµ. РќРѕРІР°СЏ РІРµСЂСЃРёСЏ РѕР±СЉРµРєС‚Р° СЃ РІРµСЂРЅС‹Рј РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРј РїРµСЂРµРґР°С‘С‚СЃСЏ РІ РІРёРґРµ РїР°СЂР°РјРµС‚СЂР°.
     void updateTask(Task task);
 
     void updateSubTask(SubTask subTask);
 
     void updateEpic(Epic epic);
 
-    // f. Удаление по идентификатору.
+    // f. РЈРґР°Р»РµРЅРёРµ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ.
     void deleteTask(int taskID);
 
     void deleteSubTask(int subTaskID);
 
     void deleteEpic(int epicID);
 
-    // a. Получение списка всех подзадач определённого эпика.
+    // a. РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РІСЃРµС… РїРѕРґР·Р°РґР°С‡ РѕРїСЂРµРґРµР»С‘РЅРЅРѕРіРѕ СЌРїРёРєР°.
     List<SubTask> getSubTaskList(int epicID);
 
-    /* Изменения статусов */
+    /* РР·РјРµРЅРµРЅРёСЏ СЃС‚Р°С‚СѓСЃРѕРІ */
     void setTaskStatus(int taskID, Status newStatus);
 
     void setSubTaskStatus(int subTaskID, Status newStatus);
 
     void setEpicStatus(int epicID);
 
-    /* История просмотров задач */
+    /* РСЃС‚РѕСЂРёСЏ РїСЂРѕСЃРјРѕС‚СЂРѕРІ Р·Р°РґР°С‡ */
     List<Task> getHistory();
 
 
