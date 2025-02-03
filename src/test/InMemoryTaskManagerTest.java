@@ -38,6 +38,7 @@ class InMemoryTaskManagerTest {
         assertNotNull(taskToCompare2, "2 экземпляр класса SubTask для сравнения равенства не существует");
         assertEquals(taskToCompare1, taskToCompare2, "экземпляры класса SubTask не равны друг другу, если равен их id");
     }
+
     @DisplayName("Epic равны друг другу, если равен их id")
     @Test
     void equalsEpicByID() {
@@ -92,62 +93,62 @@ class InMemoryTaskManagerTest {
         int taskID = taskManager.addNewTask(new Task(taskName, taskDescription, Status.NEW));
         Task task = taskManager.getTaskByID(taskID);
         assertNotNull(task, "Task не найден по id");
-        assertEquals(taskName,task.getTaskName(), "Названия задач не совпадают.");
-        assertEquals(taskDescription,task.getTaskDescription(), "Описания задач не совпадают.");
+        assertEquals(taskName, task.getTaskName(), "Названия задач не совпадают.");
+        assertEquals(taskDescription, task.getTaskDescription(), "Описания задач не совпадают.");
 
         int epicID = taskManager.addNewEpic(new Epic(epicName, epicDescription));
         Epic epic = taskManager.getEpicByID(epicID);
         assertNotNull(epic, "Epic не найден по id");
-        assertEquals(epicName,epic.getTaskName(), "Названия эпиков не совпадают.");
-        assertEquals(epicDescription,epic.getTaskDescription(), "Описания эпиков не совпадают.");
+        assertEquals(epicName, epic.getTaskName(), "Названия эпиков не совпадают.");
+        assertEquals(epicDescription, epic.getTaskDescription(), "Описания эпиков не совпадают.");
 
         int subTaskID = taskManager.addNewSubTask(new SubTask(subTaskName, subTaskDescription, epicID, Status.NEW));
         SubTask subTask = taskManager.getSubTaskByID(subTaskID);
         assertNotNull(subTask, "Epic не найден по id");
-        assertEquals(subTaskName,subTask.getTaskName(), "Названия подзадач не совпадают.");
-        assertEquals(subTaskDescription,subTask.getTaskDescription(), "Описания подзадач не совпадают.");
+        assertEquals(subTaskName, subTask.getTaskName(), "Названия подзадач не совпадают.");
+        assertEquals(subTaskDescription, subTask.getTaskDescription(), "Описания подзадач не совпадают.");
     }
 
 
-//    убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.
-@DisplayName("задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.")
+    //    убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.
+    @DisplayName("задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.")
     @Test
     void isEqualSavedInHistoryTasks() {
         int taskID = taskManager.addNewTask(new Task("Задача", "Описание задачи", Status.NEW));
         Task task = taskManager.getTaskByID(taskID);
         int size = taskManager.getHistory().size();
-        Task taskInHistory = taskManager.getHistory().get(size-1);
+        Task taskInHistory = taskManager.getHistory().get(size - 1);
 
         assertNotNull(task, "Task не найден по id");
         assertNotNull(taskInHistory, "Task не найден в истории");
-        assertEquals(task.getTaskName(),taskInHistory.getTaskName(), "Названия задач не совпадают.");
-        assertEquals(task.getTaskDescription(),taskInHistory.getTaskDescription(), "Описания задач не совпадают.");
-        assertEquals(task.getStatus(),taskInHistory.getStatus(), "Статусы задач не совпадают.");
+        assertEquals(task.getTaskName(), taskInHistory.getTaskName(), "Названия задач не совпадают.");
+        assertEquals(task.getTaskDescription(), taskInHistory.getTaskDescription(), "Описания задач не совпадают.");
+        assertEquals(task.getStatus(), taskInHistory.getStatus(), "Статусы задач не совпадают.");
 
         int epicID = taskManager.addNewEpic(new Epic("Эпик", "Описание эпика"));
         Epic epic = taskManager.getEpicByID(epicID);
         size = taskManager.getHistory().size();
-        Epic epicInHistory = (Epic) taskManager.getHistory().get(size-1);
+        Epic epicInHistory = (Epic) taskManager.getHistory().get(size - 1);
 
         assertNotNull(epic, "Epic не найден по id");
         assertNotNull(epicInHistory, "Epic не найден в истории");
-        assertEquals(epic.getTaskName(),epicInHistory.getTaskName(), "Названия задач не совпадают.");
-        assertEquals(epic.getTaskDescription(),epicInHistory.getTaskDescription(), "Описания задач не совпадают.");
-        assertEquals(epic.getStatus(),epicInHistory.getStatus(), "Статусы задач не совпадают.");
+        assertEquals(epic.getTaskName(), epicInHistory.getTaskName(), "Названия задач не совпадают.");
+        assertEquals(epic.getTaskDescription(), epicInHistory.getTaskDescription(), "Описания задач не совпадают.");
+        assertEquals(epic.getStatus(), epicInHistory.getStatus(), "Статусы задач не совпадают.");
 
 
         int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача", "Описание подзадачи", epicID, Status.NEW));
         SubTask subTask = taskManager.getSubTaskByID(subTaskID);
         size = taskManager.getHistory().size();
-        SubTask subTaskInHistory = (SubTask) taskManager.getHistory().get(size-1);
+        SubTask subTaskInHistory = (SubTask) taskManager.getHistory().get(size - 1);
 
         assertNotNull(subTask, "Task не найден по id");
         assertNotNull(taskInHistory, "Task не найден в истории");
-        assertEquals(subTask.getTaskName(),subTaskInHistory.getTaskName(), "Названия подзадач не совпадают.");
-        assertEquals(subTask.getTaskDescription(),subTaskInHistory.getTaskDescription(), "Описания подзадач не совпадают.");
-        assertEquals(subTask.getStatus(),subTaskInHistory.getStatus(), "Статусы подзадач не совпадают.");
+        assertEquals(subTask.getTaskName(), subTaskInHistory.getTaskName(), "Названия подзадач не совпадают.");
+        assertEquals(subTask.getTaskDescription(), subTaskInHistory.getTaskDescription(), "Описания подзадач не совпадают.");
+        assertEquals(subTask.getStatus(), subTaskInHistory.getStatus(), "Статусы подзадач не совпадают.");
 
-        assertEquals(epic.getEpicSubtasks(),epicInHistory.getEpicSubtasks(), "Список позадач у эпиков не совпадают.");
+        assertEquals(epic.getEpicSubtasks(), epicInHistory.getEpicSubtasks(), "Список позадач у эпиков не совпадают.");
     }
 
 }
