@@ -11,11 +11,14 @@ public class InMemoryHistoryManager implements HistoryManager {
     private Node tail;
 
     void linkLast(Task task) {
-        Node node = new Node(task, tail, null);
+        Node node;
         if (tail == null) { // первая нода
-            tail = node;
+            node = new Node(task, null, null); // Node(Task task, Node prev, Node next)
+            head = node;
         } else { // Не первая нода
-            tail.next = node;
+            Node previousNode = tail;
+            node = new Node(task, previousNode, null); // Node(Task task, Node prev, Node next)
+            previousNode.next = node;
         }
         tail = node;
         historyManager.put(task.getID(), node);

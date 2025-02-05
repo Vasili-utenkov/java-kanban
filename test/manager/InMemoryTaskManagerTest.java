@@ -108,11 +108,13 @@ class InMemoryTaskManagerTest {
 
 
     //убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.
-    @DisplayName("задачи, добавляемые в HistoryManager, сохраняют данныу.")
+    @DisplayName("задачи, добавляемые в HistoryManager, сохраняют данные.")
     @Test
     void isEqualSavedInHistoryTasks() {
         int taskID = taskManager.addNewTask(new Task("Задача", "Описание задачи", Status.NEW));
         Task task = taskManager.getTaskByID(taskID);
+        System.out.println(taskManager.getHistory());
+
         int size = taskManager.getHistory().size();
         Task taskInHistory = taskManager.getHistory().get(size - 1);
 

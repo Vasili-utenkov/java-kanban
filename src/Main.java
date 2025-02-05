@@ -22,15 +22,13 @@ public class Main {
         taskManager.getTaskByID(1);
         taskManager.getTaskByID(2);
 
-        System.out.println(taskManager.getTasksList());
+//        System.out.println(taskManager.getTasksList());
 
-        Task task = taskManager.getTaskByID(1);
-        task.setID(5);
-
-        System.out.println(taskManager.getTasksList());
+        taskManager.getTaskByID(1);
+//        System.out.println(taskManager.getTasksList());
 
 
-/*        taskManager.getEpicByID(3);
+        taskManager.getEpicByID(3);
         taskManager.getEpicByID(4);
         taskManager.getSubTaskByID(5);
         taskManager.getSubTaskByID(6);
@@ -45,7 +43,7 @@ public class Main {
 
         taskManager.deleteEpic(3);
         System.out.println(taskManager.getHistory());
-*/
+
     }
 
 }
