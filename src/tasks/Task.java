@@ -17,7 +17,9 @@ public class Task {
     }
 
     public void setTaskName(String taskName) {
-        if (this.taskName == null) {this.taskName = taskName;}
+        if (this.taskName == null) {
+            this.taskName = taskName;
+        }
     }
 
     public String getTaskDescription() {
@@ -25,7 +27,9 @@ public class Task {
     }
 
     public void setTaskDescription(String taskDescription) {
-        if (this.taskDescription == null) {this.taskDescription = taskDescription;}
+        if (this.taskDescription == null) {
+            this.taskDescription = taskDescription;
+        }
     }
 
     public Status getStatus() {
@@ -45,8 +49,6 @@ public class Task {
             this.taskID = taskID;
         }
     }
-
-
 
 
     @Override
