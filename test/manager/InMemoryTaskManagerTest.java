@@ -1,6 +1,5 @@
-import manager.HistoryManager;
-import manager.Managers;
-import manager.TaskManager;
+package manager;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import tasks.*;
@@ -108,12 +107,14 @@ class InMemoryTaskManagerTest {
     }
 
 
-    //    убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.
-    @DisplayName("задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.")
+    //убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.
+    @DisplayName("задачи, добавляемые в HistoryManager, сохраняют данные.")
     @Test
     void isEqualSavedInHistoryTasks() {
         int taskID = taskManager.addNewTask(new Task("Задача", "Описание задачи", Status.NEW));
         Task task = taskManager.getTaskByID(taskID);
+        System.out.println(taskManager.getHistory());
+
         int size = taskManager.getHistory().size();
         Task taskInHistory = taskManager.getHistory().get(size - 1);
 
@@ -150,16 +151,27 @@ class InMemoryTaskManagerTest {
     }
 
 //    Удаляемые подзадачи не должны хранить внутри себя старые id.
+/*не реализовываются*/
 
     //    Внутри эпиков не должно оставаться неактуальных id подзадач.
     @DisplayName("Внутри эпиков не должно оставаться неактуальных id подзадач")
     @Test
-    void asd() {
+    void isConsistDeletedSubTask() {
+
+        int epicID = taskManager.addNewEpic(new Epic("Эпик 1", "Добавили Эпик 1"));
+        int subTask1 = taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "Добавили ПодЗадача 1", epicID, Status.NEW));
+        int subTask2 = taskManager.addNewSubTask(new SubTask("ПодЗадача 2", "Добавили ПодЗадача 2", epicID, Status.NEW));
+        int subTask3 = taskManager.addNewSubTask(new SubTask("ПодЗадача 3", "Добавили ПодЗадача 3", epicID, Status.NEW));
+
+        taskManager.deleteSubTask(subTask1);
+        assertFalse(taskManager.getSubTaskList(epicID).contains(subTask1));
+
+        taskManager.deleteSubTask(subTask3);
+        assertFalse(taskManager.getSubTaskList(epicID).contains(subTask3));
+
 
     }
-//    С помощью сеттеров экземпляры задач позволяют изменить любое своё поле
-//    , но это может повлиять на данные внутри менеджера.
-//    Протестируйте эти кейсы и подумайте над возможными вариантами решения проблемы.
+
 
 
 }

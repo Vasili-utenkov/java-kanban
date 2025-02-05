@@ -57,7 +57,10 @@ public class InMemoryTaskManager implements TaskManager {
     // B. Удаление всех задач.
     @Override
     public void deleteAllTasks() {
-        tasks.clear();
+        List<Integer> keys = new ArrayList<>(tasks.keySet());
+        for (Integer key : keys) {
+            deleteTask(key);
+        }
     }
 
     @Override
@@ -70,8 +73,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllEpics() { // FIX
-        epics.clear();
-        subTasks.clear();
+        List<Integer> keys = new ArrayList<>(epics.keySet());
+        for (Integer key : keys) {
+            deleteEpic(key);
+        }
     }
 
     // c. Получение по идентификатору.
