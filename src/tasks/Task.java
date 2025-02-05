@@ -1,7 +1,7 @@
 package tasks;
 
 public class Task {
-    protected int taskID;
+    protected Integer taskID;
     protected String taskName;
     protected String taskDescription;
     protected Status status;
@@ -16,33 +16,38 @@ public class Task {
         return taskName;
     }
 
+    public void setTaskName(String taskName) {
+        if (this.taskName == null) {this.taskName = taskName;}
+    }
+
     public String getTaskDescription() {
         return taskDescription;
+    }
+
+    public void setTaskDescription(String taskDescription) {
+        if (this.taskDescription == null) {this.taskDescription = taskDescription;}
     }
 
     public Status getStatus() {
         return status;
     }
 
-    public void setID(int taskID) {
-        this.taskID = taskID;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public int getID() {
         return this.taskID;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setID(int taskID) {
+        if (this.taskID == null) {
+            this.taskID = taskID;
+        }
     }
 
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
-    }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
+
 
     @Override
     public String toString() {
