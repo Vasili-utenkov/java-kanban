@@ -102,7 +102,7 @@ public class InMemoryTaskManager implements TaskManager {
         return epic;
     }
 
-    // d. —оздание.—ам объект должен передаватьс¤ в качестве параметра.
+    // d. Создание.Сам объект должен передаваться в качестве параметра.
     @Override
     public int addNewTask(Task task) {
         final int taskID = ++counter;
@@ -136,7 +136,7 @@ public class InMemoryTaskManager implements TaskManager {
         return epicID;
     }
 
-    // e. Обновление. Новая версия объекта с верным идентификатором передаЄтс¤ в виде параметра.
+    // e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     @Override
     public void updateTask(Task task) {
         int taskID = task.getID();
@@ -191,7 +191,7 @@ public class InMemoryTaskManager implements TaskManager {
         epicForUpdate.setTaskDescription(epic.getTaskDescription());
     }
 
-    // f. ”даление по идентификатору.
+    // f. Удаление по идентификатору.
     @Override
     public void deleteTask(int taskID) {
         Task task = tasks.get(taskID);
@@ -201,6 +201,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         tasks.remove(taskID);
+        historyManager.remove(taskID);
     }
 
     @Override
@@ -220,6 +221,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         epic.deleteSubTaskID(subTaskID);
         subTasks.remove(subTaskID);
+        historyManager.remove(subTaskID);
         setEpicStatus(epicID);
     }
 
@@ -231,15 +233,16 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        ArrayList<Integer> subTaskListID = epic.getEpicSubtasks();
-        for (Integer subTaskID : subTaskListID) {
+        for (Integer subTaskID : epic.getEpicSubtasks()) {
             subTasks.remove(subTaskID);
+            historyManager.remove(subTaskID);
         }
 
         epics.remove(epicID);
+        historyManager.remove(epicID);
     }
 
-    // a. ѕолучение списка всех подзадач определЄнного эпика.
+    // a. Получение списка всех подзадач определённого эпика.
     @Override
     public ArrayList<SubTask> getSubTaskList(int epicID) { // FIX
         Epic epic = epics.get(epicID);
@@ -257,7 +260,7 @@ public class InMemoryTaskManager implements TaskManager {
         return subTasksList;
     }
 
-    /* »зменени¤ статусов */
+    /* Изменения статусов */
     @Override
     public void setTaskStatus(int taskID, Status newStatus) { // FIX
         tasks.get(taskID).setStatus(newStatus);
