@@ -2,7 +2,10 @@ package manager;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import tasks.*;
+import tasks.Epic;
+import tasks.Status;
+import tasks.SubTask;
+import tasks.Task;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -151,7 +154,7 @@ class InMemoryTaskManagerTest {
     }
 
 //    Удаляемые подзадачи не должны хранить внутри себя старые id.
-/*не реализовываются*/
+    /*не реализовываются*/
 
     //    Внутри эпиков не должно оставаться неактуальных id подзадач.
     @DisplayName("Внутри эпиков не должно оставаться неактуальных id подзадач")
@@ -171,7 +174,6 @@ class InMemoryTaskManagerTest {
 
 
     }
-
 
 
 }
