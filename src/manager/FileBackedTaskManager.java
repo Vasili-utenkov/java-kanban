@@ -8,7 +8,7 @@ import java.util.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
-    private File savesTasks ;
+    private File savesTasks;
     private File savesHistory;
 
     public FileBackedTaskManager() {
@@ -212,7 +212,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     // Добавить запись
     private void save() {
 // Очистить файл
-        if (!savesTasks.delete()) {return;}
+        if (!savesTasks.delete()) {
+            return;
+        }
 // Создать список строк - задач
         List<String> listOfTasksForSave = createListOfTasksForSave();
 // Записать
