@@ -16,7 +16,9 @@ class InMemoryTaskManagerTest {
     public static File savesTasks;
     public static File savesHistory;
 
+/* Закоментарено для гитхаба
     static {
+
         try {
             savesTasks = File.createTempFile("Tasks", "tmp", new File("D:\\JavaCourse"));
             savesHistory = File.createTempFile("History", "tmp", new File("D:\\JavaCourse"));
@@ -27,9 +29,12 @@ class InMemoryTaskManagerTest {
 
 
     private final TaskManager taskManager = Managers.getDefault(savesTasks, savesHistory);
+
+ */
+    private final TaskManager taskManager = Managers.getDefault();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
-
+/*
     @BeforeEach
     public void init() throws IOException {
         savesTasks = File.createTempFile("Tasks", "tmp", new File("D:\\JavaCourse"));
@@ -42,7 +47,7 @@ class InMemoryTaskManagerTest {
         savesTasks.deleteOnExit();
         savesHistory.deleteOnExit();
     }
-
+*/
 
     //    проверьте, что экземпляры класса Task равны друг другу, если равен их id;
     @DisplayName("экземпляры класса Task равны друг другу, если равен их id")
