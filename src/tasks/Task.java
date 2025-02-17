@@ -12,6 +12,14 @@ public class Task {
         this.status = status;
     }
 
+    public Task(int taskID, String taskName, String taskDescription, Status status) {
+        this.taskID = taskID;
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.status = status;
+    }
+
+
     public String getTaskName() {
         return taskName;
     }
@@ -40,7 +48,7 @@ public class Task {
         this.status = status;
     }
 
-    public int getID() {
+    public Integer getID() {
         return this.taskID;
     }
 
@@ -48,6 +56,11 @@ public class Task {
         if (this.taskID == null) {
             this.taskID = taskID;
         }
+    }
+
+    public String taskToSting(int taskID) {
+        // 1,TASK,Task1,NEW,Description task1,
+        return taskID + "," + TaskType.TASK + "," + getTaskName() + "," + getStatus() + "," + getTaskDescription() + ",";
     }
 
 

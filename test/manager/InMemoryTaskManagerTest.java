@@ -1,18 +1,48 @@
 package manager;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import tasks.Epic;
 import tasks.Status;
 import tasks.SubTask;
 import tasks.Task;
 
+import java.io.File;
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
 
-    private final TaskManager taskManager = Managers.getDefault();
+    public static File savesTasks;
+    public static File savesHistory;
+
+    static {
+        try {
+            savesTasks = File.createTempFile("Tasks", "tmp", new File("D:\\JavaCourse"));
+            savesHistory = File.createTempFile("History", "tmp", new File("D:\\JavaCourse"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private final TaskManager taskManager = Managers.getDefault(savesTasks, savesHistory);
     private final HistoryManager historyManager = Managers.getDefaultHistory();
+
+
+    @BeforeEach
+    public void init() throws IOException {
+        savesTasks = File.createTempFile("Tasks", "tmp", new File("D:\\JavaCourse"));
+        savesHistory = File.createTempFile("History", "tmp", new File("D:\\JavaCourse"));
+        taskManager.setFiles(savesTasks, savesHistory);
+    }
+
+    @AfterEach
+    public void deleteFile() {
+        savesTasks.deleteOnExit();
+        savesHistory.deleteOnExit();
+    }
+
 
     //    проверьте, что экземпляры класса Task равны друг другу, если равен их id;
     @DisplayName("экземпляры класса Task равны друг другу, если равен их id")
@@ -116,7 +146,6 @@ class InMemoryTaskManagerTest {
     void isEqualSavedInHistoryTasks() {
         int taskID = taskManager.addNewTask(new Task("Задача", "Описание задачи", Status.NEW));
         Task task = taskManager.getTaskByID(taskID);
-        System.out.println(taskManager.getHistory());
 
         int size = taskManager.getHistory().size();
         Task taskInHistory = taskManager.getHistory().get(size - 1);
@@ -161,10 +190,10 @@ class InMemoryTaskManagerTest {
     @Test
     void isConsistDeletedSubTask() {
 
-        int epicID = taskManager.addNewEpic(new Epic("Эпик 1", "Добавили Эпик 1"));
-        int subTask1 = taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "Добавили ПодЗадача 1", epicID, Status.NEW));
-        int subTask2 = taskManager.addNewSubTask(new SubTask("ПодЗадача 2", "Добавили ПодЗадача 2", epicID, Status.NEW));
-        int subTask3 = taskManager.addNewSubTask(new SubTask("ПодЗадача 3", "Добавили ПодЗадача 3", epicID, Status.NEW));
+        Integer epicID = taskManager.addNewEpic(new Epic("Эпик 1", "Добавили Эпик 1"));
+        Integer subTask1 = taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "Добавили ПодЗадача 1", epicID, Status.NEW));
+        Integer subTask2 = taskManager.addNewSubTask(new SubTask("ПодЗадача 2", "Добавили ПодЗадача 2", epicID, Status.NEW));
+        Integer subTask3 = taskManager.addNewSubTask(new SubTask("ПодЗадача 3", "Добавили ПодЗадача 3", epicID, Status.NEW));
 
         taskManager.deleteSubTask(subTask1);
         assertFalse(taskManager.getSubTaskList(epicID).contains(subTask1));

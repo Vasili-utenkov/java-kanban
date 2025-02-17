@@ -2,6 +2,7 @@ package manager;
 
 import tasks.*;
 
+import java.io.File;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -36,6 +37,12 @@ public class InMemoryTaskManager implements TaskManager {
         for (Task task : manager.getHistory()) {
             System.out.println(task);
         }
+    }
+
+
+
+    @Override
+    public void setFiles(File savesTasks, File savesHistory) {
     }
 
     // A. Получение списка всех задач.
@@ -110,8 +117,15 @@ public class InMemoryTaskManager implements TaskManager {
     // d. Создание.Сам объект должен передаваться в качестве параметра.
     @Override
     public int addNewTask(Task task) {
-        final int taskID = ++counter;
-        task.setID(taskID);
+        Integer taskID = task.getID();
+        if (taskID == null) {
+            taskID = ++counter;
+            task.setID(taskID);
+        } else {
+            if (taskID > counter) {
+                counter = taskID;
+            }
+        }
         tasks.put(taskID, task);
         return taskID;
     }
@@ -128,7 +142,7 @@ public class InMemoryTaskManager implements TaskManager {
         final int subTaskID = ++counter;
         subTask.setID(subTaskID);
         epic.addSubTaskID(subTaskID);
-        subTasks.put(subTaskID,subTask);
+        subTasks.put(subTaskID, subTask);
         setEpicStatus(epicID);
         return subTaskID;
     }
@@ -137,7 +151,7 @@ public class InMemoryTaskManager implements TaskManager {
     public int addNewEpic(Epic epic) {
         final int epicID = ++counter;
         epic.setID(epicID);
-        epics.put(epicID,epic);
+        epics.put(epicID, epic);
         return epicID;
     }
 
@@ -145,7 +159,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateTask(Task task) {
         int taskID = task.getID();
-        tasks.replace(taskID,task);
+        tasks.replace(taskID, task);
     }
 
     @Override

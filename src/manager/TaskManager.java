@@ -1,9 +1,17 @@
 package manager;
 
 import tasks.*;
+
+import java.io.File;
 import java.util.List;
 
 public interface TaskManager {
+
+    // Запуск приложения
+//    void start();
+
+    void setFiles(File savesTasks, File savesHistory);
+
     // A. Получение списка всех задач.
     List<Task> getTasksList();
 

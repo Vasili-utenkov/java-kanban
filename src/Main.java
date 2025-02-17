@@ -8,29 +8,36 @@ public class Main {
 
         TaskManager taskManager = Managers.getDefault();
 
-        taskManager.addNewTask(new Task("Задача 1", "Добавили задачу 1", Status.NEW));
-        taskManager.addNewTask(new Task("Задача 2", "Добавили задачу 2", Status.NEW));
+        System.out.println(taskManager.getEpicsList());
 
-        taskManager.addNewEpic(new Epic("Эпик 1", "Добавили Эпик 1"));
-        taskManager.addNewEpic(new Epic("Эпик 2", "Добавили Эпик 2"));
 
-        taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "Добавили ПодЗадача 1", 3, Status.NEW));
-        taskManager.addNewSubTask(new SubTask("ПодЗадача 2", "Добавили ПодЗадача 2", 3, Status.NEW));
-        taskManager.addNewSubTask(new SubTask("ПодЗадача 3", "Добавили ПодЗадача 3", 3, Status.NEW));
+        int task1 = taskManager.addNewTask(new Task("Задача 1", "Добавили задачу 1", Status.NEW));
+        int task2 = taskManager.addNewTask(new Task("Задача 2", "Добавили задачу 2", Status.NEW));
+
+        int task3 = taskManager.addNewEpic(new Epic("Эпик 1", "Добавили Эпик 1"));
+        int task4 = taskManager.addNewEpic(new Epic("Эпик 2", "Добавили Эпик 2"));
+
+        int task5 = taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "Добавили ПодЗадача 1", task3, Status.NEW));
+        int task6 = taskManager.addNewSubTask(new SubTask("ПодЗадача 2", "Добавили ПодЗадача 2", task3, Status.NEW));
+        int task7 = taskManager.addNewSubTask(new SubTask("ПодЗадача 3", "Добавили ПодЗадача 3", task3, Status.NEW));
 
 // 1.
         taskManager.getTaskByID(1);
         taskManager.getTaskByID(2);
 
-        System.out.println(taskManager.getHistory());
+//        System.out.println(taskManager.getHistory());
 
         taskManager.getTaskByID(1);
-        System.out.println(taskManager.getHistory());
+//        System.out.println(taskManager.getHistory());
 
         taskManager.getEpicByID(4);
         taskManager.getEpicByID(3);
         taskManager.getTaskByID(1);
-        System.out.println(taskManager.getHistory());
+//        System.out.println(taskManager.getHistory());
+
+        //taskManager.deleteTask(1);
+
+
 
 
 /*
