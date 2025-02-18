@@ -13,7 +13,7 @@ public class Managers {
     }
 
     public static TaskManager getDefault(File savesTasks, File savesHistory) {
-        return new FileBackedTaskManager(savesTasks, savesHistory);
+        return new FileBackedTaskManager(savesTasks);
     }
 
 

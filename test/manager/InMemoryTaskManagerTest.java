@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryTaskManagerTest {
 
     public static File savesTasks;
-    public static File savesHistory;
+
 
 /* Закоментарено для гитхаба
     static {
@@ -34,6 +34,10 @@ class InMemoryTaskManagerTest {
     private final TaskManager taskManager = Managers.getDefault();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
+@BeforeEach
+public void deleteFile() {
+    savesTasks.delete();
+}
 
 
 /*

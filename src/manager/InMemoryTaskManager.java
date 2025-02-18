@@ -42,7 +42,7 @@ public class InMemoryTaskManager implements TaskManager {
 
 
     @Override
-    public void setFiles(File savesTasks, File savesHistory) {
+    public void setFiles(File savesTasks) {
     }
 
     // A. Получение списка всех задач.
@@ -114,18 +114,25 @@ public class InMemoryTaskManager implements TaskManager {
         return epic;
     }
 
+
+// Пересчет значения counter для случает закачки сохраненных задач
+    private int getCounter (Integer id) {
+        if (id == null) {
+            id = ++counter;
+        } else {
+            if (id > counter) {
+                counter = id;
+            }
+        }
+        return id;
+    }
+
+
     // d. Создание.Сам объект должен передаваться в качестве параметра.
     @Override
     public int addNewTask(Task task) {
-        Integer taskID = task.getID();
-        if (taskID == null) {
-            taskID = ++counter;
-            task.setID(taskID);
-        } else {
-            if (taskID > counter) {
-                counter = taskID;
-            }
-        }
+        int taskID = getCounter(task.getID());
+        task.setID(taskID);
         tasks.put(taskID, task);
         return taskID;
     }
@@ -135,11 +142,14 @@ public class InMemoryTaskManager implements TaskManager {
         int epicID = subTask.getEpicID();
         Epic epic = epics.get(epicID);
         if (epic == null) {
+
             System.out.println("Эпика с кодом " + epicID + " не существует.");
+            System.out.println(getEpicsList());
+
             return -1;
         }
 
-        final int subTaskID = ++counter;
+        int subTaskID = getCounter(subTask.getID());
         subTask.setID(subTaskID);
         epic.addSubTaskID(subTaskID);
         subTasks.put(subTaskID, subTask);
@@ -149,7 +159,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public int addNewEpic(Epic epic) {
-        final int epicID = ++counter;
+        int epicID = getCounter(epic.getID());
         epic.setID(epicID);
         epics.put(epicID, epic);
         return epicID;

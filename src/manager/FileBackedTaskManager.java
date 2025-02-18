@@ -9,17 +9,14 @@ import java.util.*;
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private File savesTasks;
-    private File savesHistory;
 
     public FileBackedTaskManager() {
         savesTasks = new File("Tasks.csv");
-        savesHistory = new File("History.csv");
         loadTasksFromFile(savesTasks);
     }
 
-    public FileBackedTaskManager(File savesTasks, File savesHistory) {
+    public FileBackedTaskManager(File savesTasks) {
         this.savesTasks = savesTasks;
-        this.savesHistory = savesHistory;
         loadTasksFromFile(savesTasks);
     }
 
@@ -31,11 +28,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 stringToTask(recordOfTask);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Произошла ошибка во время чтения файла." + e.getMessage());
         } catch (Throwable e) {
             System.out.println("Произошла ошибка во время чтения файла." + e.getMessage());
         }
-
     }
 
     // Задача из строки
@@ -79,9 +75,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
 
     @Override
-    public void setFiles(File savesTasks, File savesHistory) {
+    public void setFiles(File savesTasks) {
         this.savesTasks = savesTasks;
-        this.savesHistory = savesHistory;
     }
 
 
@@ -224,10 +219,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             writer.write("id,type,name,status,description,epic");
             writer.write("\n");
 
-            for (String string : listOfTasksForSave) {
-                writer.write(string);
+//            for (String string : listOfTasksForSave) {
+//                writer.write(string);
+//                writer.write("\n");
+//            }
+
+            for (int i = 0; i < listOfTasksForSave.size(); i++) {
+                writer.write(listOfTasksForSave.get(i));
                 writer.write("\n");
             }
+
         } catch (IOException e) {
             System.out.println("Произошла ошибка во время записи файла.");
         }
@@ -235,7 +236,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     // Записать из мапы
     private List<String> createListOfTasksForSave() {
-        List<String> listOfTasksForSave = new ArrayList<>();
+        List<String> listOfTasksForSave = new LinkedList<>();
 
         for (Task task : getTasksList()) {
             listOfTasksForSave.add(task.taskToSting(task.getID()));
