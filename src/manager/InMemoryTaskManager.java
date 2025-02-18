@@ -1,6 +1,7 @@
 package manager;
 
 import tasks.*;
+
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -107,7 +108,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
-// Пересчет значения counter для случает закачки сохраненных задач
+    // Пересчет значения counter для случает закачки сохраненных задач
     private int getCounter(Integer id) {
         if (id == null) {
             id = ++counter;

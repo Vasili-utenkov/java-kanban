@@ -123,7 +123,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
 
-
     // Добавить запись
     private void save() {
 // Очистить файл
@@ -139,8 +138,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             writer.write("id,type,name,status,description,epic");
             writer.write("\n");
 
-            for (int i = 0; i < listOfTasksForSave.size(); i++) {
-                writer.write(listOfTasksForSave.get(i));
+            for (String s : listOfTasksForSave) {
+                writer.write(s);
                 writer.write("\n");
             }
         } catch (IOException e) {
