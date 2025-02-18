@@ -116,7 +116,7 @@ public class InMemoryTaskManager implements TaskManager {
 
 
 // Пересчет значения counter для случает закачки сохраненных задач
-    private int getCounter (Integer id) {
+    private int getCounter(Integer id) {
         if (id == null) {
             id = ++counter;
         } else {
