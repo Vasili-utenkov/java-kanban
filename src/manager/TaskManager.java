@@ -7,11 +7,6 @@ import java.util.List;
 
 public interface TaskManager {
 
-    // Запуск приложения
-//    void start();
-
-    void setFiles(File savesTasks);
-
     // A. Получение списка всех задач.
     List<Task> getTasksList();
 

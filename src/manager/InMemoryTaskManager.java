@@ -39,12 +39,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-
-
-    @Override
-    public void setFiles(File savesTasks) {
-    }
-
     // A. Получение списка всех задач.
     @Override
     public ArrayList<Task> getTasksList() {
@@ -142,10 +136,7 @@ public class InMemoryTaskManager implements TaskManager {
         int epicID = subTask.getEpicID();
         Epic epic = epics.get(epicID);
         if (epic == null) {
-
             System.out.println("Эпика с кодом " + epicID + " не существует.");
-            System.out.println(getEpicsList());
-
             return -1;
         }
 

@@ -1,5 +1,6 @@
 package manager;
 
+import exception.ManagerSaveException;
 import tasks.*;
 
 import java.io.*;
@@ -21,16 +22,20 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     // Прочитать все
-    public void loadTasksFromFile(File savesTasks) {
+    private void loadTasksFromFile(File savesTasks) {
         String recordOfTask;
         try (BufferedReader reader = new BufferedReader(new FileReader(savesTasks, StandardCharsets.UTF_8))) {
             while ((recordOfTask = reader.readLine()) != null) {
                 stringToTask(recordOfTask);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Произошла ошибка во время чтения файла." + e.getMessage());
+            try {
+                throw new ManagerSaveException("Нет файла");
+            } catch (ManagerSaveException managerSaveException) {
+                managerSaveException.printStackTrace();
+            }
         } catch (Throwable e) {
-            System.out.println("Произошла ошибка во время чтения файла." + e.getMessage());
+
         }
     }
 
@@ -75,57 +80,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
 
     @Override
-    public void setFiles(File savesTasks) {
-        this.savesTasks = savesTasks;
-    }
-
-
-    @Override
-    public ArrayList<Task> getTasksList() {
-        return super.getTasksList();
-    }
-
-    @Override
-    public ArrayList<SubTask> getSubTasksList() {
-        return super.getSubTasksList();
-    }
-
-    @Override
-    public ArrayList<Epic> getEpicsList() {
-        return super.getEpicsList();
-    }
-
-    @Override
-    public void deleteAllTasks() {
-        super.deleteAllTasks();
-    }
-
-    @Override
-    public void deleteAllSubTasks() {
-        super.deleteAllSubTasks();
-    }
-
-    @Override
-    public void deleteAllEpics() {
-        super.deleteAllEpics();
-    }
-
-    @Override
-    public Task getTaskByID(int taskID) {
-        return super.getTaskByID(taskID);
-    }
-
-    @Override
-    public SubTask getSubTaskByID(int subTaskID) {
-        return super.getSubTaskByID(subTaskID);
-    }
-
-    @Override
-    public Epic getEpicByID(int epicID) {
-        return super.getEpicByID(epicID);
-    }
-
-    @Override
     public int addNewTask(Task task) {
         int taskID = super.addNewTask(task);
         save();
@@ -147,21 +101,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void updateTask(Task task) {
-        super.updateTask(task);
-    }
-
-    @Override
-    public void updateSubTask(SubTask subTask) {
-        super.updateSubTask(subTask);
-    }
-
-    @Override
-    public void updateEpic(Epic epic) {
-        super.updateEpic(epic);
-    }
-
-    @Override
     public void deleteTask(int taskID) {
         super.deleteTask(taskID);
         save();
@@ -179,30 +118,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         save();
     }
 
-    @Override
-    public ArrayList<SubTask> getSubTaskList(int epicID) {
-        return super.getSubTaskList(epicID);
-    }
 
-    @Override
-    public void setTaskStatus(int taskID, Status newStatus) {
-        super.setTaskStatus(taskID, newStatus);
-    }
-
-    @Override
-    public void setSubTaskStatus(int subTaskID, Status newStatus) {
-        super.setSubTaskStatus(subTaskID, newStatus);
-    }
-
-    @Override
-    public void setEpicStatus(int epicID) {
-        super.setEpicStatus(epicID);
-    }
-
-    @Override
-    public List<Task> getHistory() {
-        return super.getHistory();
-    }
 
     // Добавить запись
     private void save() {
@@ -219,18 +135,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             writer.write("id,type,name,status,description,epic");
             writer.write("\n");
 
-//            for (String string : listOfTasksForSave) {
-//                writer.write(string);
-//                writer.write("\n");
-//            }
-
             for (int i = 0; i < listOfTasksForSave.size(); i++) {
                 writer.write(listOfTasksForSave.get(i));
                 writer.write("\n");
             }
-
         } catch (IOException e) {
-            System.out.println("Произошла ошибка во время записи файла.");
+            try {
+                throw new ManagerSaveException("Что то пошло не так" + e.getMessage());
+            } catch (ManagerSaveException managerSaveException) {
+                managerSaveException.printStackTrace();
+            }
         }
     }
 
