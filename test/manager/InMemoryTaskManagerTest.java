@@ -34,11 +34,6 @@ class InMemoryTaskManagerTest {
     private final TaskManager taskManager = Managers.getDefault();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
-@BeforeEach
-public void deleteFile() {
-    savesTasks.delete();
-}
-
 
 /*
     @BeforeEach
