@@ -35,7 +35,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 managerSaveException.printStackTrace();
             }
         } catch (Throwable e) {
-
+            try {
+                throw new ManagerSaveException("Что то пошло не так :" + e.getMessage());
+            } catch (ManagerSaveException managerSaveException) {
+                managerSaveException.printStackTrace();
+            }
         }
     }
 
@@ -141,7 +145,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
         } catch (IOException e) {
             try {
-                throw new ManagerSaveException("Что то пошло не так" + e.getMessage());
+                throw new ManagerSaveException("Что то пошло не так :" + e.getMessage());
             } catch (ManagerSaveException managerSaveException) {
                 managerSaveException.printStackTrace();
             }
