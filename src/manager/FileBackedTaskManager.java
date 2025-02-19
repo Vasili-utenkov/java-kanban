@@ -21,6 +21,60 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         loadTasksFromFile(savesTasks);
     }
 
+    @Override
+    public void deleteAllTasks() {
+        super.deleteAllTasks();
+        save();
+    }
+
+    @Override
+    public void deleteAllSubTasks() {
+        super.deleteAllSubTasks();
+        save();
+    }
+
+    @Override
+    public void deleteAllEpics() {
+        super.deleteAllEpics();
+        save();
+    }
+
+    @Override
+    public void updateTask(Task task) {
+        super.updateTask(task);
+        save();
+    }
+
+    @Override
+    public void updateSubTask(SubTask subTask) {
+        super.updateSubTask(subTask);
+        save();
+    }
+
+    @Override
+    public void updateEpic(Epic epic) {
+        super.updateEpic(epic);
+        save();
+    }
+
+    @Override
+    public void setTaskStatus(int taskID, Status newStatus) {
+        super.setTaskStatus(taskID, newStatus);
+        save();
+    }
+
+    @Override
+    public void setSubTaskStatus(int subTaskID, Status newStatus) {
+        super.setSubTaskStatus(subTaskID, newStatus);
+        save();
+    }
+
+    @Override
+    public void setEpicStatus(int epicID) {
+        super.setEpicStatus(epicID);
+        save();
+    }
+
     // Прочитать все
     private void loadTasksFromFile(File savesTasks) {
         String recordOfTask;
