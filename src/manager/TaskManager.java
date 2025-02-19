@@ -4,6 +4,7 @@ import tasks.*;
 import java.util.List;
 
 public interface TaskManager {
+
     // A. Получение списка всех задач.
     List<Task> getTasksList();
 

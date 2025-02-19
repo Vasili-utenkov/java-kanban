@@ -107,10 +107,24 @@ public class InMemoryTaskManager implements TaskManager {
         return epic;
     }
 
+
+    // Пересчет значения counter для случает закачки сохраненных задач
+    private int getCounter(Integer id) {
+        if (id == null) {
+            id = ++counter;
+        } else {
+            if (id > counter) {
+                counter = id;
+            }
+        }
+        return id;
+    }
+
+
     // d. Создание.Сам объект должен передаваться в качестве параметра.
     @Override
     public int addNewTask(Task task) {
-        final int taskID = ++counter;
+        int taskID = getCounter(task.getID());
         task.setID(taskID);
         tasks.put(taskID, task);
         return taskID;
@@ -125,19 +139,19 @@ public class InMemoryTaskManager implements TaskManager {
             return -1;
         }
 
-        final int subTaskID = ++counter;
+        int subTaskID = getCounter(subTask.getID());
         subTask.setID(subTaskID);
         epic.addSubTaskID(subTaskID);
-        subTasks.put(subTaskID,subTask);
+        subTasks.put(subTaskID, subTask);
         setEpicStatus(epicID);
         return subTaskID;
     }
 
     @Override
     public int addNewEpic(Epic epic) {
-        final int epicID = ++counter;
+        int epicID = getCounter(epic.getID());
         epic.setID(epicID);
-        epics.put(epicID,epic);
+        epics.put(epicID, epic);
         return epicID;
     }
 
@@ -145,7 +159,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateTask(Task task) {
         int taskID = task.getID();
-        tasks.replace(taskID,task);
+        tasks.replace(taskID, task);
     }
 
     @Override
