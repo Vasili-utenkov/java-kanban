@@ -18,17 +18,16 @@ class InMemoryTaskManagerTest {
 
     /* Закоментарено для гитхаба
         static {
-
             try {
                 savesTasks = File.createTempFile("Tasks", "tmp", new File("D:\\JavaCourse"));
-                savesHistory = File.createTempFile("History", "tmp", new File("D:\\JavaCourse"));
+//                savesHistory = File.createTempFile("History", "tmp", new File("D:\\JavaCourse"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
 
-        private final TaskManager taskManager = Managers.getDefault(savesTasks, savesHistory);
+        private final TaskManager taskManager = Managers.getDefault(savesTasks);
 
      */
     private final TaskManager taskManager = Managers.getDefault();
@@ -39,14 +38,14 @@ class InMemoryTaskManagerTest {
     @BeforeEach
     public void init() throws IOException {
         savesTasks = File.createTempFile("Tasks", "tmp", new File("D:\\JavaCourse"));
-        savesHistory = File.createTempFile("History", "tmp", new File("D:\\JavaCourse"));
-        taskManager.setFiles(savesTasks, savesHistory);
+//        savesHistory = File.createTempFile("History", "tmp", new File("D:\\JavaCourse"));
+//        taskManager.setFiles(savesTasks);
     }
 
     @AfterEach
     public void deleteFile() {
         savesTasks.deleteOnExit();
-        savesHistory.deleteOnExit();
+//        savesHistory.deleteOnExit();
     }
 */
 
@@ -54,7 +53,7 @@ class InMemoryTaskManagerTest {
     @DisplayName("экземпляры класса Task равны друг другу, если равен их id")
     @Test
     void equalsTaskByID() {
-        int taskID = taskManager.addNewTask(new Task("Задача для теста", "01-03-2025 10:10", 1, "Добавили задачу для теста", Status.NEW));
+        int taskID = taskManager.addNewTask(new Task("Задача для теста", "01.03.2025 10:10", 1, "Добавили задачу для теста", Status.NEW));
         Task taskToCompare1 = taskManager.getTaskByID(taskID);
         Task taskToCompare2 = taskManager.getTaskByID(taskID);
         assertNotNull(taskToCompare1, "1 экземпляр класса Task для сравнения равенства не существует");
@@ -67,7 +66,7 @@ class InMemoryTaskManagerTest {
     @Test
     void equalsSubTaskByID() {
         int epicID = taskManager.addNewEpic(new Epic("Эпик", "Добавили Эпик"));
-        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "01-03-2025 10:10", 1, "Добавили подзадачу для теста", epicID, Status.NEW));
+        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "01.03.2025 10:10", 1, "Добавили подзадачу для теста", epicID, Status.NEW));
         SubTask taskToCompare1 = taskManager.getSubTaskByID(subTaskID);
         SubTask taskToCompare2 = taskManager.getSubTaskByID(subTaskID);
         assertNotNull(taskToCompare1, "1 экземпляр класса SubTask для сравнения равенства не существует");
@@ -98,7 +97,7 @@ class InMemoryTaskManagerTest {
     @DisplayName("InMemoryTaskManager добавляет задачи разного типа и может найти их по id")
     @Test
     void isTaskManagerAddAndFindTasks() {
-        int taskID = taskManager.addNewTask(new Task("Задача для теста", "01-03-2025 10:10", 1, "Добавили задачу для теста", Status.NEW));
+        int taskID = taskManager.addNewTask(new Task("Задача для теста", "01.03.2025 10:10", 1, "Добавили задачу для теста", Status.NEW));
         assertEquals(1, taskManager.getTasksList().size(), "Неверное количество Task.");
         Task task = taskManager.getTaskByID(taskID);
         assertNotNull(task, "Task не найден по id");
@@ -108,7 +107,7 @@ class InMemoryTaskManagerTest {
         Epic epic = taskManager.getEpicByID(epicID);
         assertNotNull(epic, "Epic не найден по id");
 
-        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "01-03-2025 10:10", 1, "Добавили подзадачу для теста", epicID, Status.NEW));
+        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "01.03.2025 10:10", 1, "Добавили подзадачу для теста", epicID, Status.NEW));
         assertEquals(1, taskManager.getSubTasksList().size(), "Неверное количество Epic.");
         SubTask subTask = taskManager.getSubTaskByID(subTaskID);
         assertNotNull(subTask, "Epic не найден по id");
@@ -122,7 +121,7 @@ class InMemoryTaskManagerTest {
         String taskName = "Задача";
         String taskDescription = "Описание задачи";
         String epicName = "Эпик";
-        String startTime = "01-03-2025 10:10";
+        String startTime = "01.03.2025 10:10";
         int duration = 10;
         String epicDescription = "Описание эпика";
         String subTaskName = "Подзадача";
@@ -152,7 +151,7 @@ class InMemoryTaskManagerTest {
     @DisplayName("задачи, добавляемые в HistoryManager, сохраняют данные.")
     @Test
     void isEqualSavedInHistoryTasks() {
-        int taskID = taskManager.addNewTask(new Task("Задача", "01-03-2025 10:10", 1, "Описание задачи", Status.NEW));
+        int taskID = taskManager.addNewTask(new Task("Задача", "01.03.2025 10:10", 1, "Описание задачи", Status.NEW));
         Task task = taskManager.getTaskByID(taskID);
 
         int size = taskManager.getHistory().size();
@@ -176,7 +175,7 @@ class InMemoryTaskManagerTest {
         assertEquals(epic.getStatus(), epicInHistory.getStatus(), "Статусы задач не совпадают.");
 
 
-        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача", "01-03-2025 10:10", 1, "Описание подзадачи", epicID, Status.NEW));
+        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача", "01.03.2025 10:10", 1, "Описание подзадачи", epicID, Status.NEW));
         SubTask subTask = taskManager.getSubTaskByID(subTaskID);
         size = taskManager.getHistory().size();
         SubTask subTaskInHistory = (SubTask) taskManager.getHistory().get(size - 1);
@@ -199,9 +198,9 @@ class InMemoryTaskManagerTest {
     void isConsistDeletedSubTask() {
 
         Integer epicID = taskManager.addNewEpic(new Epic("Эпик 1", "Добавили Эпик 1"));
-        Integer subTask1 = taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "01-03-2025 10:10", 1500, "Добавили ПодЗадача 1", epicID, Status.NEW));
-        Integer subTask2 = taskManager.addNewSubTask(new SubTask("ПодЗадача 2", "01-05-2025 10:10", 707, "Добавили ПодЗадача 2", epicID, Status.NEW));
-        Integer subTask3 = taskManager.addNewSubTask(new SubTask("ПодЗадача 3", "01-04-2025 10:10", 250, "Добавили ПодЗадача 3", epicID, Status.NEW));
+        Integer subTask1 = taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "01.03.2025 10:10", 1500, "Добавили ПодЗадача 1", epicID, Status.NEW));
+        Integer subTask2 = taskManager.addNewSubTask(new SubTask("ПодЗадача 2", "01.03.2025 10:10", 707, "Добавили ПодЗадача 2", epicID, Status.NEW));
+        Integer subTask3 = taskManager.addNewSubTask(new SubTask("ПодЗадача 3", "01.03.2025 10:10", 250, "Добавили ПодЗадача 3", epicID, Status.NEW));
 
         taskManager.deleteSubTask(subTask1);
         assertFalse(taskManager.getSubTaskList(epicID).contains(subTask1));
