@@ -14,7 +14,7 @@ class TaskTest {
 
     @Test
     void isImmutableTask() {
-        Task task = taskManager.getTaskByID(taskManager.addNewTask(new Task("Задача 1", "01-03-2025 10:10", 1, "Добавили задачу 1", Status.NEW)));
+        Task task = taskManager.getTaskByID(taskManager.addNewTask(new Task("Задача 1", "01.03.2025 10:10", 1, "Добавили задачу 1", Status.NEW)));
 
         int id = task.getID();
         String name = task.getTaskName();
