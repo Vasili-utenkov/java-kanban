@@ -200,7 +200,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         assertFalse(taskManager.getSubTaskList(epicID).contains(subTask3));
 
         taskManager.deleteEpic(epicID);
-
+        taskManager.deleteSubTask(subTask2);
     }
 
 

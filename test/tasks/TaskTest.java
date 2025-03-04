@@ -28,6 +28,9 @@ class TaskTest {
         assertEquals(name, task.getTaskName(), "Значение Name экземпляра класса Task изменяется");
         assertEquals(description, task.getTaskDescription(), "Значение Description экземпляра класса Task изменяется");
 
+        taskManager.deleteTask(id);
+
+
     }
 
 }
