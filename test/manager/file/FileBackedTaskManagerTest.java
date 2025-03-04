@@ -5,6 +5,7 @@ import manager.TaskManager;
 import manager.TaskManagerTest;
 import manager.file.FileBackedTaskManager;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -48,15 +49,13 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 //    initTask();
 
 
-/*
-    @BeforeEach
+
+    @BeforeAll
     public void setUp() {
-        savesTasks = new File("src/Tasks.csv");
-        taskManager = new FileBackedTaskManager(savesTasks);
         initTask();
     }
 
-
+/*
     @AfterEach
     void tearDown() {
         assertTrue(savesTasks.delete());
