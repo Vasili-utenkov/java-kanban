@@ -30,6 +30,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         assertNotNull(taskToCompare1, "1 экземпляр класса Task для сравнения равенства не существует");
         assertNotNull(taskToCompare2, "2 экземпляр класса Task для сравнения равенства не существует");
         assertEquals(taskToCompare1, taskToCompare2, "экземпляры класса Task не равны друг другу, если равен их id");
+        taskManager.deleteTask(taskID);
     }
 
 
@@ -56,6 +57,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         assertNotNull(taskToCompare1, "1 экземпляр класса Epic для сравнения равенства не существует");
         assertNotNull(taskToCompare2, "2 экземпляр класса Epic для сравнения равенства не существует");
         assertEquals(taskToCompare1, taskToCompare2, "экземпляры класса Epic не равны друг другу, если равен их id");
+        taskManager.deleteEpic(epicID);
     }
 
     //    убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров;
@@ -82,6 +84,11 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "01.03.2025 10:10", 1, "Добавили подзадачу для теста", epicID, Status.NEW));
         SubTask subTask = taskManager.getSubTaskByID(subTaskID);
         assertNotNull(subTask, "Epic не найден по id");
+
+        taskManager.deleteTask(taskID);
+        taskManager.deleteEpic(epicID);
+        taskManager.deleteSubTask(subTaskID);
+
     }
 
 
@@ -104,17 +111,23 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         assertEquals(taskName, task.getTaskName(), "Названия задач не совпадают.");
         assertEquals(taskDescription, task.getTaskDescription(), "Описания задач не совпадают.");
 
+
         int epicID = taskManager.addNewEpic(new Epic(epicName, epicDescription));
         Epic epic = taskManager.getEpicByID(epicID);
         assertNotNull(epic, "Epic не найден по id");
         assertEquals(epicName, epic.getTaskName(), "Названия эпиков не совпадают.");
         assertEquals(epicDescription, epic.getTaskDescription(), "Описания эпиков не совпадают.");
 
+
         int subTaskID = taskManager.addNewSubTask(new SubTask(subTaskName, startTime, duration, subTaskDescription, epicID, Status.NEW));
         SubTask subTask = taskManager.getSubTaskByID(subTaskID);
         assertNotNull(subTask, "Epic не найден по id");
         assertEquals(subTaskName, subTask.getTaskName(), "Названия подзадач не совпадают.");
         assertEquals(subTaskDescription, subTask.getTaskDescription(), "Описания подзадач не совпадают.");
+
+        taskManager.deleteTask(taskID);
+        taskManager.deleteEpic(epicID);
+        taskManager.deleteSubTask(subTaskID);
     }
 
 
@@ -133,6 +146,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         assertEquals(task.getTaskName(), taskInHistory.getTaskName(), "Названия задач не совпадают.");
         assertEquals(task.getTaskDescription(), taskInHistory.getTaskDescription(), "Описания задач не совпадают.");
         assertEquals(task.getStatus(), taskInHistory.getStatus(), "Статусы задач не совпадают.");
+
 
         int epicID = taskManager.addNewEpic(new Epic("Эпик", "Описание эпика"));
         Epic epic = taskManager.getEpicByID(epicID);
@@ -158,6 +172,12 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         assertEquals(subTask.getStatus(), subTaskInHistory.getStatus(), "Статусы подзадач не совпадают.");
 
         assertEquals(epic.getEpicSubtasks(), epicInHistory.getEpicSubtasks(), "Список позадач у эпиков не совпадают.");
+
+
+        taskManager.deleteTask(taskID);
+        taskManager.deleteEpic(epicID);
+        taskManager.deleteSubTask(subTaskID);
+
     }
 
 //    Удаляемые подзадачи не должны хранить внутри себя старые id.
@@ -179,6 +199,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         taskManager.deleteSubTask(subTask3);
         assertFalse(taskManager.getSubTaskList(epicID).contains(subTask3));
 
+        taskManager.deleteEpic(epicID);
 
     }
 
