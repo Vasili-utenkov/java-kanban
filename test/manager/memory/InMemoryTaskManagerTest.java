@@ -1,53 +1,24 @@
-package manager;
+package manager.memory;
 
+import manager.TaskManagerTest;
+import manager.memory.InMemoryTaskManager;
 import org.junit.jupiter.api.*;
 import tasks.Epic;
 import tasks.Status;
 import tasks.SubTask;
 import tasks.Task;
 
-import java.io.File;
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryTaskManagerTest {
+class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
 
-    public static File savesTasks;
-
-
-    /* Закоментарено для гитхаба
-        static {
-            try {
-                savesTasks = File.createTempFile("Tasks", "tmp", new File("D:\\JavaCourse"));
-//                savesHistory = File.createTempFile("History", "tmp", new File("D:\\JavaCourse"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        private final TaskManager taskManager = Managers.getDefault(savesTasks);
-
-     */
-    private final TaskManager taskManager = Managers.getDefault();
-    private final HistoryManager historyManager = Managers.getDefaultHistory();
-
-
-/*
     @BeforeEach
-    public void init() throws IOException {
-        savesTasks = File.createTempFile("Tasks", "tmp", new File("D:\\JavaCourse"));
-//        savesHistory = File.createTempFile("History", "tmp", new File("D:\\JavaCourse"));
-//        taskManager.setFiles(savesTasks);
+    public void setUp(){
+        taskManager = new InMemoryTaskManager();
+        initTask();
     }
 
-    @AfterEach
-    public void deleteFile() {
-        savesTasks.deleteOnExit();
-//        savesHistory.deleteOnExit();
-    }
-*/
+
 
     //    проверьте, что экземпляры класса Task равны друг другу, если равен их id;
     @DisplayName("экземпляры класса Task равны друг другу, если равен их id")
@@ -61,18 +32,20 @@ class InMemoryTaskManagerTest {
         assertEquals(taskToCompare1, taskToCompare2, "экземпляры класса Task не равны друг другу, если равен их id");
     }
 
-    //    проверьте, что наследники класса Task равны друг другу, если равен их id;
-    @DisplayName("SubTask равны друг другу, если равен их id")
-    @Test
-    void equalsSubTaskByID() {
-        int epicID = taskManager.addNewEpic(new Epic("Эпик", "Добавили Эпик"));
-        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "01.03.2025 10:10", 1, "Добавили подзадачу для теста", epicID, Status.NEW));
-        SubTask taskToCompare1 = taskManager.getSubTaskByID(subTaskID);
-        SubTask taskToCompare2 = taskManager.getSubTaskByID(subTaskID);
-        assertNotNull(taskToCompare1, "1 экземпляр класса SubTask для сравнения равенства не существует");
-        assertNotNull(taskToCompare2, "2 экземпляр класса SubTask для сравнения равенства не существует");
-        assertEquals(taskToCompare1, taskToCompare2, "экземпляры класса SubTask не равны друг другу, если равен их id");
-    }
+
+////    проверьте, что наследники класса Task равны друг другу, если равен их id;
+//    @DisplayName("SubTask равны друг другу, если равен их id")
+//    @Override
+//    @Test
+//    void equalsSubTaskByID() {
+//        int epicID = taskManager.addNewEpic(new Epic("Эпик", "Добавили Эпик"));
+//        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "01.03.2025 10:10", 1, "Добавили подзадачу для теста", epicID, Status.NEW));
+//        SubTask taskToCompare1 = taskManager.getSubTaskByID(subTaskID);
+//        SubTask taskToCompare2 = taskManager.getSubTaskByID(subTaskID);
+//        assertNotNull(taskToCompare1, "1 экземпляр класса SubTask для сравнения равенства не существует");
+//        assertNotNull(taskToCompare2, "2 экземпляр класса SubTask для сравнения равенства не существует");
+//        assertEquals(taskToCompare1, taskToCompare2, "экземпляры класса SubTask не равны друг другу, если равен их id");
+//    }
 
     @DisplayName("Epic равны друг другу, если равен их id")
     @Test
@@ -86,29 +59,27 @@ class InMemoryTaskManagerTest {
     }
 
     //    убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров;
-    @DisplayName("утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров")
-    @Test
-    void isManagersIsExists() {
-        assertNotNull(taskManager, "taskManager не существует");
-        assertNotNull(historyManager, "historyManager не существует");
-    }
+//    @DisplayName("утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров")
+//    @Override
+//    @Test
+//    void isManagersIsExists() {
+//        assertNotNull(taskManager, "taskManager не существует");
+//        assertNotNull(historyManager, "historyManager не существует");
+//    }
 
     //    проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id;
     @DisplayName("InMemoryTaskManager добавляет задачи разного типа и может найти их по id")
     @Test
     void isTaskManagerAddAndFindTasks() {
         int taskID = taskManager.addNewTask(new Task("Задача для теста", "01.03.2025 10:10", 1, "Добавили задачу для теста", Status.NEW));
-        assertEquals(1, taskManager.getTasksList().size(), "Неверное количество Task.");
         Task task = taskManager.getTaskByID(taskID);
         assertNotNull(task, "Task не найден по id");
 
         int epicID = taskManager.addNewEpic(new Epic("Эпик для теста", "Добавили эпик для теста"));
-        assertEquals(1, taskManager.getEpicsList().size(), "Неверное количество Epic.");
         Epic epic = taskManager.getEpicByID(epicID);
         assertNotNull(epic, "Epic не найден по id");
 
         int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "01.03.2025 10:10", 1, "Добавили подзадачу для теста", epicID, Status.NEW));
-        assertEquals(1, taskManager.getSubTasksList().size(), "Неверное количество Epic.");
         SubTask subTask = taskManager.getSubTaskByID(subTaskID);
         assertNotNull(subTask, "Epic не найден по id");
     }

@@ -1,6 +1,7 @@
-package manager;
+package manager.file;
 
 import exception.ManagerSaveException;
+import manager.memory.InMemoryTaskManager;
 import tasks.*;
 
 import java.io.*;
@@ -76,7 +77,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     // Прочитать все
-    private void loadTasksFromFile(File savesTasks) {
+    public void loadTasksFromFile(File savesTasks) {
         String recordOfTask;
         try (BufferedReader reader = new BufferedReader(new FileReader(savesTasks, StandardCharsets.UTF_8))) {
             while ((recordOfTask = reader.readLine()) != null) {

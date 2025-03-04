@@ -1,5 +1,9 @@
-package manager;
+package manager.memory;
 
+import manager.CompareByStartTime;
+import manager.Managers;
+import manager.TaskManager;
+import manager.history.HistoryManager;
 import tasks.*;
 
 import java.time.Duration;
