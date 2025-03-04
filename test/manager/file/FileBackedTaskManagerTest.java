@@ -45,8 +45,23 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 //    }
 
 
+    @Test
+    void loadFromFile() {
+        taskManager.loadTasksFromFile(savesTasks);
 
+        taskManager.getTasksList();
+
+        taskManager.getEpicsList();
+
+        taskManager.getSubTasksList();
+
+    }
+
+
+//
 // Иначе получал "Cannot invoke "manager.TaskManager.getEpicsList()" because "this.taskManager" is null"
+// Готов выслушать напставления и инструкции как с этим бороться
+//
 
     @Test
     void getSubTasks() {    }
@@ -60,24 +75,13 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     @Test
     void checkEpicStatusWhenAllInNew(){    }
 
-
     @Test
     void checkEpicStatusWhenAllInDone(){    }
-
 
     @Test
     void checkEpicStatusWhenMixedNewAndDone(){    }
 
-
     @Test
     void checkEpicStatusWhenAllInProgress(){    }
-
-
-
-    @Test
-    void loadFromFile() {
-        taskManager.loadTasksFromFile(savesTasks);
-        taskManager.getSubTasksList();
-    }
 
 }
