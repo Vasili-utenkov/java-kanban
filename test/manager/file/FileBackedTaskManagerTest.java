@@ -19,32 +19,31 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 //    public static File savesTasks = new File("src/Tasks.csv");
 //    private final FileBackedTaskManager taskManager = new FileBackedTaskManager(savesTasks);
 
-    public File savesTasks;
+    public  File savesTasks;
     private FileBackedTaskManager taskManager;
 
 
-/*
-    static {
-        try {
-            savesTasks = File.createTempFile("Tasks", ".tmp", new File("D:\\JavaCourse"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    @BeforeEach
-    public void setUp () throws IOException {
-        savesTasks = File.createTempFile("Tasks", "tmp", new File("D:\\JavaCourse"));
-        taskManager = new FileBackedTaskManager(savesTasks);
-        initTask();
-    }
+//    static {
+//        try {
+//            savesTasks = File.createTempFile("Tasks", ".tmp", new File("D:\\JavaCourse"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @BeforeEach
+//    public void setUp () throws IOException {
+//        savesTasks = File.createTempFile("Tasks", "tmp", new File("D:\\JavaCourse"));
+//        taskManager = new FileBackedTaskManager(savesTasks);
+//        initTask();
+//    }
+//
+//    @AfterEach
+//    public void deleteFile () {
+//        savesTasks.deleteOnExit();
+//    }
 
-    @AfterEach
-    public void deleteFile () {
-        savesTasks.deleteOnExit();
-    }
-
-*/
 
 //    savesTasks = new File("src/Tasks.csv");
 //    taskManager = new FileBackedTaskManager(savesTasks);
@@ -52,10 +51,11 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
 
 
+
     @BeforeAll
     public void setUp() {
-        File savesTasks = new File("src/Tasks.csv");
-        final FileBackedTaskManager taskManager = new FileBackedTaskManager(savesTasks);
+        savesTasks = new File("Tasks" + System.nanoTime() + ".csv");
+        taskManager = new FileBackedTaskManager(savesTasks);
         initTask();
     }
 
@@ -64,8 +64,6 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     void tearDown() {
         assertTrue(savesTasks.delete());
     }
-
-
 
 
     @Test

@@ -391,7 +391,6 @@ public class InMemoryTaskManager implements TaskManager {
                 .min(Comparator.comparing(subTask -> subTask.getStartTime().get()))
                 .get().getStartTime();
 
-
         Optional<LocalDateTime> maxStartDateTimeWithDuration = epic.getEpicSubtasks()
                 .stream()
                 .map(subTasks::get)
@@ -405,24 +404,19 @@ public class InMemoryTaskManager implements TaskManager {
                 .map(SubTask::getDuration)
                 .filter(Optional::isPresent)
                 .mapToInt(i -> (int) i.get().toMinutes())
-//                .findFirst()
                 .sum();
 
-
-//                .get();
         epic.setStartTime(minStartDateTime);
         epic.setEndTime(maxStartDateTimeWithDuration);
         epic.setDuration(Optional.ofNullable(Duration.ofMinutes(duration)));
 
     }
 
-
     @Override
     public List<Task> getHistory() {
         List<Task> history = historyManager.getHistory();
         return history;
     }
-
 
 }
 
