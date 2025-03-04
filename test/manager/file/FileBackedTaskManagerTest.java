@@ -14,35 +14,18 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     private final FileBackedTaskManager taskManager = new FileBackedTaskManager(savesTasks);
 
 
-//    static {
-//        try {
-//            savesTasks = File.createTempFile("Tasks", ".tmp", new File("D:\\JavaCourse"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    @BeforeEach
-//    public void setUp () throws IOException {
-//        savesTasks = File.createTempFile("Tasks", "tmp", new File("D:\\JavaCourse"));
-//        taskManager = new FileBackedTaskManager(savesTasks);
-//        initTask();
-//    }
-//
-//    @AfterEach
-//    public void deleteFile () {
-//        savesTasks.deleteOnExit();
-//    }
-
-
     @Test
     void loadFromFile() {
 
         int taskCount = taskManager.getTasksList().size();
+        System.out.println("taskManager.getTasksList() = " + taskManager.getTasksList());
+
         assertEquals(2, taskCount, "Количество загруженных задач не совпадает"
                 + " с сохраненными в файле. Ожидалось 2, загрузилось " + taskCount);
 
         int epicCount = taskManager.getEpicsList().size();
+        System.out.println("taskManager.getTasksList() = " + taskManager.getEpicsList());
+
         assertEquals(1, epicCount,  "Количество загруженных эписов не совпадает"
                 + " с сохраненными в файле. Ожидалось 1, загрузилось "+ epicCount);
 
