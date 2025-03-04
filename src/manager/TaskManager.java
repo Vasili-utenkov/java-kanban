@@ -1,7 +1,9 @@
 package manager;
 
 import tasks.*;
+
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
 
@@ -59,6 +61,14 @@ public interface TaskManager {
 
     /* История просмотров задач */
     List<Task> getHistory();
+
+
+    /* Отсортированный по дате начала, список задач и подзадач */
+    Set<Task> getPrioritizedTasks();
+
+
+    /* Изменения параметров времени для эпиков*/
+//    void setEpicStartTime(int epicID);
 
 
 }

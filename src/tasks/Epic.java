@@ -1,19 +1,22 @@
 package tasks;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class Epic extends Task {
 
-    private ArrayList<Integer> subTaskIDList;
-
+    protected Optional<LocalDateTime> endTime;
+    private final ArrayList<Integer> subTaskIDList;
 
     public Epic(String taskName, String taskDescription) {
-        super(taskName, taskDescription, Status.NEW);
+        super(taskName, null, null, taskDescription, Status.NEW);
         this.subTaskIDList = new ArrayList<>();
     }
 
     public Epic(int taskID, String taskName, String taskDescription) {
-        super(taskID, taskName, taskDescription, Status.NEW);
+        super(taskID, taskName, null, null, taskDescription, Status.NEW);
         this.subTaskIDList = new ArrayList<>();
     }
 
@@ -36,17 +39,47 @@ public class Epic extends Task {
     }
 
 
+    public Optional<Duration> getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = Optional.ofNullable(duration);
+    }
+
+    public Optional<LocalDateTime> getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Optional<LocalDateTime> startTime) {
+        this.startTime = startTime;
+    }
+
+    public Optional<LocalDateTime> getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Optional<LocalDateTime> endTime) {
+        this.endTime = endTime;
+    }
+
     public String taskToSting(int taskID) {
-        // 2,EPIC,Epic2,DONE,Description epic2,
-        return taskID + "," + TaskType.EPIC + "," + getTaskName() + "," + getStatus() + "," + getTaskDescription() + ",";
+//    "id,type,name,startAt,duration,status,description,epic"
+        return taskID + "," + TaskType.EPIC + "," + getTaskName()
+                + "," + getStartTimeInString(startTime)
+                + "," + getDurationInString(duration) // duration.get().toMinutes()
+                + "," + getStatus() + "," + getTaskDescription() + ",";
     }
 
 
     @Override
     public String toString() {
-        return "Epic{" +
+        return "Epic{" + '\'' +
                 "  ID=" + taskID +
                 ", taskName='" + taskName + '\'' +
+                ", startTime='" + getStartTimeInString(startTime) + '\'' +
+                ", endTime='" + getStartTimeInString(endTime) + '\'' +
+                ", duration='" + getDurationInString(duration) + '\'' +
                 ", taskDescription='" + taskDescription + '\'' +
                 ", status=" + status +
                 ", subTaskIDList=" + subTaskIDList +

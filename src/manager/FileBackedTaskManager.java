@@ -9,10 +9,10 @@ import java.util.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
-    private File savesTasks;
+    private final File savesTasks;
 
     public FileBackedTaskManager() {
-        savesTasks = new File("Tasks.csv");
+        savesTasks = new File("src/Tasks.csv");
         loadTasksFromFile(savesTasks);
     }
 
@@ -99,27 +99,40 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     // Задача из строки
     private void stringToTask(String stringTask) {
-
         String[] values = stringTask.split(",");
-
         if (values[0].equals("id")) {
             return;
         }
-
+//    "id,type,name,startAt,duration,status,description,epic"
         int taskID = Integer.parseInt(values[0]);
         TaskType taskType = TaskType.valueOf(values[1]);
         String taskName = values[2];
-        Status status = Status.valueOf(values[3]);
-        String taskDescription = values[4];
+
+        String startTime;
+        if (values[3].length() == 0) {
+            startTime = null;
+        } else {
+            startTime = values[3];
+        }
+
+        Integer duration;
+        if (values[4].length() == 0) {
+            duration = null;
+        } else {
+            duration = Integer.parseInt(values[4]);
+        }
+
+        Status status = Status.valueOf(values[5]);
+        String taskDescription = values[6];
         int epicID = 0;
         if (taskType.equals(TaskType.SUBTASK)) {
-            epicID = Integer.parseInt(values[5]);
+            epicID = Integer.parseInt(values[7]);
         }
 
         switch (taskType) {
-            case TASK -> restoreTask(new Task(taskID, taskName, taskDescription, status));
+            case TASK -> restoreTask(new Task(taskID, taskName, startTime, duration, taskDescription, status));
             case EPIC -> restoreEpic(new Epic(taskID, taskName, taskDescription));
-            case SUBTASK -> restoreSubTask(new SubTask(taskID, taskName, taskDescription, epicID, status));
+            case SUBTASK -> restoreSubTask(new SubTask(taskID, taskName, startTime, duration, taskDescription, epicID, status));
             default -> throw new IllegalStateException("Unexpected value: " + taskType);
         }
     }
@@ -189,7 +202,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         try (Writer writer = new FileWriter(savesTasks, StandardCharsets.UTF_8, true)) {
 
             // 1-я строка - заголовок
-            writer.write("id,type,name,status,description,epic");
+            writer.write("id,type,name,startAt,duration,status,description,epic");
             writer.write("\n");
 
             for (String s : listOfTasksForSave) {
