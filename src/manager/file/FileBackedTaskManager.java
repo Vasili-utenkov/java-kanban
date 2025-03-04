@@ -81,7 +81,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String recordOfTask;
         try (BufferedReader reader = new BufferedReader(new FileReader(savesTasks, StandardCharsets.UTF_8))) {
             while ((recordOfTask = reader.readLine()) != null) {
-                System.out.println("recordOfTask = " + recordOfTask);
                 stringToTask(recordOfTask);
             }
         } catch (FileNotFoundException e) {
