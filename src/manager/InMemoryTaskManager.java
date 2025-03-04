@@ -7,8 +7,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class compareByStartTime implements Comparator<Task> {
+class CompareByStartTime implements Comparator<Task> {
     @Override
+
     public int compare(Task task1, Task task2) {
         if (task1.getStartTime().isPresent() && task2.getStartTime().isPresent()) {
             if (task1.getStartTime().get().isAfter(task2.getStartTime().get())) {
@@ -44,7 +45,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    private final Set<Task> sortedTasks = new TreeSet<>(new compareByStartTime());
+    private final Set<Task> sortedTasks = new TreeSet<>(new CompareByStartTime());
 
     private static void printAllTasks(TaskManager manager) {
         System.out.println("Задачи:");
