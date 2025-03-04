@@ -16,9 +16,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
-    public static File savesTasks = new File("src/Tasks.csv");
-    private final FileBackedTaskManager taskManager = new FileBackedTaskManager(savesTasks);
+//    public static File savesTasks = new File("src/Tasks.csv");
+//    private final FileBackedTaskManager taskManager = new FileBackedTaskManager(savesTasks);
 
+    public File savesTasks;
+    private FileBackedTaskManager taskManager;
 
 
 /*
@@ -52,15 +54,17 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
     @BeforeAll
     public void setUp() {
+        File savesTasks = new File("src/Tasks.csv");
+        final FileBackedTaskManager taskManager = new FileBackedTaskManager(savesTasks);
         initTask();
     }
 
-/*
+
     @AfterEach
     void tearDown() {
         assertTrue(savesTasks.delete());
     }
-*/
+
 
     @Test
     void loadFromFile() {
