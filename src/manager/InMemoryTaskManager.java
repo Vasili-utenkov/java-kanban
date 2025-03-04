@@ -7,32 +7,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class CompareByStartTime implements Comparator<Task> {
-    @Override
-
-    public int compare(Task task1, Task task2) {
-        if (task1.getStartTime().isPresent() && task2.getStartTime().isPresent()) {
-            if (task1.getStartTime().get().isAfter(task2.getStartTime().get())) {
-                return 1;
-            } else if ((task1.getStartTime().get().isBefore(task2.getStartTime().get()))) {
-                return -1;
-            }
-        }
-        return 0;
-    }
-}
-
-//class compareTime implements Comparator<LocalDateTime> {
-//    @Override
-//    public int compare(LocalDateTime localDateTime1, LocalDateTime localDateTime2) {
-//        if (localDateTime1.isAfter(localDateTime2)) {
-//            return 1;
-//        } else if (localDateTime1.isBefore(localDateTime2)) {
-//            return -1;
-//        }
-//        return 0;
-//    }
-//}
 
 
 public class InMemoryTaskManager implements TaskManager {
@@ -446,4 +420,18 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
+}
+
+class CompareByStartTime implements Comparator<Task> {
+    @Override
+    public int compare(Task task1, Task task2) {
+        if (task1.getStartTime().isPresent() && task2.getStartTime().isPresent()) {
+            if (task1.getStartTime().get().isAfter(task2.getStartTime().get())) {
+                return 1;
+            } else if ((task1.getStartTime().get().isBefore(task2.getStartTime().get()))) {
+                return -1;
+            }
+        }
+        return 0;
+    }
 }
