@@ -96,17 +96,5 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
 
 
-// При добавлении задачи она может быть получена по id
-
-
-    //    убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров;
-    @Test
-    void isManagersIsExists() {
-    }
-
-    @DisplayName("SubTask равны друг другу, если равен их id")
-    @Test
-    void equalsSubTaskByID() {
-    }
 
 }

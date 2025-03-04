@@ -4,24 +4,24 @@ import manager.Managers;
 import manager.TaskManager;
 import manager.TaskManagerTest;
 import manager.file.FileBackedTaskManager;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import tasks.Epic;
+import tasks.Status;
+import tasks.SubTask;
+import tasks.Task;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
-//    public static File savesTasks = new File("src/Tasks.csv");
-//    private final FileBackedTaskManager taskManager = new FileBackedTaskManager(savesTasks);
+    //taskManager = new FileBackedTaskManager();
 
-    public  File savesTasks;
-    private FileBackedTaskManager taskManager;
-
+    public File savesTasks = new File("src/Tasks.csv");
+    private final FileBackedTaskManager taskManager = new FileBackedTaskManager(savesTasks);
 
 
 //    static {
@@ -45,30 +45,39 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 //    }
 
 
-//    savesTasks = new File("src/Tasks.csv");
-//    taskManager = new FileBackedTaskManager(savesTasks);
-//    initTask();
+
+// Иначе получал "Cannot invoke "manager.TaskManager.getEpicsList()" because "this.taskManager" is null"
+
+    @Test
+    void getSubTasks() {    }
+
+    @Test
+    void getTasks() {    }
+
+    @Test
+    void getEpicsList() {    }
+
+    @Test
+    void checkEpicStatusWhenAllInNew(){    }
 
 
+    @Test
+    void checkEpicStatusWhenAllInDone(){    }
 
 
-    @BeforeAll
-    public void setUp() {
-        savesTasks = new File("Tasks" + System.nanoTime() + ".csv");
-        taskManager = new FileBackedTaskManager(savesTasks);
-        initTask();
-    }
+    @Test
+    void checkEpicStatusWhenMixedNewAndDone(){    }
 
 
-    @AfterEach
-    void tearDown() {
-        assertTrue(savesTasks.delete());
-    }
+    @Test
+    void checkEpicStatusWhenAllInProgress(){    }
+
 
 
     @Test
     void loadFromFile() {
         taskManager.loadTasksFromFile(savesTasks);
+        taskManager.getSubTasksList();
     }
 
 }
