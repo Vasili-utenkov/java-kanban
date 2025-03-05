@@ -28,7 +28,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         task1 = taskManager.addNewTask(new Task("Задача 1", null, null, "Добавили задачу 1", Status.NEW));
         task2 = taskManager.addNewTask(new Task("Задача 1", "01.02.2025 12:12", 45, "Добавили задачу 1", Status.NEW));
         epic1 = taskManager.addNewEpic(new Epic("Эпик 1", "Добавили Эпик 1"));
-        subTask1 = taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "01.03.2025 11:11", 30000, "Добавили ПодЗадача 1", epic1, Status.NEW));
+        subTask1 = taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "01.03.2025 11:11", 200, "Добавили ПодЗадача 1", epic1, Status.NEW));
         subTask2 = taskManager.addNewSubTask(new SubTask("ПодЗадача 2", "02.03.2025 12:12", 622, "Добавили ПодЗадача 2", epic1, Status.NEW));
         subTask3 = taskManager.addNewSubTask(new SubTask("ПодЗадача 3", "03.03.2025 13:13", 1535, "Добавили ПодЗадача 3", epic1, Status.NEW));
 

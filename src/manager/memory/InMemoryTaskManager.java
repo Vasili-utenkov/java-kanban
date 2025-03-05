@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static tasks.Task.START_TIME_FORMAT;
 
 
 public class InMemoryTaskManager implements TaskManager {
@@ -65,20 +66,26 @@ public class InMemoryTaskManager implements TaskManager {
 
     /* Проверка на пересечение */
     public boolean isInterceptTime(LocalDateTime checkingStartTime, Duration checkingDuration) {
-        long interceptStart, interceptEnd;
+        long interceptStart = 0, interceptEnd = 0;
         LocalDateTime checkingEndTime = checkingStartTime.plus(checkingDuration);
+/*
+даты начала задач после checkingStartTime и перед checkingEndTime
+даты окончания задач после checkingStartTime и перед checkingEndTime
+*/
 
         interceptStart = sortedTasks.stream()
-                .filter(task -> task.getStartTime().get().isBefore(checkingStartTime)) //
-                .filter(task -> task.getStartTime().get().plus(task.getDuration().get()).isAfter(checkingStartTime))
+                .map( startOfTask -> startOfTask.getStartTime().get() )
+                .filter(startOfTask -> startOfTask.isAfter(checkingStartTime)) //
+                .filter(startOfTask -> startOfTask.isBefore(checkingEndTime))
                 .count();
 
         interceptEnd = sortedTasks.stream()
-                .filter(task -> task.getStartTime().get().isBefore(checkingEndTime)) //
-                .filter(task -> task.getStartTime().get().plus(task.getDuration().get()).isAfter(checkingEndTime))
+                .map( endOfTask -> endOfTask.getStartTime().get() )
+                .filter(endOfTask -> endOfTask.isAfter(checkingStartTime)) //
+                .filter(endOfTask -> endOfTask.isBefore(checkingEndTime))
                 .count();
 
-        return (interceptEnd > 0) && (interceptStart > 0);
+        return (interceptEnd > 0) || (interceptStart > 0) ;
     }
 
     // A. Получение списка всех задач.
@@ -408,7 +415,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         epic.setStartTime(minStartDateTime);
         epic.setEndTime(maxStartDateTimeWithDuration);
-        epic.setDuration(Optional.ofNullable(Duration.ofMinutes(duration)));
+        epic.setDuration(duration);
 
     }
 

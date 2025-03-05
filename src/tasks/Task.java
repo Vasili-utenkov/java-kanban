@@ -99,8 +99,8 @@ public class Task {
     }
 
     // Установка продолжительности задачи
-    public void setDuration(Optional<Duration> duration) {
-        this.duration = duration;
+    public void setDuration(Integer duration) {
+        this.duration = Optional.ofNullable(Duration.ofMinutes(duration));
     }
 
     // Запрос начала работы
@@ -108,7 +108,7 @@ public class Task {
         return startTime;
     }
 
-    // Установка начала работы
+    // Установка начала работыIn
     public void setStartTime(Optional<LocalDateTime> startTime) {
         this.startTime = startTime;
     }

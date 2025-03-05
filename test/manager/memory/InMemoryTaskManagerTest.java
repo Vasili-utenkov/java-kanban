@@ -8,6 +8,9 @@ import tasks.Status;
 import tasks.SubTask;
 import tasks.Task;
 
+import java.time.Duration;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
@@ -201,6 +204,38 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
 
         taskManager.deleteEpic(epicID);
         taskManager.deleteSubTask(subTask2);
+    }
+
+    @DisplayName("Проверка попадания и исключения задач в приоретизированный список задач")
+    @Test
+    void isInterceptTimeTest() {
+/* Начальный
+startTime='01.02.2025 12:12', endTime='01.02.2025 12:57', duration='45'
+startTime='01.03.2025 11:11', endTime='01.03.2025 14:31', duration='200'
+startTime='02.03.2025 12:12', endTime='02.03.2025 22:34', duration='622'
+startTime='03.03.2025 13:13', endTime='04.03.2025 14:48', duration='1535'
+*/
+
+/* ДОБАВИТЬ startTime='02.02.2025 12:12', duration='45' -- ДОЛЖЕН ВОЙТИ*/
+        int taskAdd1 = taskManager.addNewTask(new Task("Задача добавленная 1", "02.02.2025 12:12", 45, "Добавили задачу 1", Status.NEW));
+        boolean taskAdd1Contains = taskManager.getPrioritizedTasks().contains(taskManager.getTaskByID(taskAdd1));
+        assertTrue(taskAdd1Contains, "Задача №1 не добавилась");
+
+/* ПОМЕНЯТЬ ПРОДОЛЖИТЕЛЬНОСТЬ startTime='02.02.2025 12:12', duration='45' -- ДОЛЖЕН УЙТИ*/
+        taskManager.getTaskByID(taskAdd1).setDuration(60*24*365);
+        taskManager.updateTask(taskManager.getTaskByID(taskAdd1));
+        taskAdd1Contains = taskManager.getPrioritizedTasks().contains(taskManager.getTaskByID(taskAdd1));
+        assertFalse(taskAdd1Contains, "Задача №1 не удалилась");
+
+/* ДОБАВИТЬ startTime='03.02.2025 12:12', duration='60*24*30' -- НЕ ДОЛЖЕН ВОЙТИ*/
+        int taskAdd2 = taskManager.addNewTask(new Task("Задача добавленная 2", "03.02.2025 12:12", 60*24*30, "Добавили задачу 1", Status.NEW));
+        taskAdd1Contains = taskManager.getPrioritizedTasks().contains(taskManager.getTaskByID(taskAdd2));
+        assertFalse(taskAdd1Contains, "Задача №2 добавилась");
+
+/* УДАЛИТЬ ДОБАВЛЕННЫЕ*/
+        taskManager.deleteTask(taskAdd1);
+        taskManager.deleteTask(taskAdd2);
+
     }
 
 

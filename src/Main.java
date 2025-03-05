@@ -15,7 +15,7 @@ public class Main {
 
 
         int task3 = taskManager.addNewEpic(new Epic("Эпик 1", "Добавили Эпик 1"));
-        int task5 = taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "01.03.2025 11:11", 30000, "Добавили ПодЗадача 1", task3, Status.NEW));
+        int task5 = taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "01.03.2025 11:11", 100, "Добавили ПодЗадача 1", task3, Status.NEW));
         int task6 = taskManager.addNewSubTask(new SubTask("ПодЗадача 2", "02.03.2025 12:12", 622, "Добавили ПодЗадача 2", task3, Status.NEW));
         int task7 = taskManager.addNewSubTask(new SubTask("ПодЗадача 3", "03.03.2025 13:13", 1535, "Добавили ПодЗадача 3", task3, Status.NEW));
 
