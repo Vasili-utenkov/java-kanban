@@ -10,7 +10,6 @@ import tasks.Task;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public abstract class TaskManagerTest<T extends TaskManager> {
 
@@ -53,8 +52,6 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
 
-
-
 /* ДОБАВИТЬ ТЕСТЫ
 */
 
@@ -93,8 +90,5 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(Status.IN_PROGRESS, taskManager.getEpicByID(epic1).getStatus(),"Статус не " + Status.IN_PROGRESS
                 + ". текущий статус эпика " + taskManager.getEpicByID(epic1).getStatus());
     }
-
-
-
 
 }

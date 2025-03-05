@@ -13,15 +13,12 @@ import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private int counter = 0;
-
     private final Map<Integer, Task> tasks = new HashMap<>();
     private final Map<Integer, SubTask> subTasks = new HashMap<>();
     private final Map<Integer, Epic> epics = new HashMap<>();
-
     private final HistoryManager historyManager = Managers.getDefaultHistory();
-
     private final Set<Task> sortedTasks = new TreeSet<>(new CompareByStartTime());
+        private int counter = 0;
 
     private static void printAllTasks(TaskManager manager) {
         System.out.println("Задачи:");
@@ -57,7 +54,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     // Добавление задачи из списка приоритезируемых задач
     private void deleteTaskInPrioritizedTasks(Task task) {
-        sortedTasks.remove(task);
+            sortedTasks.remove(task);
     }
 
 
@@ -390,16 +387,14 @@ public class InMemoryTaskManager implements TaskManager {
 
     private void setEpicTiming(int epicID) {
         Epic epic = epics.get(epicID);
+
         Optional<LocalDateTime> minStartDateTime, maxEndDateTime;
 
-        Optional<SubTask> subTask;
-
-        subTask = Optional.of(epic.getEpicSubtasks()
+        Optional<SubTask> subTask = epic.getEpicSubtasks()
                 .stream()
                 .map(subTasks::get)
                 .filter(ST -> ST.getStartTime().isPresent())
-                .min(Comparator.comparing(ST -> ST.getStartTime().get()))
-                .get());
+                .min(Comparator.comparing(ST -> ST.getStartTime().get()));
 
         if (subTask.isPresent()) {
             minStartDateTime = subTask.get().getStartTime();
@@ -407,12 +402,11 @@ public class InMemoryTaskManager implements TaskManager {
             minStartDateTime = Optional.empty();
         }
 
-        subTask = Optional.of(epic.getEpicSubtasks()
+        subTask = epic.getEpicSubtasks()
                 .stream()
                 .map(subTasks::get)
-                .filter(ST -> ST.getStartTime().isPresent())
-                .min(Comparator.comparing(ST -> ST.getEndTime().get()))
-                .get());
+                .filter(ST -> ST.getEndTime().isPresent())
+                .min(Comparator.comparing(ST -> ST.getEndTime().get()));
 
         if (subTask.isPresent()) {
             maxEndDateTime = subTask.get().getEndTime();

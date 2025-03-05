@@ -86,9 +86,8 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         assertNotNull(subTask, "Epic не найден по id");
 
         taskManager.deleteTask(taskID);
-        taskManager.deleteEpic(epicID);
         taskManager.deleteSubTask(subTaskID);
-
+        taskManager.deleteEpic(epicID);
     }
 
 
