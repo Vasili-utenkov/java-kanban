@@ -71,13 +71,13 @@ public class InMemoryTaskManager implements TaskManager {
 */
 
         interceptStart = sortedTasks.stream()
-                .map( startOfTask -> startOfTask.getStartTime().get())
+                .map(startOfTask -> startOfTask.getStartTime().get())
                 .filter(startOfTask -> startOfTask.isAfter(checkingStartTime)) //
                 .filter(startOfTask -> startOfTask.isBefore(checkingEndTime))
                 .count();
 
         interceptEnd = sortedTasks.stream()
-                .map( endOfTask -> endOfTask.getStartTime().get())
+                .map(endOfTask -> endOfTask.getStartTime().get())
                 .filter(endOfTask -> endOfTask.isAfter(checkingStartTime)) //
                 .filter(endOfTask -> endOfTask.isBefore(checkingEndTime))
                 .count();
