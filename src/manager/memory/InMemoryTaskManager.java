@@ -401,7 +401,7 @@ public class InMemoryTaskManager implements TaskManager {
                 .min(Comparator.comparing(ST -> ST.getStartTime().get()))
                 .get());
 
-        if ( subTask.isPresent()) {
+        if (subTask.isPresent()) {
             minStartDateTime = subTask.get().getStartTime();
         } else {
             minStartDateTime = Optional.empty();
@@ -414,7 +414,7 @@ public class InMemoryTaskManager implements TaskManager {
                 .min(Comparator.comparing(ST -> ST.getEndTime().get()))
                 .get());
 
-        if ( subTask.isPresent()) {
+        if (subTask.isPresent()) {
             maxEndDateTime = subTask.get().getEndTime();
         } else {
             maxEndDateTime = Optional.empty();
