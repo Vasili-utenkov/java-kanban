@@ -72,14 +72,12 @@ public class InMemoryTaskManager implements TaskManager {
 
         interceptStart = sortedTasks.stream()
                 .map(startOfTask -> startOfTask.getStartTime().get())
-                .filter(startOfTask -> startOfTask.isAfter(checkingStartTime)) //
-                .filter(startOfTask -> startOfTask.isBefore(checkingEndTime))
+                .filter(startOfTask -> startOfTask.isAfter(checkingStartTime) && startOfTask.isBefore(checkingEndTime)) //
                 .count();
 
         interceptEnd = sortedTasks.stream()
                 .map(endOfTask -> endOfTask.getEndTime().get())
-                .filter(endOfTask -> endOfTask.isAfter(checkingStartTime)) //
-                .filter(endOfTask -> endOfTask.isBefore(checkingEndTime))
+                .filter(endOfTask -> endOfTask.isAfter(checkingStartTime) && endOfTask.isBefore(checkingEndTime)) //
                 .count();
 
         return (interceptEnd > 0) || (interceptStart > 0);
@@ -240,10 +238,13 @@ public class InMemoryTaskManager implements TaskManager {
 
             setEpicStatus(epicIDSaved);
             setEpicStatus(epicIDForUpdate);
+            setEpicTiming(epicIDSaved);
+            setEpicTiming(epicIDForUpdate);
 
         } else {
             // обновить
             setEpicStatus(subTask.getEpicID());
+            setEpicTiming(subTask.getEpicID());
         }
 
         subTasks.replace(subTaskID, subTask);
@@ -262,6 +263,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         epicForUpdate.setTaskName(epic.getTaskName());
         epicForUpdate.setTaskDescription(epic.getTaskDescription());
+        setEpicTiming(epicID);
     }
 
     // f. Удаление по идентификатору.
@@ -298,8 +300,8 @@ public class InMemoryTaskManager implements TaskManager {
         subTasks.remove(subTaskID);
         historyManager.remove(subTaskID);
         deleteTaskInPrioritizedTasks(subTask);
-
         setEpicStatus(epicID);
+        setEpicTiming(epicID);
     }
 
     @Override
@@ -313,6 +315,7 @@ public class InMemoryTaskManager implements TaskManager {
         for (Integer subTaskID : epic.getEpicSubtasks()) {
             subTasks.remove(subTaskID);
             historyManager.remove(subTaskID);
+            deleteTaskInPrioritizedTasks(getSubTaskByID(subTaskID));
         }
 
         epics.remove(epicID);
@@ -387,20 +390,35 @@ public class InMemoryTaskManager implements TaskManager {
 
     private void setEpicTiming(int epicID) {
         Epic epic = epics.get(epicID);
+        Optional<LocalDateTime> minStartDateTime, maxEndDateTime;
 
-        Optional<LocalDateTime> minStartDateTime = epic.getEpicSubtasks()
+        Optional<SubTask> subTask;
+
+        subTask = Optional.of(epic.getEpicSubtasks()
                 .stream()
                 .map(subTasks::get)
-                .filter(subTask -> subTask.getStartTime().isPresent())
-                .min(Comparator.comparing(subTask -> subTask.getStartTime().get()))
-                .get().getStartTime();
+                .filter(ST -> ST.getStartTime().isPresent())
+                .min(Comparator.comparing(ST -> ST.getStartTime().get()))
+                .get());
 
-        Optional<LocalDateTime> maxStartDateTimeWithDuration = epic.getEpicSubtasks()
+        if ( subTask.isPresent()) {
+            minStartDateTime = subTask.get().getStartTime();
+        } else {
+            minStartDateTime = Optional.empty();
+        }
+
+        subTask = Optional.of(epic.getEpicSubtasks()
                 .stream()
                 .map(subTasks::get)
-                .filter(subTask -> subTask.getStartTime().isPresent())
-                .max(Comparator.comparing(subTask -> subTask.getStartTime().get()))
-                .get().getStartTime();
+                .filter(ST -> ST.getStartTime().isPresent())
+                .min(Comparator.comparing(ST -> ST.getEndTime().get()))
+                .get());
+
+        if ( subTask.isPresent()) {
+            maxEndDateTime = subTask.get().getEndTime();
+        } else {
+            maxEndDateTime = Optional.empty();
+        }
 
         int duration = epic.getEpicSubtasks()
                 .stream()
@@ -411,7 +429,7 @@ public class InMemoryTaskManager implements TaskManager {
                 .sum();
 
         epic.setStartTime(minStartDateTime);
-        epic.setEndTime(maxStartDateTimeWithDuration);
+        epic.setEndTime(maxEndDateTime);
         epic.setDuration(duration);
 
     }

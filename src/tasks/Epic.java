@@ -39,22 +39,6 @@ public class Epic extends Task {
     }
 
 
-    public Optional<Duration> getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Duration duration) {
-        this.duration = Optional.ofNullable(duration);
-    }
-
-    public Optional<LocalDateTime> getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Optional<LocalDateTime> startTime) {
-        this.startTime = startTime;
-    }
-
     public Optional<LocalDateTime> getEndTime() {
         return endTime;
     }
