@@ -77,7 +77,7 @@ public class InMemoryTaskManager implements TaskManager {
                 .count();
 
         interceptEnd = sortedTasks.stream()
-                .map(endOfTask -> endOfTask.getStartTime().get())
+                .map(endOfTask -> endOfTask.getEndTime().get())
                 .filter(endOfTask -> endOfTask.isAfter(checkingStartTime)) //
                 .filter(endOfTask -> endOfTask.isBefore(checkingEndTime))
                 .count();
