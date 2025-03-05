@@ -11,9 +11,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static tasks.Task.START_TIME_FORMAT;
-
-
 public class InMemoryTaskManager implements TaskManager {
 
     private int counter = 0;
@@ -74,18 +71,18 @@ public class InMemoryTaskManager implements TaskManager {
 */
 
         interceptStart = sortedTasks.stream()
-                .map( startOfTask -> startOfTask.getStartTime().get() )
+                .map( startOfTask -> startOfTask.getStartTime().get())
                 .filter(startOfTask -> startOfTask.isAfter(checkingStartTime)) //
                 .filter(startOfTask -> startOfTask.isBefore(checkingEndTime))
                 .count();
 
         interceptEnd = sortedTasks.stream()
-                .map( endOfTask -> endOfTask.getStartTime().get() )
+                .map( endOfTask -> endOfTask.getStartTime().get())
                 .filter(endOfTask -> endOfTask.isAfter(checkingStartTime)) //
                 .filter(endOfTask -> endOfTask.isBefore(checkingEndTime))
                 .count();
 
-        return (interceptEnd > 0) || (interceptStart > 0) ;
+        return (interceptEnd > 0) || (interceptStart > 0);
     }
 
     // A. Получение списка всех задач.

@@ -1,15 +1,12 @@
 package manager.memory;
 
 import manager.TaskManagerTest;
-import manager.memory.InMemoryTaskManager;
 import org.junit.jupiter.api.*;
 import tasks.Epic;
 import tasks.Status;
 import tasks.SubTask;
 import tasks.Task;
 
-import java.time.Duration;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
