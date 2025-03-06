@@ -312,7 +312,7 @@ public class InMemoryTaskManager implements TaskManager {
         for (Integer subTaskID : epic.getEpicSubtasks()) {
             subTasks.remove(subTaskID);
             historyManager.remove(subTaskID);
-            deleteTaskInPrioritizedTasks(getSubTaskByID(subTaskID));
+            deleteTaskInPrioritizedTasks(subTasks.get(subTaskID));
         }
 
         epics.remove(epicID);
@@ -406,7 +406,7 @@ public class InMemoryTaskManager implements TaskManager {
                 .stream()
                 .map(subTasks::get)
                 .filter(ST -> ST.getEndTime().isPresent())
-                .min(Comparator.comparing(ST -> ST.getEndTime().get()));
+                .max(Comparator.comparing(ST -> ST.getEndTime().get()));
 
         if (subTask.isPresent()) {
             maxEndDateTime = subTask.get().getEndTime();
