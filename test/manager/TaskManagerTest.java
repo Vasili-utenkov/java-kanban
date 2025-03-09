@@ -18,13 +18,13 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     protected SubTask subTask;
     protected Epic epic;
 
-    protected int task1, task2;
-    protected int epic1;
-    protected int subTask1, subTask2, subTask3;
+    protected Integer task1, task2;
+    protected Integer epic1;
+    protected Integer subTask1, subTask2, subTask3;
 
     public void initTask() {
 
-        task1 = taskManager.addNewTask(new Task("Задача 1", null, null, "Добавили задачу 1", Status.NEW));
+        task1 = taskManager.addNewTask(new Task("Задача 1", "01.01.2025 12:00", 30, "Добавили задачу 1", Status.NEW));
         task2 = taskManager.addNewTask(new Task("Задача 1", "01.02.2025 12:12", 45, "Добавили задачу 1", Status.NEW));
         epic1 = taskManager.addNewEpic(new Epic("Эпик 1", "Добавили Эпик 1"));
         subTask1 = taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "01.03.2025 11:11", 200, "Добавили ПодЗадача 1", epic1, Status.NEW));

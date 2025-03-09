@@ -139,12 +139,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
 
-
-    private int restoreTask(Task task) {
+    private Integer restoreTask(Task task) {
+        if (isInterceptTime(task)) {
+            return null;
+        }
         return super.addNewTask(task);
     }
 
-    private int restoreSubTask(SubTask subTask) {
+    private Integer restoreSubTask(SubTask subTask) {
+        if (isInterceptTime(subTask)) {
+            return null;
+        }
         return super.addNewSubTask(subTask);
     }
 
@@ -154,14 +159,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
 
     @Override
-    public int addNewTask(Task task) {
+    public Integer addNewTask(Task task) {
+
+        if (isInterceptTime(task)) {
+            return null;
+        }
         int taskID = super.addNewTask(task);
         save();
         return taskID;
     }
 
     @Override
-    public int addNewSubTask(SubTask subTask) {
+    public Integer addNewSubTask(SubTask subTask) {
+        if (isInterceptTime(subTask)) {
+            return null;
+        }
         int subTaskID = super.addNewSubTask(subTask);
         save();
         return subTaskID;

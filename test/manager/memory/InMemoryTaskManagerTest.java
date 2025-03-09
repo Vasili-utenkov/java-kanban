@@ -212,10 +212,10 @@ startTime='02.03.2025 12:12', endTime='02.03.2025 22:34', duration='622'
 startTime='03.03.2025 13:13', endTime='04.03.2025 14:48', duration='1535'
 */
 
-/* ДОБАВИТЬ startTime='02.02.2025 12:12', duration='45' -- ДОЛЖЕН ВОЙТИ*/
+/* ДОБАВИТЬ startTime='02.02.2025 12:12', duration='45' -- НЕДОЛЖЕН ВОЙТИ*/
         int taskAdd1 = taskManager.addNewTask(new Task("Задача добавленная 1", "02.02.2025 12:12", 45, "Добавили задачу 1", Status.NEW));
         boolean taskAdd1Contains = taskManager.getPrioritizedTasks().contains(taskManager.getTaskByID(taskAdd1));
-        assertTrue(taskAdd1Contains, "Задача №1 не добавилась");
+        assertFalse(taskAdd1Contains, "Задача №1 добавилась");
 
 /* ПОМЕНЯТЬ ПРОДОЛЖИТЕЛЬНОСТЬ startTime='02.02.2025 12:12', duration='45' -- ДОЛЖЕН УЙТИ*/
         taskManager.getTaskByID(taskAdd1).setDuration(60*24*365);

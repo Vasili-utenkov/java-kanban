@@ -46,7 +46,7 @@ public class InMemoryTaskManager implements TaskManager {
     // Добавление задачи в список приоритезируемых задач
     private void addTaskInPrioritizedTasks(Task task) {
         if (task.getDuration().isPresent() && task.getStartTime().isPresent()) {
-            if (!isInterceptTime(task.getStartTime().get(), task.getDuration().get())) {
+            if (isInterceptTime(task)) {
                 sortedTasks.add(task);
             }
         }
@@ -59,9 +59,19 @@ public class InMemoryTaskManager implements TaskManager {
 
 
     /* Проверка на пересечение */
-    public boolean isInterceptTime(LocalDateTime checkingStartTime, Duration checkingDuration) {
+    public boolean isInterceptTime(Task task) {
+
+        if (task.getStartTime().isEmpty() || task.getDuration().isEmpty()) {
+            System.out.println("Проверяемая задача " + task.getTaskName()
+                    + " не прошла валидацию по пересечению работ с дугими задачами");
+            return false;
+        }
+
         long interceptStart = 0, interceptEnd = 0;
-        LocalDateTime checkingEndTime = checkingStartTime.plus(checkingDuration);
+        LocalDateTime checkingStartTime = task.getStartTime().get();
+        LocalDateTime checkingEndTime = task.getEndTime().get();
+
+
 /*
 даты начала задач после checkingStartTime и перед checkingEndTime
 даты окончания задач после checkingStartTime и перед checkingEndTime
@@ -165,7 +175,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     // d. Создание.Сам объект должен передаваться в качестве параметра.
     @Override
-    public int addNewTask(Task task) {
+    public Integer addNewTask(Task task) {
+        if (isInterceptTime(task)) {
+            return null;
+        }
+
         int taskID = getCounter(task.getID());
         task.setID(taskID);
         tasks.put(taskID, task);
@@ -174,7 +188,11 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public int addNewSubTask(SubTask subTask) {
+    public Integer addNewSubTask(SubTask subTask) {
+        if (isInterceptTime(subTask)) {
+            return null;
+        }
+
         int epicID = subTask.getEpicID();
         Epic epic = epics.get(epicID);
         if (epic == null) {
@@ -204,6 +222,10 @@ public class InMemoryTaskManager implements TaskManager {
     // e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     @Override
     public void updateTask(Task task) {
+        if (isInterceptTime(task)) {
+            return;
+        }
+
         int taskID = task.getID();
         tasks.replace(taskID, task);
         deleteTaskInPrioritizedTasks(task);
@@ -212,6 +234,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubTask(SubTask subTask) {
+        if (isInterceptTime(subTask)) {
+            return;
+        }
 
         int subTaskID = subTask.getID();
         SubTask subTaskSaved = subTasks.get(subTaskID);

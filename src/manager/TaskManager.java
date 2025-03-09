@@ -29,9 +29,9 @@ public interface TaskManager {
     Epic getEpicByID(int epicID);
 
     // d. Создание.Сам объект должен передаваться в качестве параметра.
-    int addNewTask(Task task);
+    Integer addNewTask(Task task);
 
-    int addNewSubTask(SubTask subTask);
+    Integer addNewSubTask(SubTask subTask);
 
     int addNewEpic(Epic epic);
 
