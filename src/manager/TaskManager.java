@@ -1,7 +1,9 @@
 package manager;
 
 import tasks.*;
+
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
 
@@ -27,9 +29,9 @@ public interface TaskManager {
     Epic getEpicByID(int epicID);
 
     // d. Создание.Сам объект должен передаваться в качестве параметра.
-    int addNewTask(Task task);
+    Integer addNewTask(Task task);
 
-    int addNewSubTask(SubTask subTask);
+    Integer addNewSubTask(SubTask subTask);
 
     int addNewEpic(Epic epic);
 
@@ -59,6 +61,14 @@ public interface TaskManager {
 
     /* История просмотров задач */
     List<Task> getHistory();
+
+
+    /* Отсортированный по дате начала, список задач и подзадач */
+    Set<Task> getPrioritizedTasks();
+
+
+    /* Изменения параметров времени для эпиков*/
+//    void setEpicStartTime(int epicID);
 
 
 }

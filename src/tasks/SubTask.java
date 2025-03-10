@@ -1,21 +1,18 @@
 package tasks;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 public class SubTask extends Task {
-    private Integer epicID;
+    private final Integer epicID;
 
-    public SubTask(String taskName, String taskDescription, int epicID, Status status) {
-        super(taskName, taskDescription, status);
+    public SubTask(String taskName, String startTimeString, Integer durationMinutes, String taskDescription, int epicID, Status status) {
+        super(taskName, startTimeString, durationMinutes, taskDescription, status);
         this.epicID = epicID;
     }
 
-    public SubTask(int taskID, String taskName, String taskDescription, int epicID, Status status) {
-        super(taskID, taskName, taskDescription, status);
-        this.epicID = epicID;
-    }
-
-
-    public SubTask(Task task, int epicID) {
-        super(task.taskName, task.taskDescription, task.status);
+    public SubTask(int taskID, String taskName, String startTimeString, Integer durationMinutes, String taskDescription, int epicID, Status status) {
+        super(taskName, startTimeString, durationMinutes, taskDescription, status);
         this.epicID = epicID;
     }
 
@@ -25,16 +22,27 @@ public class SubTask extends Task {
 
 
     public String taskToSting(int taskID) {
-        // 3,SUBTASK,Sub Task2,DONE,Description sub task3,2
-        return taskID + "," + TaskType.SUBTASK + "," + getTaskName() + "," + getStatus() + "," + getTaskDescription() + "," + getEpicID();
+//    "id,type,name,startAt,duration,status,description,epic"
+        return taskID + "," + TaskType.SUBTASK + "," + getTaskName()
+                + "," + getStartTimeInString(startTime)
+                + "," + getDurationInString(duration) // duration.get().toMinutes()
+                + "," + getStatus() + "," + getTaskDescription() + "," + getEpicID();
     }
 
 
     @Override
     public String toString() {
-        return "SubTask{" +
+        Optional<LocalDateTime> endTime = Optional.empty();
+        if (startTime.isPresent()) {
+            endTime = Optional.of(startTime.get().plus(duration.get()));
+        }
+
+        return "SubTask{" + '\'' +
                 "  ID=" + taskID +
                 ", taskName='" + taskName + '\'' +
+                ", startTime='" + getStartTimeInString(startTime) + '\'' +
+                ", endTime='" + getStartTimeInString(endTime) + '\'' +
+                ", duration='" + getDurationInString(duration) + '\'' +
                 ", taskDescription='" + taskDescription + '\'' +
                 ", status=" + status +
                 ", epicID=" + epicID +

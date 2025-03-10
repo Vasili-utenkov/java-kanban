@@ -1,5 +1,6 @@
-package manager;
+package manager.history;
 
+import manager.history.HistoryManager;
 import tasks.Task;
 
 import java.util.ArrayList;
@@ -47,7 +48,6 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void remove(int id) {
         Node node, prevNode, nextNode;
-
         node = historyManager.remove(id);
         if (node != null) {
             prevNode = node.prev;
