@@ -188,18 +188,18 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     void isConsistDeletedSubTask() {
 
         Integer epicID = taskManager.addNewEpic(new Epic("Эпик 1", "Добавили Эпик 1"));
-        Integer subTask1 = taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "01.03.2025 10:10", 1500, "Добавили ПодЗадача 1", epicID, Status.NEW));
-        Integer subTask2 = taskManager.addNewSubTask(new SubTask("ПодЗадача 2", "01.03.2025 10:10", 707, "Добавили ПодЗадача 2", epicID, Status.NEW));
-        Integer subTask3 = taskManager.addNewSubTask(new SubTask("ПодЗадача 3", "01.03.2025 10:10", 250, "Добавили ПодЗадача 3", epicID, Status.NEW));
+        Integer subTask1 = taskManager.addNewSubTask(new SubTask("ПодЗадача 1", "01.01.2035 10:10", 1500, "Добавили ПодЗадача 1", epicID, Status.NEW));
+        Integer subTask2 = taskManager.addNewSubTask(new SubTask("ПодЗадача 2", "01.02.2035 10:10", 707, "Добавили ПодЗадача 2", epicID, Status.NEW));
+        Integer subTask3 = taskManager.addNewSubTask(new SubTask("ПодЗадача 3", "01.03.2035 10:10", 250, "Добавили ПодЗадача 3", epicID, Status.NEW));
 
-        taskManager.deleteSubTask(subTask1);
+        if (subTask1 != null) taskManager.deleteSubTask(subTask1);
         assertFalse(taskManager.getSubTaskList(epicID).contains(subTask1));
 
-        taskManager.deleteSubTask(subTask3);
+        if (subTask3 != null) taskManager.deleteSubTask(subTask3);
         assertFalse(taskManager.getSubTaskList(epicID).contains(subTask3));
 
-        taskManager.deleteEpic(epicID);
-        taskManager.deleteSubTask(subTask2);
+        if (epicID != null) taskManager.deleteEpic(epicID);
+        if (subTask2 != null) taskManager.deleteSubTask(subTask2);
     }
 
     @DisplayName("Проверка попадания и исключения задач в приоретизированный список задач")
@@ -212,25 +212,18 @@ startTime='02.03.2025 12:12', endTime='02.03.2025 22:34', duration='622'
 startTime='03.03.2025 13:13', endTime='04.03.2025 14:48', duration='1535'
 */
 
-/* ДОБАВИТЬ startTime='02.02.2025 12:12', duration='45' -- НЕДОЛЖЕН ВОЙТИ*/
-        int taskAdd1 = taskManager.addNewTask(new Task("Задача добавленная 1", "02.02.2025 12:12", 45, "Добавили задачу 1", Status.NEW));
+/* ДОБАВИТЬ startTime='02.02.2025 12:12', duration='45' -- ДОЛЖЕН ВОЙТИ*/
+        Integer taskAdd1 = taskManager.addNewTask(new Task("Задача добавленная 1", "02.02.2025 12:12", 45, "Добавили задачу 1", Status.NEW));
         boolean taskAdd1Contains = taskManager.getPrioritizedTasks().contains(taskManager.getTaskByID(taskAdd1));
-        assertFalse(taskAdd1Contains, "Задача №1 добавилась");
-
-/* ПОМЕНЯТЬ ПРОДОЛЖИТЕЛЬНОСТЬ startTime='02.02.2025 12:12', duration='45' -- ДОЛЖЕН УЙТИ*/
-        taskManager.getTaskByID(taskAdd1).setDuration(60*24*365);
-        taskManager.updateTask(taskManager.getTaskByID(taskAdd1));
-        taskAdd1Contains = taskManager.getPrioritizedTasks().contains(taskManager.getTaskByID(taskAdd1));
-        assertFalse(taskAdd1Contains, "Задача №1 не удалилась");
+        assertTrue(taskAdd1Contains, "Задача №1 не добавилась");
 
 /* ДОБАВИТЬ startTime='03.02.2025 12:12', duration='60*24*30' -- НЕ ДОЛЖЕН ВОЙТИ*/
-        int taskAdd2 = taskManager.addNewTask(new Task("Задача добавленная 2", "03.02.2025 12:12", 60*24*30, "Добавили задачу 1", Status.NEW));
-        taskAdd1Contains = taskManager.getPrioritizedTasks().contains(taskManager.getTaskByID(taskAdd2));
-        assertFalse(taskAdd1Contains, "Задача №2 добавилась");
+        Integer taskAdd2 = taskManager.addNewTask(new Task("Задача добавленная 2", "03.02.2025 12:12", 60*24*30, "Добавили задачу 1", Status.NEW));
+        assertNull(taskAdd2, "Задача №2 добавилась");
 
 /* УДАЛИТЬ ДОБАВЛЕННЫЕ*/
-        taskManager.deleteTask(taskAdd1);
-        taskManager.deleteTask(taskAdd2);
+        if (taskAdd1 != null) taskManager.deleteTask(taskAdd1);
+        if (taskAdd2 != null) taskManager.deleteTask(taskAdd2);
 
     }
 

@@ -2,23 +2,22 @@ package tasks;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Optional;
+
 
 public class Epic extends Task {
 
-    protected Optional<LocalDateTime> endTime;
+    protected LocalDateTime endTime;
     private final ArrayList<Integer> subTaskIDList;
 
     public Epic(String taskName, String taskDescription) {
-        super(taskName, null, null, taskDescription, Status.NEW);
+        super(taskName, null, null, taskDescription, Status.NEW, false);
         this.subTaskIDList = new ArrayList<>();
     }
 
     public Epic(int taskID, String taskName, String taskDescription) {
-        super(taskID, taskName, null, null, taskDescription, Status.NEW);
+        super(taskID, taskName, null, null, taskDescription, Status.NEW, false);
         this.subTaskIDList = new ArrayList<>();
     }
-
 
     // a. получение
     public ArrayList<Integer> getEpicSubtasks() {
@@ -38,11 +37,11 @@ public class Epic extends Task {
     }
 
 
-    public Optional<LocalDateTime> getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Optional<LocalDateTime> endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 

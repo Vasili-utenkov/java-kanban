@@ -32,9 +32,9 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        Optional<LocalDateTime> endTime = Optional.empty();
-        if (startTime.isPresent()) {
-            endTime = Optional.of(startTime.get().plus(duration.get()));
+        LocalDateTime endTime = null;
+        if (startTime != null) {
+            endTime = startTime.plus(duration);
         }
 
         return "SubTask{" + '\'' +
