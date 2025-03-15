@@ -5,7 +5,6 @@ import manager.memory.InMemoryTaskManager;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 public class Task {
     // формат для startTime
@@ -34,7 +33,7 @@ public class Task {
         }
 
         this.taskName = taskName;
-        this.startTime = (startTimeString != null) ? LocalDateTime.parse( startTimeString, START_TIME_FORMAT) : null;
+        this.startTime = (startTimeString != null) ? LocalDateTime.parse(startTimeString, START_TIME_FORMAT) : null;
         this.duration = (durationMinutes != null) ? Duration.ofMinutes(durationMinutes) : null;
         this.taskDescription = taskDescription;
         this.status = status;
@@ -49,7 +48,7 @@ public class Task {
 
         this.taskID = taskID;
         this.taskName = taskName;
-        this.startTime = (startTimeString != null) ? LocalDateTime.parse( startTimeString, START_TIME_FORMAT) : null;
+        this.startTime = (startTimeString != null) ? LocalDateTime.parse(startTimeString, START_TIME_FORMAT) : null;
         this.duration = (durationMinutes != null) ? Duration.ofMinutes(durationMinutes) : null;
         this.taskDescription = taskDescription;
         this.status = status;
@@ -104,20 +103,13 @@ public class Task {
         if (duration != null) {
             Duration newDuration = Duration.ofMinutes(duration);
             InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
-
-            if (!inMemoryTaskManager.isInterceptTime(this.getStartTime(), newDuration)){
+            if (!inMemoryTaskManager.isInterceptTime(this.getStartTime(), newDuration)) {
                 this.duration = newDuration;
             }
         } else {
             this.duration = null;
         }
     }
-
-
-    public void updateTask(Task task){
-
-    }
-
 
     // Запрос начала работы
     public LocalDateTime getStartTime() {
