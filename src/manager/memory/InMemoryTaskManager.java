@@ -59,8 +59,6 @@ public class InMemoryTaskManager implements TaskManager {
 
 
     /* Проверка на пересечение */
-
-/*
     public boolean isInterceptTime(Task task) {
         String taskName = task.getTaskName();
         if (taskName == null) {
@@ -70,55 +68,14 @@ public class InMemoryTaskManager implements TaskManager {
         LocalDateTime checkingStartTime = task.getStartTime();
         Duration checkingDuration = task.getDuration();
 
-        if (checkingDuration == null || checkingDuration == null) {
+        if (isInterceptTime(checkingStartTime, checkingDuration)) {
             System.out.println("Проверяемая задача " + taskName
                     + " не прошла валидацию по пересечению работ с дугими задачами");
             return true;
         }
 
-        LocalDateTime checkingEndTime = task.getStartTime().plus(checkingDuration);
-
-        long interceptStart = 0, interceptEnd = 0;
-
-
-//даты начала задач после checkingStartTime и перед checkingEndTime
-//даты окончания задач после checkingStartTime и перед checkingEndTime
-
-
-        interceptStart = sortedTasks.stream()
-                .map(Task::getStartTime)
-                .filter(Objects::nonNull)
-                .filter(startOfTask -> startOfTask.isAfter(checkingStartTime) && startOfTask.isBefore(checkingEndTime)) //
-                .count();
-
-        interceptEnd = sortedTasks.stream()
-                .map(Task::getEndTime)
-                .filter(Objects::nonNull)
-                .filter(endOfTask -> endOfTask.isAfter(checkingStartTime) && endOfTask.isBefore(checkingEndTime)) //
-                .count();
-
-        return (interceptEnd > 0) || (interceptStart > 0);
-
-
+        return false;
     }
-*/
-public boolean isInterceptTime(Task task) {
-    String taskName = task.getTaskName();
-    if (taskName == null) {
-        return true;
-    }
-
-    LocalDateTime checkingStartTime = task.getStartTime();
-    Duration checkingDuration = task.getDuration();
-
-    if (checkingStartTime == null || checkingDuration == null) {
-        System.out.println("Проверяемая задача " + taskName
-                + " не прошла валидацию по пересечению работ с дугими задачами");
-        return true;
-    }
-
-    return isInterceptTime(checkingStartTime, checkingDuration);
-}
 
     public boolean isInterceptTime(LocalDateTime checkingStartTime, Duration checkingDuration) {
         if (checkingStartTime == null || checkingDuration == null) {
@@ -148,7 +105,6 @@ public boolean isInterceptTime(Task task) {
         return (interceptEnd > 0) || (interceptStart > 0);
 
     }
-
 
 
     // A. Получение списка всех задач.
