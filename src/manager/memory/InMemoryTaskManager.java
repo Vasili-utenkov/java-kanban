@@ -117,10 +117,10 @@ public boolean isInterceptTime(Task task) {
         return true;
     }
 
-    return isInterceptTime (checkingStartTime, checkingDuration);
+    return isInterceptTime(checkingStartTime, checkingDuration);
 }
 
-    public boolean isInterceptTime (LocalDateTime checkingStartTime, Duration checkingDuration) {
+    public boolean isInterceptTime(LocalDateTime checkingStartTime, Duration checkingDuration) {
         if (checkingStartTime == null || checkingDuration == null) {
             return true;
         }
