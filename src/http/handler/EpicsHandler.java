@@ -5,9 +5,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import manager.TaskManager;
 import tasks.Epic;
-import tasks.SubTask;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -44,7 +42,7 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
                     final String response;
                     if (isGetSubTasksList) {
                         ArrayList<Integer> subTasksID = epic.getEpicSubtasks();
-                        response = gson.toJson( taskManager.getSubTasksList().stream()
+                        response = gson.toJson(taskManager.getSubTasksList().stream()
                                 .filter(subtask -> subTasksID.contains(subtask.getID()))
                                 .collect(Collectors.toList()));
                     } else {
