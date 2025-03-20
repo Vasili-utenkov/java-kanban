@@ -130,8 +130,6 @@ class EpicsHandlerTest {
         epicList = manager.getEpicsList();
         assertNotNull(epicList, "Эпики не возвращаются");
         assertEquals(1, epicList.size(), "Некорректное количество эпиков");
-
-
     }
 
     @DisplayName("Запрос списка эпиков : GET  /epics")

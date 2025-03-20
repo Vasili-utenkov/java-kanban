@@ -243,7 +243,6 @@ class SubTasksHandlerTest {
     }
 
 
-
     @DisplayName("Запрос списка подзадач : GET  /subtasks")
     @Test
     public void testGetSubTask() throws IOException, InterruptedException {
