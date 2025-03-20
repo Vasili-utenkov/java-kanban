@@ -70,7 +70,7 @@ public class TasksHandlerTest {
         response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
         // проверяем код ответа
-        assertEquals(201, response.statusCode());
+        assertEquals(201, response.statusCode(), "Вместо кода 201 вернулся неверный код ответа " + response.statusCode());
 
         // проверяем, что создалась одна задача с корректным именем
         List<Task> tasksFromManager = manager.getTasksList();
@@ -265,7 +265,6 @@ public class TasksHandlerTest {
         assertEquals(200, response.statusCode(), "Вместо кода 200 вернулся неверный код ответа " + response.statusCode());
         // разбираем строку в формате JSON на элементы
         JsonArray getAsJsonArray = JsonParser.parseString(response.body()).getAsJsonArray();
-
         assertEquals(getAsJsonArray.size(), tasksFromManager.size(), "количество задач в ответе за запрос: "
                 + getAsJsonArray.size() + " не совпадает с количеством задач в списке: " + tasksFromManager.size() );
 

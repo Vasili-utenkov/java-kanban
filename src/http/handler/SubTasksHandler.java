@@ -49,20 +49,21 @@ public class SubTasksHandler extends BaseHttpHandler implements HttpHandler {
                 SubTask subTask = gson.fromJson(json, SubTask.class);
                 Integer subTaskID = subTask.getID();
                 // Есть код задачи - апдэйт
-                if (subTaskID > 0) {
+                if (subTaskID != null) {
                     taskManager.updateTask(subTask);
                     System.out.println("Обновили задачу + " + subTaskID);
+                    sendSuccess200(exchange, "");
                 } else { // Нет кода задачи - добавили
+                    System.out.println("Нет кода задачи - добавили");
                     Integer addedID = taskManager.addNewSubTask(subTask);
                     if (addedID != null) {
                         System.out.println("Создали задачу с кодом " + addedID);
+                        sendTaskCreated201(exchange);
                     } else {
                         System.out.println("Задача не добавлена");
                         sendTaskIntercepted406(exchange);
-                        break;
                     }
                 }
-                sendTaskCreated201(exchange);
             }
 
             case "DELETE" -> {

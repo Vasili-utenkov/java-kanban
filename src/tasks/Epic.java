@@ -11,15 +11,17 @@ public class Epic extends Task {
     private final ArrayList<Integer> subTaskIDList;
 
     public Epic(String taskName, String taskDescription) {
-        super(taskName, null, null, taskDescription, Status.NEW, false);
+        super(taskName, LocalDateTime.now().format(START_TIME_FORMAT).toString(), 0, taskDescription, Status.NEW, false);
+
         this.subTaskIDList = new ArrayList<>();
+        this.endTime = this.startTime;
     }
 
     public Epic(int taskID, String taskName, String taskDescription) {
-        super(taskID, taskName, null, null, taskDescription, Status.NEW, false);
+        super(taskID, taskName, LocalDateTime.now().format(START_TIME_FORMAT).toString(), 0, taskDescription, Status.NEW, false);
 
-        System.out.println("taskID = " + taskID);
         this.subTaskIDList = new ArrayList<>();
+        this.endTime = this.startTime;
     }
 
     // a. получение

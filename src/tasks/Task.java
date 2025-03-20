@@ -31,7 +31,6 @@ public class Task {
                 return;
             }
         }
-
         this.taskName = taskName;
         this.startTime = (startTimeString != null) ? LocalDateTime.parse(startTimeString, START_TIME_FORMAT) : null;
         this.duration = (durationMinutes != null) ? Duration.ofMinutes(durationMinutes) : null;
@@ -40,9 +39,9 @@ public class Task {
     }
 
     public Task(Integer taskID, String taskName, String startTimeString, Integer durationMinutes, String taskDescription, Status status, boolean checkInterception) {
-
         if (checkInterception) {
-            if (taskID == null && startTimeString == null && durationMinutes == null) {
+//            if (taskID == null && startTimeString == null && durationMinutes == null) {
+            if (startTimeString == null && durationMinutes == null) {
                 return;
             }
         }

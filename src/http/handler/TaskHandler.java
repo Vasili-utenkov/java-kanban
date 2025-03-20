@@ -53,9 +53,7 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
                     System.out.println("Обновили задачу + " + taskID);
                     sendSuccess200(exchange, "");
                 } else { // Нет кода задачи - добавили
-
                     System.out.println("Нет кода задачи - добавили");
-
                     Integer addedID = taskManager.addNewTask(task);
                     if (addedID != null) {
                         System.out.println("Создали задачу с кодом " + addedID);

@@ -26,7 +26,6 @@ public class InMemoryTaskManager implements TaskManager {
 
         System.out.println("Эпики:");
         for (Epic epic : manager.getEpicsList()) {
-            System.out.println(epic);
             manager.getSubTaskList(epic.getID()).forEach(System.out::println);
         }
 
@@ -66,9 +65,6 @@ public class InMemoryTaskManager implements TaskManager {
         LocalDateTime checkingStartTime = task.getStartTime();
         Duration checkingDuration = task.getDuration();
         Integer taskID = task.getID();
-
-//        System.out.println("ТЕСТЫ :: Проверка пересечения taskID = " + taskID);
-
         if (isInterceptTime(checkingStartTime, checkingDuration, taskID)) {
             System.out.println("Проверяемая задача " + taskName
                     + " не прошла валидацию по пересечению работ с другими задачами");
@@ -82,12 +78,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (checkingStartTime == null || checkingDuration == null) {
             return true;
         }
-
-//        if (taskID == null) {
-//            System.out.println("ТЕСТЫ :: Проверка пересечения с наловым taskID = " + taskID);
-//        }
-
-
         LocalDateTime checkingEndTime = checkingStartTime.plus(checkingDuration);
         long interceptStart = 0, interceptEnd = 0;
 
@@ -203,9 +193,6 @@ public class InMemoryTaskManager implements TaskManager {
     // d. Создание.Сам объект должен передаваться в качестве параметра.
     @Override
     public Integer addNewTask(Task task) {
-
-//        System.out.println("ТЕСТЫ :: ДОБАВЛЯЕМ ЗАДАЧУ");
-
         if (isInterceptTime(task)) {
             return null;
         }
@@ -255,9 +242,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (isInterceptTime(task)) {
             return;
         }
-
-//        System.out.println("ТЕСТЫ :: ИЗМЕНЕНИЕ ЗАДАЧИ. Новые параметры task = " + task);
-
         int taskID = task.getID();
         tasks.replace(taskID, task);
         deleteTaskInPrioritizedTasks(task);
