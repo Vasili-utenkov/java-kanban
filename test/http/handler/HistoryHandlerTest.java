@@ -50,7 +50,6 @@ class HistoryHandlerTest {
     @DisplayName("Запрос упорядоченного списка задач : GET  /history")
     @Test
     public void testPrioritizedList() throws IOException, InterruptedException {
-
         Task task1, task2, task3;
         HttpResponse<String> response;
         URI url = URI.create(http + "/tasks");
@@ -71,7 +70,6 @@ class HistoryHandlerTest {
         // положить задачу в историю просмотра
         manager.getTaskByID(manager.getTasksList().size());
 
-
         // Добавили 2 задачу
         task2 = new Task("Тест 2", "02.01.2030 00:00", 5, "Тест добавления задачи",
                 Status.NEW);
@@ -85,7 +83,6 @@ class HistoryHandlerTest {
         assertEquals(201, response.statusCode(), "Вместо кода 201 вернулся неверный код ответа " + response.statusCode());
         // положить задачу в историю просмотра
         manager.getTaskByID(manager.getTasksList().size());
-
 
         // Добавили 3 задачу
         task3 = new Task("Тест 2", "03.01.2030 00:00", 5, "Тест добавления задачи",
@@ -101,7 +98,6 @@ class HistoryHandlerTest {
         // положить задачу в историю просмотра
         manager.getTaskByID(manager.getTasksList().size());
 
-
         // получение списка
         List<Task> historyTasksList = manager.getHistory();
         Integer historyTasksCount = historyTasksList.size();
@@ -109,7 +105,6 @@ class HistoryHandlerTest {
         assertNotNull(historyTasksList, "Задачи не возвращаются");
         assertEquals(3, historyTasksCount, "Некорректное количество задач в списке. " +
                 "Ожидалось 3, получили " + historyTasksCount);
-
 
         url = URI.create(http + "/history");
         response = HttpClient.newHttpClient().send(HttpRequest.newBuilder()
@@ -126,7 +121,5 @@ class HistoryHandlerTest {
                 + getAsJsonArray.size() + " не совпадает с количеством задач в списке: " + historyTasksCount );
 
     }
-
-
 
 }

@@ -59,11 +59,11 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
                 String json = readText(exchange);
                 Epic epic = gson.fromJson(json, Epic.class);
                 Integer epicID = epic.getID();
-                // Есть код задачи - апдэйт
+                /* Есть код задачи - апдэйт */
                 if (epicID != null) {
                     taskManager.updateTask(epic);
                     System.out.println("Обновили задачу + " + epicID);
-                } else { // Нет кода задачи - добавили
+                } else { /* Нет кода задачи - добавили */
                     Integer addedID = taskManager.addNewEpic(epic);
                     System.out.println("Создали задачу с кодом " + addedID);
                 }
