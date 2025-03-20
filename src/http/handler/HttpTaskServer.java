@@ -6,7 +6,7 @@ import com.sun.net.httpserver.HttpServer;
 import http.adapter.DurationAdapter;
 import http.adapter.LocalDateTimeAdapter;
 import manager.Managers;
-import manager.TaskManager;
+import manager.memory.InMemoryTaskManager;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 public class HttpTaskServer {
     public static final int PORT = 8080;
     private final HttpServer server;
-    private final TaskManager manager;
+    private final InMemoryTaskManager manager;
 
 
-    public HttpTaskServer(TaskManager manager) throws IOException {
+    public HttpTaskServer(InMemoryTaskManager manager) throws IOException {
         this.manager = manager;
 
         server = HttpServer
@@ -33,13 +33,15 @@ public class HttpTaskServer {
     }
 
     public static void main(String[] args) throws IOException {
-        TaskManager manager = Managers.getDefault();
+        InMemoryTaskManager manager = (InMemoryTaskManager) Managers.getDefault();
         HttpTaskServer taskServer = new HttpTaskServer(manager);
         taskServer.start();
     }
 
     public static Gson getGson() {
         return new GsonBuilder()
+                .serializeNulls()
+                .setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .registerTypeAdapter(Duration.class, new DurationAdapter())
                 .create();

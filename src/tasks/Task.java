@@ -21,7 +21,7 @@ public class Task {
         this(taskName, startTimeString, durationMinutes, taskDescription, status, true);
     }
 
-    public Task(int taskID, String taskName, String startTimeString, Integer durationMinutes, String taskDescription, Status status) {
+    public Task(Integer taskID, String taskName, String startTimeString, Integer durationMinutes, String taskDescription, Status status) {
         this(taskID, taskName, startTimeString, durationMinutes, taskDescription, status, true);
     }
 
@@ -39,13 +39,13 @@ public class Task {
         this.status = status;
     }
 
-    public Task(int taskID, String taskName, String startTimeString, Integer durationMinutes, String taskDescription, Status status, boolean checkInterception) {
+    public Task(Integer taskID, String taskName, String startTimeString, Integer durationMinutes, String taskDescription, Status status, boolean checkInterception) {
+
         if (checkInterception) {
-            if (startTimeString == null && durationMinutes == null) {
+            if (taskID == null && startTimeString == null && durationMinutes == null) {
                 return;
             }
         }
-
         this.taskID = taskID;
         this.taskName = taskName;
         this.startTime = (startTimeString != null) ? LocalDateTime.parse(startTimeString, START_TIME_FORMAT) : null;
@@ -103,7 +103,7 @@ public class Task {
         if (duration != null) {
             Duration newDuration = Duration.ofMinutes(duration);
             InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
-            if (!inMemoryTaskManager.isInterceptTime(this.getStartTime(), newDuration)) {
+            if (!inMemoryTaskManager.isInterceptTime(this.getStartTime(), newDuration, this.taskID)) {
                 this.duration = newDuration;
             }
         } else {

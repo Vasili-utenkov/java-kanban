@@ -45,11 +45,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     // Добавление задачи в список приоритезируемых задач
     private void addTaskInPrioritizedTasks(Task task) {
-        if (task.getDuration() != null && task.getStartTime() != null) {
-            if (!isInterceptTime(task)) {
-                sortedTasks.add(task);
-            }
-        }
+        // Перенесли проверку на пересечение в методы add, update
+        sortedTasks.add(task);
     }
 
     // Добавление задачи из списка приоритезируемых задач
@@ -60,6 +57,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     /* Проверка на пересечение */
     public boolean isInterceptTime(Task task) {
+
         String taskName = task.getTaskName();
         if (taskName == null) {
             return true;
@@ -67,20 +65,28 @@ public class InMemoryTaskManager implements TaskManager {
 
         LocalDateTime checkingStartTime = task.getStartTime();
         Duration checkingDuration = task.getDuration();
+        Integer taskID = task.getID();
 
-        if (isInterceptTime(checkingStartTime, checkingDuration)) {
+//        System.out.println("ТЕСТЫ :: Проверка пересечения taskID = " + taskID);
+
+        if (isInterceptTime(checkingStartTime, checkingDuration, taskID)) {
             System.out.println("Проверяемая задача " + taskName
-                    + " не прошла валидацию по пересечению работ с дугими задачами");
+                    + " не прошла валидацию по пересечению работ с другими задачами");
             return true;
         }
 
         return false;
     }
 
-    public boolean isInterceptTime(LocalDateTime checkingStartTime, Duration checkingDuration) {
+    public boolean isInterceptTime(LocalDateTime checkingStartTime, Duration checkingDuration, Integer taskID) {
         if (checkingStartTime == null || checkingDuration == null) {
             return true;
         }
+
+//        if (taskID == null) {
+//            System.out.println("ТЕСТЫ :: Проверка пересечения с наловым taskID = " + taskID);
+//        }
+
 
         LocalDateTime checkingEndTime = checkingStartTime.plus(checkingDuration);
         long interceptStart = 0, interceptEnd = 0;
@@ -91,15 +97,19 @@ public class InMemoryTaskManager implements TaskManager {
 */
 
         interceptStart = sortedTasks.stream()
+                .filter(id -> !id.getID().equals(taskID))
                 .map(Task::getStartTime)
                 .filter(Objects::nonNull)
-                .filter(startOfTask -> startOfTask.isAfter(checkingStartTime) && startOfTask.isBefore(checkingEndTime)) //
+                .filter(startOfTask -> (startOfTask.isAfter(checkingStartTime) | startOfTask.isEqual(checkingStartTime))
+                        && (startOfTask.isBefore(checkingEndTime) | startOfTask.isEqual(checkingEndTime)))
                 .count();
 
         interceptEnd = sortedTasks.stream()
+                .filter(id -> !id.getID().equals(taskID))
                 .map(Task::getEndTime)
                 .filter(Objects::nonNull)
-                .filter(endOfTask -> endOfTask.isAfter(checkingStartTime) && endOfTask.isBefore(checkingEndTime)) //
+                .filter(endOfTask -> (endOfTask.isAfter(checkingStartTime) | endOfTask.isEqual(checkingStartTime))
+                        && (endOfTask.isBefore(checkingEndTime) | endOfTask.isEqual(checkingEndTime))) //
                 .count();
 
         return (interceptEnd > 0) || (interceptStart > 0);
@@ -193,6 +203,9 @@ public class InMemoryTaskManager implements TaskManager {
     // d. Создание.Сам объект должен передаваться в качестве параметра.
     @Override
     public Integer addNewTask(Task task) {
+
+//        System.out.println("ТЕСТЫ :: ДОБАВЛЯЕМ ЗАДАЧУ");
+
         if (isInterceptTime(task)) {
             return null;
         }
@@ -242,6 +255,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (isInterceptTime(task)) {
             return;
         }
+
+//        System.out.println("ТЕСТЫ :: ИЗМЕНЕНИЕ ЗАДАЧИ. Новые параметры task = " + task);
 
         int taskID = task.getID();
         tasks.replace(taskID, task);

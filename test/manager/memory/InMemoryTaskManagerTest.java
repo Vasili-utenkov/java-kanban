@@ -34,20 +34,6 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     }
 
 
-////    проверьте, что наследники класса Task равны друг другу, если равен их id;
-//    @DisplayName("SubTask равны друг другу, если равен их id")
-//    @Override
-//    @Test
-//    void equalsSubTaskByID() {
-//        int epicID = taskManager.addNewEpic(new Epic("Эпик", "Добавили Эпик"));
-//        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "01.03.2025 10:10", 1, "Добавили подзадачу для теста", epicID, Status.NEW));
-//        SubTask taskToCompare1 = taskManager.getSubTaskByID(subTaskID);
-//        SubTask taskToCompare2 = taskManager.getSubTaskByID(subTaskID);
-//        assertNotNull(taskToCompare1, "1 экземпляр класса SubTask для сравнения равенства не существует");
-//        assertNotNull(taskToCompare2, "2 экземпляр класса SubTask для сравнения равенства не существует");
-//        assertEquals(taskToCompare1, taskToCompare2, "экземпляры класса SubTask не равны друг другу, если равен их id");
-//    }
-
     @DisplayName("Epic равны друг другу, если равен их id")
     @Test
     void equalsEpicByID() {
@@ -60,14 +46,6 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         taskManager.deleteEpic(epicID);
     }
 
-    //    убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров;
-//    @DisplayName("утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров")
-//    @Override
-//    @Test
-//    void isManagersIsExists() {
-//        assertNotNull(taskManager, "taskManager не существует");
-//        assertNotNull(historyManager, "historyManager не существует");
-//    }
 
     //    проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id;
     @DisplayName("InMemoryTaskManager добавляет задачи разного типа и может найти их по id")
@@ -81,7 +59,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         Epic epic = taskManager.getEpicByID(epicID);
         assertNotNull(epic, "Epic не найден по id");
 
-        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "01.03.2025 10:10", 1, "Добавили подзадачу для теста", epicID, Status.NEW));
+        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача для теста", "01.03.2025 10:15", 1, "Добавили подзадачу для теста", epicID, Status.NEW));
         SubTask subTask = taskManager.getSubTaskByID(subTaskID);
         assertNotNull(subTask, "Epic не найден по id");
 
@@ -98,13 +76,11 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         String taskName = "Задача";
         String taskDescription = "Описание задачи";
         String epicName = "Эпик";
-        String startTime = "01.03.2025 10:10";
-        int duration = 10;
         String epicDescription = "Описание эпика";
         String subTaskName = "Подзадача";
         String subTaskDescription = "Описание подзадачи";
 
-        int taskID = taskManager.addNewTask(new Task(taskName, startTime, duration, taskDescription, Status.NEW));
+        int taskID = taskManager.addNewTask(new Task(taskName, "01.03.2025 10:10", 10, taskDescription, Status.NEW));
         Task task = taskManager.getTaskByID(taskID);
         assertNotNull(task, "Task не найден по id");
         assertEquals(taskName, task.getTaskName(), "Названия задач не совпадают.");
@@ -118,7 +94,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         assertEquals(epicDescription, epic.getTaskDescription(), "Описания эпиков не совпадают.");
 
 
-        int subTaskID = taskManager.addNewSubTask(new SubTask(subTaskName, startTime, duration, subTaskDescription, epicID, Status.NEW));
+        int subTaskID = taskManager.addNewSubTask(new SubTask(subTaskName, "01.03.2025 10:25", 10, subTaskDescription, epicID, Status.NEW));
         SubTask subTask = taskManager.getSubTaskByID(subTaskID);
         assertNotNull(subTask, "Epic не найден по id");
         assertEquals(subTaskName, subTask.getTaskName(), "Названия подзадач не совпадают.");
@@ -159,7 +135,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         assertEquals(epic.getStatus(), epicInHistory.getStatus(), "Статусы задач не совпадают.");
 
 
-        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача", "01.03.2025 10:10", 1, "Описание подзадачи", epicID, Status.NEW));
+        int subTaskID = taskManager.addNewSubTask(new SubTask("Подзадача", "01.03.2025 10:15", 1, "Описание подзадачи", epicID, Status.NEW));
         SubTask subTask = taskManager.getSubTaskByID(subTaskID);
         size = taskManager.getHistory().size();
         SubTask subTaskInHistory = (SubTask) taskManager.getHistory().get(size - 1);

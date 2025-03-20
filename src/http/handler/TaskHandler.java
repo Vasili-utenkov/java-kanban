@@ -48,11 +48,14 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
                 Task task = gson.fromJson(json, Task.class);
                 Integer taskID = task.getID();
                 // Есть код задачи - апдэйт
-                if (taskID > 0) {
+                if (taskID != null) {
                     taskManager.updateTask(task);
                     System.out.println("Обновили задачу + " + taskID);
                     sendSuccess200(exchange, "");
                 } else { // Нет кода задачи - добавили
+
+                    System.out.println("Нет кода задачи - добавили");
+
                     Integer addedID = taskManager.addNewTask(task);
                     if (addedID != null) {
                         System.out.println("Создали задачу с кодом " + addedID);
@@ -60,7 +63,6 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
                     } else {
                         System.out.println("Задача не добавлена");
                         sendTaskIntercepted406(exchange);
-                        break;
                     }
                 }
 

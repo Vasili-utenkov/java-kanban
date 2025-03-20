@@ -1,5 +1,6 @@
 package tasks;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -16,6 +17,8 @@ public class Epic extends Task {
 
     public Epic(int taskID, String taskName, String taskDescription) {
         super(taskID, taskName, null, null, taskDescription, Status.NEW, false);
+
+        System.out.println("taskID = " + taskID);
         this.subTaskIDList = new ArrayList<>();
     }
 
