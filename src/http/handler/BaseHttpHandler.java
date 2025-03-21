@@ -20,8 +20,8 @@ public class BaseHttpHandler {
     }
 
 
-    protected void sendTaskCreated201(HttpExchange exchange) throws IOException {
-        byte[] response = "Запрос выполнен.".getBytes(StandardCharsets.UTF_8);
+    protected void sendTaskCreated201(HttpExchange exchange, String text) throws IOException {
+        byte[] response = text.getBytes(StandardCharsets.UTF_8);
         exchange.sendResponseHeaders(201, response.length);
         exchange.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
         exchange.getResponseBody().write(response);

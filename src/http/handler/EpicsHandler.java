@@ -59,15 +59,15 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
                 String json = readText(exchange);
                 Epic epic = gson.fromJson(json, Epic.class);
                 Integer epicID = epic.getID();
-                /* Есть код задачи - апдэйт */
-                if (epicID != null) {
-                    taskManager.updateTask(epic);
-                    System.out.println("Обновили задачу + " + epicID);
-                } else { /* Нет кода задачи - добавили */
+                if (epicID == null) { /* Нет кода задачи - добавили */
                     Integer addedID = taskManager.addNewEpic(epic);
                     System.out.println("Создали задачу с кодом " + addedID);
+                    final String response = gson.toJson(addedID);
+                    sendTaskCreated201(exchange, response);
+                    break;
                 }
-                sendTaskCreated201(exchange);
+                /* Есть код задачи - ничего не делаем */
+                sendTaskCreated201(exchange, "");
             }
 
             case "DELETE" -> {
@@ -78,8 +78,7 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
                 sendSuccess200(exchange, "");
             }
 
-            default -> {
-            }
+            default -> { System.out.println("Неизвестный метод"); }
 
         }
     }

@@ -6,7 +6,7 @@ import com.sun.net.httpserver.HttpServer;
 import http.adapter.DurationAdapter;
 import http.adapter.LocalDateTimeAdapter;
 import manager.Managers;
-import manager.memory.InMemoryTaskManager;
+import manager.TaskManager;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -16,11 +16,9 @@ import java.time.LocalDateTime;
 public class HttpTaskServer {
     public static final int PORT = 8080;
     private final HttpServer server;
-    private final InMemoryTaskManager manager;
 
 
-    public HttpTaskServer(InMemoryTaskManager manager) throws IOException {
-        this.manager = manager;
+    public HttpTaskServer(TaskManager manager) throws IOException {
 
         server = HttpServer
                 .create(new InetSocketAddress("localhost", PORT), 0);
@@ -33,7 +31,7 @@ public class HttpTaskServer {
     }
 
     public static void main(String[] args) throws IOException {
-        InMemoryTaskManager manager = (InMemoryTaskManager) Managers.getDefault();
+        TaskManager manager = Managers.getDefaultTaskManager();
         HttpTaskServer taskServer = new HttpTaskServer(manager);
         taskServer.start();
     }

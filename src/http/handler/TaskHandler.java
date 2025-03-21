@@ -55,15 +55,15 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
                 } else { // Нет кода задачи - добавили
                     System.out.println("Нет кода задачи - добавили");
                     Integer addedID = taskManager.addNewTask(task);
+                    final String response = gson.toJson(addedID);
                     if (addedID != null) {
                         System.out.println("Создали задачу с кодом " + addedID);
-                        sendTaskCreated201(exchange);
+                        sendTaskCreated201(exchange, response);
                     } else {
                         System.out.println("Задача не добавлена");
                         sendTaskIntercepted406(exchange);
                     }
                 }
-
             }
 
             case "DELETE" -> {
@@ -74,8 +74,7 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
                 sendSuccess200(exchange, "");
             }
 
-            default -> {
-            }
+            default -> { System.out.println("Неизвестный метод"); }
         }
     }
 }

@@ -28,8 +28,7 @@ public class HistoryHandler extends BaseHttpHandler implements HttpHandler {
                 break;
             }
 
-            default -> {
-            }
+            default -> { System.out.println("Неизвестный метод"); }
         }
     }
 }
