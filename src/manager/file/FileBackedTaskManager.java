@@ -140,16 +140,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
 
     private Integer restoreTask(Task task) {
-        if (isInterceptTime(task)) {
-            return null;
-        }
+//        if (isInterceptTime(task)) {
+//            return null;
+//        }
         return super.addNewTask(task);
     }
 
     private Integer restoreSubTask(SubTask subTask) {
-        if (isInterceptTime(subTask)) {
-            return null;
-        }
+//        if (isInterceptTime(subTask)) {
+//            return null;
+//        }
         return super.addNewSubTask(subTask);
     }
 

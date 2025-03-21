@@ -6,6 +6,7 @@ import manager.TaskManager;
 import manager.history.HistoryManager;
 import tasks.*;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final Map<Integer, Epic> epics = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
     private final Set<Task> sortedTasks = new TreeSet<>(new CompareByStartTime());
-        private int counter = 0;
+    private int counter = 0;
 
     private static void printAllTasks(TaskManager manager) {
         System.out.println("Задачи:");
@@ -25,7 +26,6 @@ public class InMemoryTaskManager implements TaskManager {
 
         System.out.println("Эпики:");
         for (Epic epic : manager.getEpicsList()) {
-            System.out.println(epic);
             manager.getSubTaskList(epic.getID()).forEach(System.out::println);
         }
 
@@ -44,32 +44,42 @@ public class InMemoryTaskManager implements TaskManager {
 
     // Добавление задачи в список приоритезируемых задач
     private void addTaskInPrioritizedTasks(Task task) {
-        if (task.getDuration().isPresent() && task.getStartTime().isPresent()) {
-            if (isInterceptTime(task)) {
-                sortedTasks.add(task);
-            }
-        }
+        // Перенесли проверку на пересечение в методы add, update
+        sortedTasks.add(task);
     }
 
     // Добавление задачи из списка приоритезируемых задач
     private void deleteTaskInPrioritizedTasks(Task task) {
-            sortedTasks.remove(task);
+        sortedTasks.remove(task);
     }
 
 
     /* Проверка на пересечение */
     public boolean isInterceptTime(Task task) {
 
-        if (task.getStartTime().isEmpty() || task.getDuration().isEmpty()) {
-            System.out.println("Проверяемая задача " + task.getTaskName()
-                    + " не прошла валидацию по пересечению работ с дугими задачами");
-            return false;
+        String taskName = task.getTaskName();
+        if (taskName == null) {
+            return true;
         }
 
-        long interceptStart = 0, interceptEnd = 0;
-        LocalDateTime checkingStartTime = task.getStartTime().get();
-        LocalDateTime checkingEndTime = task.getEndTime().get();
+        LocalDateTime checkingStartTime = task.getStartTime();
+        Duration checkingDuration = task.getDuration();
+        Integer taskID = task.getID();
+        if (isInterceptTime(checkingStartTime, checkingDuration, taskID)) {
+            System.out.println("Проверяемая задача " + taskName
+                    + " не прошла валидацию по пересечению работ с другими задачами");
+            return true;
+        }
 
+        return false;
+    }
+
+    public boolean isInterceptTime(LocalDateTime checkingStartTime, Duration checkingDuration, Integer taskID) {
+        if (checkingStartTime == null || checkingDuration == null) {
+            return true;
+        }
+        LocalDateTime checkingEndTime = checkingStartTime.plus(checkingDuration);
+        long interceptStart = 0, interceptEnd = 0;
 
 /*
 даты начала задач после checkingStartTime и перед checkingEndTime
@@ -77,17 +87,25 @@ public class InMemoryTaskManager implements TaskManager {
 */
 
         interceptStart = sortedTasks.stream()
-                .map(startOfTask -> startOfTask.getStartTime().get())
-                .filter(startOfTask -> startOfTask.isAfter(checkingStartTime) && startOfTask.isBefore(checkingEndTime)) //
+                .filter(id -> !id.getID().equals(taskID))
+                .map(Task::getStartTime)
+                .filter(Objects::nonNull)
+                .filter(startOfTask -> (startOfTask.isAfter(checkingStartTime) | startOfTask.isEqual(checkingStartTime))
+                        && (startOfTask.isBefore(checkingEndTime) | startOfTask.isEqual(checkingEndTime)))
                 .count();
 
         interceptEnd = sortedTasks.stream()
-                .map(endOfTask -> endOfTask.getEndTime().get())
-                .filter(endOfTask -> endOfTask.isAfter(checkingStartTime) && endOfTask.isBefore(checkingEndTime)) //
+                .filter(id -> !id.getID().equals(taskID))
+                .map(Task::getEndTime)
+                .filter(Objects::nonNull)
+                .filter(endOfTask -> (endOfTask.isAfter(checkingStartTime) | endOfTask.isEqual(checkingStartTime))
+                        && (endOfTask.isBefore(checkingEndTime) | endOfTask.isEqual(checkingEndTime))) //
                 .count();
 
         return (interceptEnd > 0) || (interceptStart > 0);
+
     }
+
 
     // A. Получение списка всех задач.
     @Override
@@ -224,7 +242,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (isInterceptTime(task)) {
             return;
         }
-
         int taskID = task.getID();
         tasks.replace(taskID, task);
         deleteTaskInPrioritizedTasks(task);
@@ -412,39 +429,32 @@ public class InMemoryTaskManager implements TaskManager {
     private void setEpicTiming(int epicID) {
         Epic epic = epics.get(epicID);
 
-        Optional<LocalDateTime> minStartDateTime, maxEndDateTime;
+        LocalDateTime minStartDateTime, maxEndDateTime;
 
         Optional<SubTask> subTask = epic.getEpicSubtasks()
                 .stream()
                 .map(subTasks::get)
-                .filter(ST -> ST.getStartTime().isPresent())
-                .min(Comparator.comparing(ST -> ST.getStartTime().get()));
+                .filter(ST -> ST.getStartTime() != null)
+                .min(Comparator.comparing(Task::getStartTime));
 
-        if (subTask.isPresent()) {
-            minStartDateTime = subTask.get().getStartTime();
-        } else {
-            minStartDateTime = Optional.empty();
-        }
+        minStartDateTime = subTask.map(Task::getStartTime).orElse(null);
 
         subTask = epic.getEpicSubtasks()
                 .stream()
                 .map(subTasks::get)
-                .filter(ST -> ST.getEndTime().isPresent())
-                .max(Comparator.comparing(ST -> ST.getEndTime().get()));
+                .filter(ST -> ST.getEndTime() != null)
+                .max(Comparator.comparing(Task::getEndTime));
 
-        if (subTask.isPresent()) {
-            maxEndDateTime = subTask.get().getEndTime();
-        } else {
-            maxEndDateTime = Optional.empty();
-        }
+        maxEndDateTime = subTask.map(Task::getEndTime).orElse(null);
 
         int duration = epic.getEpicSubtasks()
                 .stream()
                 .map(subTasks::get)
                 .map(SubTask::getDuration)
-                .filter(Optional::isPresent)
-                .mapToInt(i -> (int) i.get().toMinutes())
+                .filter(Objects::nonNull)
+                .mapToInt(i -> (int) i.toMinutes())
                 .sum();
+
 
         epic.setStartTime(minStartDateTime);
         epic.setEndTime(maxEndDateTime);

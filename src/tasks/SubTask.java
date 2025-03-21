@@ -1,7 +1,6 @@
 package tasks;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 public class SubTask extends Task {
     private final Integer epicID;
@@ -12,7 +11,7 @@ public class SubTask extends Task {
     }
 
     public SubTask(int taskID, String taskName, String startTimeString, Integer durationMinutes, String taskDescription, int epicID, Status status) {
-        super(taskName, startTimeString, durationMinutes, taskDescription, status);
+        super(taskID, taskName, startTimeString, durationMinutes, taskDescription, status);
         this.epicID = epicID;
     }
 
@@ -32,9 +31,9 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        Optional<LocalDateTime> endTime = Optional.empty();
-        if (startTime.isPresent()) {
-            endTime = Optional.of(startTime.get().plus(duration.get()));
+        LocalDateTime endTime = null;
+        if (startTime != null) {
+            endTime = startTime.plus(duration);
         }
 
         return "SubTask{" + '\'' +

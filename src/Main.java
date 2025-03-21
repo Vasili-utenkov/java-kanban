@@ -11,7 +11,7 @@ public class Main {
 //        int task1 = taskManager.addNewTask(new Task("Задача 1", "01.02.2025 11:12", 45, "Добавили задачу 1", Status.NEW));
         Integer task1 = taskManager.addNewTask(new Task("Задача 1", null, null, "Добавили задачу 1", Status.NEW));
         Integer task2 = taskManager.addNewTask(new Task("Задача 1", "01.02.2025 12:12", 45, "Добавили задачу 1", Status.NEW));
-//        System.out.println("task1 = " + taskManager.getTaskByID(task1).toString());
+
 
 
         Integer task3 = taskManager.addNewEpic(new Epic("Эпик 1", "Добавили Эпик 1"));

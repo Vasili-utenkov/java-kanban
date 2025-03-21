@@ -1,9 +1,10 @@
 package tasks;
 
+import manager.memory.InMemoryTaskManager;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 public class Task {
     // формат для startTime
@@ -13,43 +14,41 @@ public class Task {
     protected String taskName;
     protected String taskDescription;
     protected Status status;
-    protected Optional<LocalDateTime> startTime;
-    protected Optional<Duration> duration;
-
+    protected LocalDateTime startTime;
+    protected Duration duration;
 
     public Task(String taskName, String startTimeString, Integer durationMinutes, String taskDescription, Status status) {
+        this(taskName, startTimeString, durationMinutes, taskDescription, status, true);
+    }
+
+    public Task(Integer taskID, String taskName, String startTimeString, Integer durationMinutes, String taskDescription, Status status) {
+        this(taskID, taskName, startTimeString, durationMinutes, taskDescription, status, true);
+    }
+
+    public Task(String taskName, String startTimeString, Integer durationMinutes, String taskDescription, Status status, boolean checkInterception) {
+        if (checkInterception) {
+            if (startTimeString == null && durationMinutes == null) {
+                return;
+            }
+        }
         this.taskName = taskName;
-        if (startTimeString != null) {
-            this.startTime = Optional.ofNullable(LocalDateTime.parse(startTimeString, START_TIME_FORMAT));
-        } else {
-            this.startTime = Optional.empty();
-        }
-
-        if (durationMinutes != null) {
-            this.duration = Optional.ofNullable(Duration.ofMinutes(durationMinutes));
-        } else {
-            this.duration = Optional.empty();
-        }
-
+        this.startTime = (startTimeString != null) ? LocalDateTime.parse(startTimeString, START_TIME_FORMAT) : null;
+        this.duration = (durationMinutes != null) ? Duration.ofMinutes(durationMinutes) : null;
         this.taskDescription = taskDescription;
         this.status = status;
     }
 
-    public Task(int taskID, String taskName, String startTimeString, Integer durationMinutes, String taskDescription, Status status) {
+    public Task(Integer taskID, String taskName, String startTimeString, Integer durationMinutes, String taskDescription, Status status, boolean checkInterception) {
+        if (checkInterception) {
+//            if (taskID == null && startTimeString == null && durationMinutes == null) {
+            if (startTimeString == null && durationMinutes == null) {
+                return;
+            }
+        }
         this.taskID = taskID;
         this.taskName = taskName;
-        if (startTimeString != null) {
-            this.startTime = Optional.of(LocalDateTime.parse(startTimeString, START_TIME_FORMAT));
-        } else {
-            this.startTime = Optional.empty();
-        }
-
-        if (durationMinutes != null) {
-            this.duration = Optional.ofNullable(Duration.ofMinutes(durationMinutes));
-        } else {
-            this.duration = Optional.empty();
-        }
-
+        this.startTime = (startTimeString != null) ? LocalDateTime.parse(startTimeString, START_TIME_FORMAT) : null;
+        this.duration = (durationMinutes != null) ? Duration.ofMinutes(durationMinutes) : null;
         this.taskDescription = taskDescription;
         this.status = status;
     }
@@ -94,50 +93,57 @@ public class Task {
     }
 
     // Запрос продолжительности задачи
-    public Optional<Duration> getDuration() {
+    public Duration getDuration() {
         return duration;
     }
 
     // Установка продолжительности задачи
     public void setDuration(Integer duration) {
-        this.duration = Optional.ofNullable(Duration.ofMinutes(duration));
+        if (duration != null) {
+            Duration newDuration = Duration.ofMinutes(duration);
+            InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+            if (!inMemoryTaskManager.isInterceptTime(this.getStartTime(), newDuration, this.taskID)) {
+                this.duration = newDuration;
+            }
+        } else {
+            this.duration = null;
+        }
     }
 
     // Запрос начала работы
-    public Optional<LocalDateTime> getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    // Установка начала работыIn
-    public void setStartTime(Optional<LocalDateTime> startTime) {
+    // Установка начала работы
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
     // Запрос конца работы
-    public Optional<LocalDateTime> getEndTime() {
-        Optional<LocalDateTime> endTime = Optional.empty();
-        if (startTime.isPresent() && duration.isPresent()) {
-            endTime = Optional.ofNullable(startTime.get().plus(duration.get()));
+    public LocalDateTime getEndTime() {
+        LocalDateTime endTime = null;
+        if (startTime != null && duration != null) {
+            endTime = startTime.plus(duration);
         }
         return endTime;
     }
 
-
     // перевод старта задачи в стринг
-    String getStartTimeInString(Optional<LocalDateTime> startTime) {
+    String getStartTimeInString(LocalDateTime startTime) {
         String string = "";
-        if (startTime.isPresent()) {
-            string = START_TIME_FORMAT.format(startTime.get());
+        if (startTime != null) {
+            string = START_TIME_FORMAT.format(startTime);
         }
         return string;
     }
 
 
     // перевод длительности задачи в стринг
-    String getDurationInString(Optional<Duration> duration) {
+    String getDurationInString(Duration duration) {
         String string = "";
-        if (duration.isPresent()) {
-            string = String.valueOf(duration.get().toMinutes());
+        if (duration != null) {
+            string = String.valueOf(duration.toMinutes());
         }
         return string;
     }
@@ -156,9 +162,9 @@ public class Task {
 
     @Override
     public String toString() {
-        Optional<LocalDateTime> endTime = Optional.empty();
-        if (startTime.isPresent()) {
-            endTime = Optional.of(startTime.get().plus(duration.get()));
+        LocalDateTime endTime = null;
+        if (startTime != null) {
+            endTime = startTime.plus(duration);
         }
 
 

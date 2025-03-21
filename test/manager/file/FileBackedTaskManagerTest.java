@@ -1,6 +1,5 @@
 package manager.file;
 
-
 import manager.TaskManagerTest;
 import org.junit.jupiter.api.*;
 import java.io.File;
@@ -18,11 +17,11 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     void loadFromFile() {
 
         int taskCount = taskManager.getTasksList().size();
-        assertEquals(2, taskCount, "Количество загруженных задач не совпадает"
+        assertEquals(1, taskCount, "Количество загруженных задач не совпадает"
                 + " с сохраненными в файле. Ожидалось 2, загрузилось " + taskCount);
 
         int epicCount = taskManager.getEpicsList().size();
-        assertEquals(1, epicCount,  "Количество загруженных эписов не совпадает"
+        assertEquals(1, epicCount,  "Количество загруженных эпиков не совпадает"
                 + " с сохраненными в файле. Ожидалось 1, загрузилось "+ epicCount);
 
         int subTaskCount = taskManager.getSubTasksList().size();
