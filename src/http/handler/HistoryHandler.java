@@ -25,7 +25,6 @@ public class HistoryHandler extends BaseHttpHandler implements HttpHandler {
                 final String response = gson.toJson(taskManager.getHistory());
                 System.out.println("Весь список задач:");
                 sendSuccess200(exchange, response);
-                break;
             }
 
             default -> { System.out.println("Неизвестный метод"); }
