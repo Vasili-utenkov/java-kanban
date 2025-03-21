@@ -26,8 +26,7 @@ public class HistoryHandler extends BaseHttpHandler implements HttpHandler {
                 System.out.println("Весь список задач:");
                 sendSuccess200(exchange, response);
             }
-
-            default -> { System.out.println("Неизвестный метод"); }
+            default -> System.out.println("Неизвестный метод");
         }
     }
 }
