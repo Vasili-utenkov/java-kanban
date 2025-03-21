@@ -75,7 +75,7 @@ public class SubTasksHandler extends BaseHttpHandler implements HttpHandler {
                 sendSuccess200(exchange, "");
             }
 
-            default -> { System.out.println("Неизвестный метод"); }
+            default -> System.out.println("Неизвестный метод");
         }
     }
 }

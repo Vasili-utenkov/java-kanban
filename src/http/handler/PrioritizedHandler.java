@@ -28,7 +28,7 @@ public class PrioritizedHandler extends BaseHttpHandler implements HttpHandler {
                 break;
             }
 
-            default -> { System.out.println("Неизвестный метод"); }
+            default -> System.out.println("Неизвестный метод");
         }
     }
 }
